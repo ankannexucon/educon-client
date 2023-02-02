@@ -328,10 +328,9 @@ const AdmissionPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50/30 via-white to-indigo-50/20">
       {/* Enhanced Header */}
       <header className="relative overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-800 to-indigo-900">
-        <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <div className="text-center">
             <div className="flex justify-center mb-6">
@@ -508,19 +507,19 @@ const AdmissionPage = () => {
             {/* Programs Section */}
             {activeTab === "programs" && selectedUniversity && (
               <div className="space-y-6">
-                <div className="bg-white rounded-2xl p-6 shadow-sm border">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900">
+                <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm border">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+                    <div className="flex-1">
+                      <h2 className="text-xl md:text-2xl font-bold text-gray-900">
                         Programs at {selectedUniversity.name}
                       </h2>
-                      <p className="text-gray-600 mt-1">
+                      <p className="text-gray-600 mt-1 text-sm md:text-base">
                         Browse available courses and start your application
                       </p>
                     </div>
                     <button
                       onClick={handleBackToUniversities}
-                      className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium"
+                      className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium self-start md:self-auto"
                     >
                       <ChevronRight className="h-5 w-5 rotate-180" />
                       <span>Back to Universities</span>
@@ -531,47 +530,53 @@ const AdmissionPage = () => {
                     {programs.map((program) => (
                       <div
                         key={program.id}
-                        className="group border-2 border-gray-100 hover:border-blue-200 rounded-2xl p-6 transition-all duration-200 hover:shadow-lg bg-white"
+                        className="group border-2 border-gray-100 hover:border-blue-200 rounded-2xl p-4 md:p-6 transition-all duration-200 hover:shadow-lg bg-white"
                       >
-                        <div className="flex items-start justify-between">
-                          <div className="flex space-x-4">
+                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                          <div className="flex flex-col md:flex-row sm:space-x-4 gap-4 flex-1">
                             <div
-                              className={`w-12 h-12 rounded-xl bg-gradient-to-r ${program.color} flex items-center justify-center text-xl`}
+                              className={`w-12 h-12 rounded-xl bg-gradient-to-r ${program.color} flex items-center justify-center text-xl flex-shrink-0 self-start`}
                             >
                               {program.icon}
                             </div>
-                            <div>
-                              <div className="flex items-center space-x-3">
-                                <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600">
+                            <div className="flex-1 flex-col sm:flex-row min-w-0">
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 gap-2">
+                                <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 break-words">
                                   {program.title}
                                 </h3>
                                 {program.popular && (
-                                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium self-start sm:self-auto">
                                     Popular
                                   </span>
                                 )}
                               </div>
-                              <p className="text-gray-600 text-sm mt-1 max-w-2xl">
+                              <p className="text-gray-600 text-sm mt-1 break-words">
                                 {program.eligibility}
                               </p>
-                              <div className="flex items-center space-x-4 mt-3 text-sm text-gray-500">
+                              <div className="flex flex-col xs:flex-row xs:items-center xs:space-x-4 mt-3 text-sm text-gray-500 gap-2">
                                 <div className="flex items-center space-x-1">
                                   <Clock className="h-4 w-4" />
-                                  <span>{program.duration}</span>
+                                  <span className="whitespace-nowrap">
+                                    {program.duration}
+                                  </span>
                                 </div>
                                 <div className="flex items-center space-x-1">
                                   <Users className="h-4 w-4" />
-                                  <span>{program.seats} seats</span>
+                                  <span className="whitespace-nowrap">
+                                    {program.seats} seats
+                                  </span>
                                 </div>
                                 <div className="flex items-center space-x-1">
                                   <Calendar className="h-4 w-4" />
-                                  <span>Apply by {program.deadline}</span>
+                                  <span className="whitespace-nowrap">
+                                    Apply by {program.deadline}
+                                  </span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-gray-900 mb-2">
+                          <div className="flex flex-col md:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-between lg:justify-start gap-3 lg:gap-2 lg:text-right">
+                            <div className="text-xl md:text-2xl font-bold text-gray-900">
                               {program.fees}
                             </div>
                             <button
@@ -579,7 +584,7 @@ const AdmissionPage = () => {
                                 setSelectedProgram(program);
                                 setActiveTab("apply");
                               }}
-                              className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 group-hover:shadow-lg"
+                              className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl font-medium transition-all duration-200 group-hover:shadow-lg w-full sm:w-auto justify-center"
                             >
                               <span>Apply Now</span>
                               <ArrowRight className="h-4 w-4" />

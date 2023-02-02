@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { 
   X, FileText, Sparkles, Download, Copy, Plus, Eye, Mail, Phone, MapPin, 
   BookOpen, Award, Briefcase, User, GraduationCap, Languages, Globe,
-  Trash2
+  Trash2, Palette, Layout
 } from "lucide-react";
 
 export default function CvBuilderModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState("personal");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState("professional");
 
   const [cvData, setCvData] = useState({
     personal: {
@@ -65,6 +66,54 @@ export default function CvBuilderModal({ isOpen, onClose }) {
   const [newLanguage, setNewLanguage] = useState({ language: "", proficiency: "Basic" });
 
   if (!isOpen) return null;
+
+  // Template configurations
+  const templates = {
+    professional: {
+      name: "Professional",
+      description: "Clean and traditional layout",
+      colors: {
+        primary: "#1f2937",
+        secondary: "#6b7280",
+        accent: "#667eea",
+        background: "#ffffff"
+      },
+      layout: "traditional"
+    },
+    modern: {
+      name: "Modern",
+      description: "Contemporary design with side panel",
+      colors: {
+        primary: "#1e40af",
+        secondary: "#64748b",
+        accent: "#3b82f6",
+        background: "#f8fafc"
+      },
+      layout: "sidebar"
+    },
+    minimal: {
+      name: "Minimal",
+      description: "Simple and clean design",
+      colors: {
+        primary: "#111827",
+        secondary: "#4b5563",
+        accent: "#059669",
+        background: "#ffffff"
+      },
+      layout: "minimal"
+    },
+    creative: {
+      name: "Creative",
+      description: "Bold and colorful design",
+      colors: {
+        primary: "#7c3aed",
+        secondary: "#8b5cf6",
+        accent: "#a855f7",
+        background: "#faf5ff"
+      },
+      layout: "creative"
+    }
+  };
 
   // Download functions
   const downloadFormattedPDF = () => {
@@ -260,6 +309,948 @@ Generated on: ${new Date().toLocaleDateString()}`;
     if (e.target === e.currentTarget) onClose();
   };
 
+  // Template Preview Components
+  const renderTemplatePreview = () => {
+    const template = templates[selectedTemplate];
+    
+    switch (template.layout) {
+      case "sidebar":
+        return renderSidebarTemplate(template);
+      case "minimal":
+        return renderMinimalTemplate(template);
+      case "creative":
+        return renderCreativeTemplate(template);
+      default:
+        return renderProfessionalTemplate(template);
+    }
+  };
+
+  const renderProfessionalTemplate = (template) => (
+    <div style={{
+      background: template.colors.background,
+      color: template.colors.primary,
+      padding: '20px',
+      height: '100%',
+      overflowY: 'auto'
+    }}>
+      {/* Header */}
+      <div style={{ 
+        textAlign: 'center', 
+        borderBottom: `2px solid ${template.colors.accent}`, 
+        paddingBottom: '16px', 
+        marginBottom: '20px' 
+      }}>
+        <h1 style={{ 
+          fontSize: '24px', 
+          fontWeight: 'bold', 
+          color: template.colors.primary, 
+          margin: '0 0 8px 0' 
+        }}>
+          {cvData.personal.fullName}
+        </h1>
+        <p style={{ 
+          fontSize: '16px', 
+          color: template.colors.secondary, 
+          margin: '0 0 12px 0' 
+        }}>
+          Senior Software Engineer
+        </p>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: '16px', 
+          flexWrap: 'wrap', 
+          fontSize: '14px' 
+        }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: template.colors.secondary }}>
+            <Mail size={14} />
+            {cvData.personal.email}
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: template.colors.secondary }}>
+            <Phone size={14} />
+            {cvData.personal.phone}
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: template.colors.secondary }}>
+            <MapPin size={14} />
+            {cvData.personal.location}
+          </span>
+        </div>
+      </div>
+
+      {/* Professional Summary */}
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ 
+          fontSize: '18px', 
+          fontWeight: 'bold', 
+          color: template.colors.primary, 
+          marginBottom: '12px',
+          borderBottom: `1px solid ${template.colors.accent}20`,
+          paddingBottom: '4px'
+        }}>
+          Professional Summary
+        </h2>
+        <p style={{ 
+          color: template.colors.secondary, 
+          lineHeight: '1.6', 
+          fontSize: '14px',
+          textAlign: 'justify'
+        }}>
+          {cvData.summary}
+        </p>
+      </div>
+
+      {/* Two Column Layout */}
+      <div style={{ display: 'flex', gap: '20px' }}>
+        {/* Left Column */}
+        <div style={{ flex: 1 }}>
+          {/* Skills */}
+          {cvData.skills.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <h2 style={{ 
+                fontSize: '16px', 
+                fontWeight: 'bold', 
+                color: template.colors.primary, 
+                marginBottom: '12px' 
+              }}>
+                Technical Skills
+              </h2>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {cvData.skills.map((skill, index) => (
+                  <span key={index} style={{
+                    padding: '6px 12px',
+                    background: `${template.colors.accent}15`,
+                    color: template.colors.accent,
+                    borderRadius: '16px',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    border: `1px solid ${template.colors.accent}30`
+                  }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Education */}
+          {cvData.education.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <h2 style={{ 
+                fontSize: '16px', 
+                fontWeight: 'bold', 
+                color: template.colors.primary, 
+                marginBottom: '12px' 
+              }}>
+                Education
+              </h2>
+              {cvData.education.map((edu, index) => (
+                <div key={edu.id} style={{ marginBottom: '16px' }}>
+                  <h3 style={{ 
+                    fontSize: '14px', 
+                    fontWeight: 'bold', 
+                    color: template.colors.primary, 
+                    margin: '0 0 4px 0' 
+                  }}>
+                    {edu.degree}
+                  </h3>
+                  <p style={{ 
+                    color: template.colors.accent, 
+                    fontSize: '13px', 
+                    margin: '0 0 4px 0',
+                    fontWeight: '500'
+                  }}>
+                    {edu.institution}
+                  </p>
+                  <p style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '12px', 
+                    margin: '0 0 4px 0' 
+                  }}>
+                    {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
+                  </p>
+                  <p style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '12px', 
+                    margin: 0 
+                  }}>
+                    GPA: {edu.gpa}/4.0 | {edu.honors}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right Column */}
+        <div style={{ flex: 2 }}>
+          {/* Experience */}
+          {cvData.experience.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <h2 style={{ 
+                fontSize: '16px', 
+                fontWeight: 'bold', 
+                color: template.colors.primary, 
+                marginBottom: '12px' 
+              }}>
+                Experience
+              </h2>
+              {cvData.experience.map((exp, index) => (
+                <div key={exp.id} style={{ marginBottom: '16px' }}>
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'flex-start', 
+                    marginBottom: '6px' 
+                  }}>
+                    <h3 style={{ 
+                      fontSize: '15px', 
+                      fontWeight: 'bold', 
+                      color: template.colors.primary, 
+                      margin: 0 
+                    }}>
+                      {exp.title}
+                    </h3>
+                    <span style={{ 
+                      color: template.colors.secondary, 
+                      fontSize: '12px',
+                      background: `${template.colors.accent}15`,
+                      padding: '2px 8px',
+                      borderRadius: '12px'
+                    }}>
+                      {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    </span>
+                  </div>
+                  <p style={{ 
+                    color: template.colors.accent, 
+                    fontSize: '13px', 
+                    margin: '0 0 8px 0',
+                    fontWeight: '500'
+                  }}>
+                    {exp.company} | {exp.location}
+                  </p>
+                  <p style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '13px', 
+                    lineHeight: '1.5', 
+                    margin: 0 
+                  }}>
+                    {exp.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSidebarTemplate = (template) => (
+    <div style={{
+      background: template.colors.background,
+      color: template.colors.primary,
+      height: '100%',
+      overflowY: 'auto',
+      display: 'flex'
+    }}>
+      {/* Sidebar */}
+      <div style={{
+        width: '35%',
+        background: template.colors.primary,
+        color: 'white',
+        padding: '20px'
+      }}>
+        {/* Profile */}
+        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            background: template.colors.accent,
+            borderRadius: '50%',
+            margin: '0 auto 12px auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '24px',
+            fontWeight: 'bold'
+          }}>
+            {cvData.personal.fullName.split(' ').map(n => n[0]).join('')}
+          </div>
+          <h1 style={{ 
+            fontSize: '18px', 
+            fontWeight: 'bold', 
+            margin: '0 0 4px 0' 
+          }}>
+            {cvData.personal.fullName}
+          </h1>
+          <p style={{ 
+            fontSize: '14px', 
+            opacity: 0.9, 
+            margin: 0 
+          }}>
+            Software Engineer
+          </p>
+        </div>
+
+        {/* Contact */}
+        <div style={{ marginBottom: '20px' }}>
+          <h3 style={{ 
+            fontSize: '14px', 
+            fontWeight: 'bold', 
+            marginBottom: '12px',
+            borderBottom: `1px solid ${template.colors.accent}`,
+            paddingBottom: '4px'
+          }}>
+            Contact
+          </h3>
+          <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <Mail size={12} />
+              {cvData.personal.email}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <Phone size={12} />
+              {cvData.personal.phone}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <MapPin size={12} />
+              {cvData.personal.location}
+            </div>
+          </div>
+        </div>
+
+        {/* Skills */}
+        {cvData.skills.length > 0 && (
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ 
+              fontSize: '14px', 
+              fontWeight: 'bold', 
+              marginBottom: '12px',
+              borderBottom: `1px solid ${template.colors.accent}`,
+              paddingBottom: '4px'
+            }}>
+              Skills
+            </h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+              {cvData.skills.map((skill, index) => (
+                <span key={index} style={{
+                  padding: '4px 8px',
+                  background: template.colors.accent,
+                  color: 'white',
+                  borderRadius: '12px',
+                  fontSize: '11px'
+                }}>
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Main Content */}
+      <div style={{
+        flex: 1,
+        padding: '30px'
+      }}>
+        {/* Summary */}
+        <div style={{ marginBottom: '25px' }}>
+          <h2 style={{ 
+            fontSize: '16px', 
+            fontWeight: 'bold', 
+            color: template.colors.primary,
+            marginBottom: '12px',
+            borderBottom: `2px solid ${template.colors.accent}`,
+            paddingBottom: '4px',
+            display: 'inline-block'
+          }}>
+            Professional Summary
+          </h2>
+          <p style={{ 
+            color: template.colors.secondary, 
+            lineHeight: '1.6', 
+            fontSize: '14px' 
+          }}>
+            {cvData.summary}
+          </p>
+        </div>
+
+        {/* Experience */}
+        {cvData.experience.length > 0 && (
+          <div style={{ marginBottom: '25px' }}>
+            <h2 style={{ 
+              fontSize: '16px', 
+              fontWeight: 'bold', 
+              color: template.colors.primary,
+              marginBottom: '12px',
+              borderBottom: `2px solid ${template.colors.accent}`,
+              paddingBottom: '4px',
+              display: 'inline-block'
+            }}>
+              Experience
+            </h2>
+            {cvData.experience.map((exp, index) => (
+              <div key={exp.id} style={{ marginBottom: '20px' }}>
+                <h3 style={{ 
+                  fontSize: '15px', 
+                  fontWeight: 'bold', 
+                  color: template.colors.primary, 
+                  margin: '0 0 4px 0' 
+                }}>
+                  {exp.title}
+                </h3>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '6px'
+                }}>
+                  <p style={{ 
+                    color: template.colors.accent, 
+                    fontSize: '13px', 
+                    margin: 0,
+                    fontWeight: '500'
+                  }}>
+                    {exp.company} | {exp.location}
+                  </p>
+                  <span style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '12px' 
+                  }}>
+                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                  </span>
+                </div>
+                <p style={{ 
+                  color: template.colors.secondary, 
+                  fontSize: '13px', 
+                  lineHeight: '1.5', 
+                  margin: 0 
+                }}>
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Education */}
+        {cvData.education.length > 0 && (
+          <div>
+            <h2 style={{ 
+              fontSize: '16px', 
+              fontWeight: 'bold', 
+              color: template.colors.primary,
+              marginBottom: '12px',
+              borderBottom: `2px solid ${template.colors.accent}`,
+              paddingBottom: '4px',
+              display: 'inline-block'
+            }}>
+              Education
+            </h2>
+            {cvData.education.map((edu, index) => (
+              <div key={edu.id} style={{ marginBottom: '16px' }}>
+                <h3 style={{ 
+                  fontSize: '14px', 
+                  fontWeight: 'bold', 
+                  color: template.colors.primary, 
+                  margin: '0 0 4px 0' 
+                }}>
+                  {edu.degree}
+                </h3>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '4px'
+                }}>
+                  <p style={{ 
+                    color: template.colors.accent, 
+                    fontSize: '13px', 
+                    margin: 0,
+                    fontWeight: '500'
+                  }}>
+                    {edu.institution}
+                  </p>
+                  <span style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '12px' 
+                  }}>
+                    {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
+                  </span>
+                </div>
+                <p style={{ 
+                  color: template.colors.secondary, 
+                  fontSize: '12px', 
+                  margin: 0 
+                }}>
+                  GPA: {edu.gpa}/4.0 | {edu.honors}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderMinimalTemplate = (template) => (
+    <div style={{
+      background: template.colors.background,
+      color: template.colors.primary,
+      padding: '30px',
+      height: '100%',
+      overflowY: 'auto',
+      maxWidth: '800px',
+      margin: '0 auto'
+    }}>
+      {/* Header */}
+      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+        <h1 style={{ 
+          fontSize: '28px', 
+          fontWeight: '300', 
+          color: template.colors.primary, 
+          margin: '0 0 8px 0',
+          letterSpacing: '2px'
+        }}>
+          {cvData.personal.fullName}
+        </h1>
+        <p style={{ 
+          fontSize: '16px', 
+          color: template.colors.secondary, 
+          margin: '0 0 16px 0',
+          fontWeight: '300'
+        }}>
+          SOFTWARE ENGINEER
+        </p>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: '20px', 
+          fontSize: '14px',
+          color: template.colors.secondary
+        }}>
+          <span>{cvData.personal.email}</span>
+          <span>•</span>
+          <span>{cvData.personal.phone}</span>
+          <span>•</span>
+          <span>{cvData.personal.location}</span>
+        </div>
+      </div>
+
+      <div style={{ borderTop: `1px solid ${template.colors.primary}20`, paddingTop: '20px' }}>
+        {/* Summary */}
+        <div style={{ marginBottom: '25px' }}>
+          <p style={{ 
+            color: template.colors.secondary, 
+            lineHeight: '1.6', 
+            fontSize: '14px',
+            textAlign: 'center'
+          }}>
+            {cvData.summary}
+          </p>
+        </div>
+
+        {/* Experience */}
+        {cvData.experience.length > 0 && (
+          <div style={{ marginBottom: '25px' }}>
+            <h2 style={{ 
+              fontSize: '16px', 
+              fontWeight: '500', 
+              color: template.colors.primary, 
+              marginBottom: '16px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              Experience
+            </h2>
+            {cvData.experience.map((exp, index) => (
+              <div key={exp.id} style={{ marginBottom: '20px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'flex-start',
+                  marginBottom: '6px'
+                }}>
+                  <h3 style={{ 
+                    fontSize: '15px', 
+                    fontWeight: '500', 
+                    color: template.colors.primary, 
+                    margin: 0 
+                  }}>
+                    {exp.title}
+                  </h3>
+                  <span style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '12px' 
+                  }}>
+                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                  </span>
+                </div>
+                <p style={{ 
+                  color: template.colors.accent, 
+                  fontSize: '13px', 
+                  margin: '0 0 8px 0',
+                  fontStyle: 'italic'
+                }}>
+                  {exp.company}, {exp.location}
+                </p>
+                <p style={{ 
+                  color: template.colors.secondary, 
+                  fontSize: '13px', 
+                  lineHeight: '1.5', 
+                  margin: 0 
+                }}>
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Skills & Education Side by Side */}
+        <div style={{ display: 'flex', gap: '30px' }}>
+          {/* Skills */}
+          {cvData.skills.length > 0 && (
+            <div style={{ flex: 1 }}>
+              <h2 style={{ 
+                fontSize: '16px', 
+                fontWeight: '500', 
+                color: template.colors.primary, 
+                marginBottom: '16px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px'
+              }}>
+                Skills
+              </h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {cvData.skills.map((skill, index) => (
+                  <span key={index} style={{
+                    color: template.colors.secondary,
+                    fontSize: '13px'
+                  }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Education */}
+          {cvData.education.length > 0 && (
+            <div style={{ flex: 1 }}>
+              <h2 style={{ 
+                fontSize: '16px', 
+                fontWeight: '500', 
+                color: template.colors.primary, 
+                marginBottom: '16px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px'
+              }}>
+                Education
+              </h2>
+              {cvData.education.map((edu, index) => (
+                <div key={edu.id} style={{ marginBottom: '16px' }}>
+                  <h3 style={{ 
+                    fontSize: '14px', 
+                    fontWeight: '500', 
+                    color: template.colors.primary, 
+                    margin: '0 0 4px 0' 
+                  }}>
+                    {edu.degree}
+                  </h3>
+                  <p style={{ 
+                    color: template.colors.accent, 
+                    fontSize: '13px', 
+                    margin: '0 0 4px 0',
+                    fontStyle: 'italic'
+                  }}>
+                    {edu.institution}
+                  </p>
+                  <p style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '12px', 
+                    margin: 0 
+                  }}>
+                    {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderCreativeTemplate = (template) => (
+    <div style={{
+      background: `linear-gradient(135deg, ${template.colors.background} 0%, ${template.colors.accent}15 100%)`,
+      color: template.colors.primary,
+      padding: '20px',
+      height: '100%',
+      overflowY: 'auto'
+    }}>
+      {/* Header with accent */}
+      <div style={{ 
+        background: `linear-gradient(135deg, ${template.colors.accent} 0%, ${template.colors.secondary} 100%)`,
+        color: 'white',
+        padding: '30px',
+        borderRadius: '12px',
+        marginBottom: '25px',
+        textAlign: 'center'
+      }}>
+        <h1 style={{ 
+          fontSize: '28px', 
+          fontWeight: 'bold', 
+          margin: '0 0 8px 0' 
+        }}>
+          {cvData.personal.fullName}
+        </h1>
+        <p style={{ 
+          fontSize: '18px', 
+          opacity: 0.9, 
+          margin: '0 0 16px 0' 
+        }}>
+          Senior Software Engineer
+        </p>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: '20px', 
+          fontSize: '14px',
+          opacity: 0.9
+        }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Mail size={14} />
+            {cvData.personal.email}
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Phone size={14} />
+            {cvData.personal.phone}
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <MapPin size={14} />
+            {cvData.personal.location}
+          </span>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: '25px' }}>
+        {/* Left Column */}
+        <div style={{ flex: 1 }}>
+          {/* Summary */}
+          <div style={{ 
+            background: 'white',
+            padding: '20px',
+            borderRadius: '12px',
+            marginBottom: '20px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+          }}>
+            <h2 style={{ 
+              fontSize: '18px', 
+              fontWeight: 'bold', 
+              color: template.colors.primary, 
+              marginBottom: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <FileText size={16} />
+              Summary
+            </h2>
+            <p style={{ 
+              color: template.colors.secondary, 
+              lineHeight: '1.6', 
+              fontSize: '14px' 
+            }}>
+              {cvData.summary}
+            </p>
+          </div>
+
+          {/* Skills */}
+          {cvData.skills.length > 0 && (
+            <div style={{ 
+              background: 'white',
+              padding: '20px',
+              borderRadius: '12px',
+              marginBottom: '20px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+            }}>
+              <h2 style={{ 
+                fontSize: '18px', 
+                fontWeight: 'bold', 
+                color: template.colors.primary, 
+                marginBottom: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <Award size={16} />
+                Skills
+              </h2>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {cvData.skills.map((skill, index) => (
+                  <span key={index} style={{
+                    padding: '6px 12px',
+                    background: `linear-gradient(135deg, ${template.colors.accent} 0%, ${template.colors.secondary} 100%)`,
+                    color: 'white',
+                    borderRadius: '20px',
+                    fontSize: '12px',
+                    fontWeight: '500'
+                  }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right Column */}
+        <div style={{ flex: 2 }}>
+          {/* Experience */}
+          {cvData.experience.length > 0 && (
+            <div style={{ 
+              background: 'white',
+              padding: '20px',
+              borderRadius: '12px',
+              marginBottom: '20px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+            }}>
+              <h2 style={{ 
+                fontSize: '18px', 
+                fontWeight: 'bold', 
+                color: template.colors.primary, 
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <Briefcase size={16} />
+                Experience
+              </h2>
+              {cvData.experience.map((exp, index) => (
+                <div key={exp.id} style={{ 
+                  marginBottom: '20px',
+                  paddingLeft: '16px',
+                  borderLeft: `3px solid ${template.colors.accent}`
+                }}>
+                  <h3 style={{ 
+                    fontSize: '16px', 
+                    fontWeight: 'bold', 
+                    color: template.colors.primary, 
+                    margin: '0 0 6px 0' 
+                  }}>
+                    {exp.title}
+                  </h3>
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    marginBottom: '8px'
+                  }}>
+                    <p style={{ 
+                      color: template.colors.accent, 
+                      fontSize: '14px', 
+                      margin: 0,
+                      fontWeight: '500'
+                    }}>
+                      {exp.company} | {exp.location}
+                    </p>
+                    <span style={{ 
+                      color: template.colors.secondary, 
+                      fontSize: '12px',
+                      background: `${template.colors.accent}15`,
+                      padding: '4px 8px',
+                      borderRadius: '12px'
+                    }}>
+                      {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    </span>
+                  </div>
+                  <p style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '14px', 
+                    lineHeight: '1.5', 
+                    margin: 0 
+                  }}>
+                    {exp.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Education */}
+          {cvData.education.length > 0 && (
+            <div style={{ 
+              background: 'white',
+              padding: '20px',
+              borderRadius: '12px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+            }}>
+              <h2 style={{ 
+                fontSize: '18px', 
+                fontWeight: 'bold', 
+                color: template.colors.primary, 
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <GraduationCap size={16} />
+                Education
+              </h2>
+              {cvData.education.map((edu, index) => (
+                <div key={edu.id} style={{ 
+                  marginBottom: '16px',
+                  paddingLeft: '16px',
+                  borderLeft: `3px solid ${template.colors.accent}`
+                }}>
+                  <h3 style={{ 
+                    fontSize: '15px', 
+                    fontWeight: 'bold', 
+                    color: template.colors.primary, 
+                    margin: '0 0 6px 0' 
+                  }}>
+                    {edu.degree}
+                  </h3>
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    marginBottom: '4px'
+                  }}>
+                    <p style={{ 
+                      color: template.colors.accent, 
+                      fontSize: '13px', 
+                      margin: 0,
+                      fontWeight: '500'
+                    }}>
+                      {edu.institution}
+                    </p>
+                    <span style={{ 
+                      color: template.colors.secondary, 
+                      fontSize: '12px' 
+                    }}>
+                      {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
+                    </span>
+                  </div>
+                  <p style={{ 
+                    color: template.colors.secondary, 
+                    fontSize: '13px', 
+                    margin: 0 
+                  }}>
+                    GPA: {edu.gpa}/4.0 | {edu.honors}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   // Compact Styles
   const styles = {
     overlay: {
@@ -278,7 +1269,7 @@ Generated on: ${new Date().toLocaleDateString()}`;
       borderRadius: '16px',
       boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
       width: '100%',
-      maxWidth: '900px',
+      maxWidth: '1100px',
       maxHeight: '85vh',
       overflow: 'hidden',
       display: 'flex',
@@ -435,6 +1426,7 @@ Generated on: ${new Date().toLocaleDateString()}`;
             { id: "skills", label: "Skills", icon: Award },
             { id: "experience", label: "Experience", icon: Briefcase },
             { id: "education", label: "Education", icon: GraduationCap },
+            { id: "templates", label: "Templates", icon: Layout },
             { id: "preview", label: "Preview", icon: Eye }
           ].map(tab => (
             <button
@@ -707,6 +1699,78 @@ Generated on: ${new Date().toLocaleDateString()}`;
                     Back
                   </button>
                   <button
+                    onClick={() => setActiveTab("templates")}
+                    style={{ ...styles.button, ...styles.primaryButton }}
+                  >
+                    Next: Templates
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Templates */}
+            {activeTab === "templates" && (
+              <div>
+                <h3 style={{ marginBottom: '16px', color: '#1f2937', fontSize: '16px' }}>Choose a Template</h3>
+                <p style={{ color: '#6b7280', fontSize: '13px', marginBottom: '20px' }}>
+                  Select a template that best fits your style and industry
+                </p>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                  {Object.entries(templates).map(([key, template]) => (
+                    <div
+                      key={key}
+                      onClick={() => setSelectedTemplate(key)}
+                      style={{
+                        border: `2px solid ${selectedTemplate === key ? template.colors.accent : '#e5e7eb'}`,
+                        borderRadius: '8px',
+                        padding: '16px',
+                        cursor: 'pointer',
+                        background: 'white',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        marginBottom: '8px' 
+                      }}>
+                        <div style={{
+                          width: '12px',
+                          height: '12px',
+                          borderRadius: '50%',
+                          background: template.colors.accent
+                        }} />
+                        <h4 style={{ 
+                          fontSize: '14px', 
+                          fontWeight: 'bold', 
+                          color: '#1f2937', 
+                          margin: 0 
+                        }}>
+                          {template.name}
+                        </h4>
+                      </div>
+                      <p style={{ 
+                        fontSize: '12px', 
+                        color: '#6b7280', 
+                        margin: 0,
+                        lineHeight: '1.4'
+                      }}>
+                        {template.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: 'flex', gap: '8px', justifyContent: 'space-between' }}>
+                  <button
+                    onClick={() => setActiveTab("education")}
+                    style={{ ...styles.button, ...styles.secondaryButton }}
+                  >
+                    Back
+                  </button>
+                  <button
                     onClick={handleGenerateCV}
                     disabled={isGenerating}
                     style={{ ...styles.button, ...styles.primaryButton }}
@@ -725,148 +1789,86 @@ Generated on: ${new Date().toLocaleDateString()}`;
               <div style={{
                 background: 'white',
                 borderRadius: '8px',
-                padding: '20px',
+                padding: '0',
                 height: '100%',
-                overflowY: 'auto',
+                overflow: 'hidden',
                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
-                fontSize: '13px'
+                display: 'flex',
+                flexDirection: 'column'
               }}>
+                {/* Template Preview Header */}
+                <div style={{
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #e5e7eb',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  background: '#f8fafc'
+                }}>
+                  <div>
+                    <span style={{ 
+                      fontSize: '12px', 
+                      color: '#6b7280',
+                      marginRight: '8px'
+                    }}>
+                      Template:
+                    </span>
+                    <span style={{ 
+                      fontSize: '12px', 
+                      fontWeight: '600',
+                      color: '#374151'
+                    }}>
+                      {templates[selectedTemplate].name}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab("templates")}
+                    style={{ 
+                      ...styles.button, 
+                      ...styles.secondaryButton,
+                      padding: '4px 8px',
+                      fontSize: '11px'
+                    }}
+                  >
+                    <Palette size={12} />
+                    Change
+                  </button>
+                </div>
+
                 {/* CV Preview Content */}
-                <div style={{ maxWidth: '100%', margin: '0 auto' }}>
-                  {/* Header */}
-                  <div style={{ textAlign: 'center', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px', marginBottom: '16px' }}>
-                    <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', margin: '0 0 4px 0' }}>
-                      {cvData.personal.fullName}
-                    </h1>
-                    <p style={{ fontSize: '14px', color: '#6b7280', margin: '0 0 12px 0' }}>
-                      Senior Software Engineer
-                    </p>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', fontSize: '12px' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#6b7280' }}>
-                        <Mail size={12} />
-                        {cvData.personal.email}
-                      </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#6b7280' }}>
-                        <Phone size={12} />
-                        {cvData.personal.phone}
-                      </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#6b7280' }}>
-                        <MapPin size={12} />
-                        {cvData.personal.location}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Professional Summary */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '8px' }}>
-                      Professional Summary
-                    </h2>
-                    <p style={{ color: '#6b7280', lineHeight: '1.5', fontSize: '12px' }}>
-                      {cvData.summary}
-                    </p>
-                  </div>
-
-                  {/* Skills */}
-                  {cvData.skills.length > 0 && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '8px' }}>
-                        Technical Skills
-                      </h2>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                        {cvData.skills.map((skill, index) => (
-                          <span key={index} style={{
-                            padding: '4px 8px',
-                            background: '#f3f4f6',
-                            color: '#374151',
-                            borderRadius: '12px',
-                            fontSize: '11px'
-                          }}>
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Experience */}
-                  {cvData.experience.length > 0 && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '8px' }}>
-                        Experience
-                      </h2>
-                      {cvData.experience.map((exp, index) => (
-                        <div key={exp.id} style={{ marginBottom: '12px' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>
-                              {exp.title}
-                            </h3>
-                            <span style={{ color: '#6b7280', fontSize: '11px' }}>
-                              {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
-                            </span>
-                          </div>
-                          <p style={{ color: '#667eea', fontSize: '12px', margin: '0 0 4px 0' }}>
-                            {exp.company} | {exp.location}
-                          </p>
-                          <p style={{ color: '#6b7280', fontSize: '12px', lineHeight: '1.4', margin: 0 }}>
-                            {exp.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Education */}
-                  {cvData.education.length > 0 && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '8px' }}>
-                        Education
-                      </h2>
-                      {cvData.education.map((edu, index) => (
-                        <div key={edu.id} style={{ marginBottom: '12px' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                            <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>
-                              {edu.degree}
-                            </h3>
-                            <span style={{ color: '#6b7280', fontSize: '11px' }}>
-                              {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
-                            </span>
-                          </div>
-                          <p style={{ color: '#10b981', fontSize: '12px', margin: '0 0 4px 0' }}>
-                            {edu.institution} | {edu.location}
-                          </p>
-                          <p style={{ color: '#6b7280', fontSize: '12px', margin: 0 }}>
-                            GPA: {edu.gpa}/4.0 | {edu.honors}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                <div style={{ flex: 1, overflow: 'auto' }}>
+                  {renderTemplatePreview()}
                 </div>
 
                 {/* Action Buttons */}
-                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '20px' }}>
-                  <button
-                    onClick={handleCopyCV}
-                    style={{ ...styles.button, ...styles.secondaryButton }}
-                  >
-                    <Copy size={12} />
-                    {isCopied ? "Copied!" : "Copy"}
-                  </button>
-                  <button
-                    onClick={downloadTextCV}
-                    style={{ ...styles.button, ...styles.secondaryButton }}
-                  >
-                    <Download size={12} />
-                    TXT
-                  </button>
-                  <button
-                    onClick={downloadFormattedPDF}
-                    style={{ ...styles.button, ...styles.primaryButton }}
-                  >
-                    <Download size={12} />
-                    PDF
-                  </button>
+                <div style={{ 
+                  padding: '16px',
+                  borderTop: '1px solid #e5e7eb',
+                  background: '#f8fafc'
+                }}>
+                  <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                    <button
+                      onClick={handleCopyCV}
+                      style={{ ...styles.button, ...styles.secondaryButton }}
+                    >
+                      <Copy size={12} />
+                      {isCopied ? "Copied!" : "Copy"}
+                    </button>
+                    <button
+                      onClick={downloadTextCV}
+                      style={{ ...styles.button, ...styles.secondaryButton }}
+                    >
+                      <Download size={12} />
+                      TXT
+                    </button>
+                    <button
+                      onClick={downloadFormattedPDF}
+                      style={{ ...styles.button, ...styles.primaryButton }}
+                    >
+                      <Download size={12} />
+                      PDF
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

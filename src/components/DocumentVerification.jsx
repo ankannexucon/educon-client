@@ -297,7 +297,7 @@ const DocumentVerification = () => {
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 mb-3">
+                      {/* <div className="grid grid-cols-2 gap-4 mb-3">
                         <div className="text-center">
                           <div className="text-sm text-gray-600">Fraud Score</div>
                           <div className={`text-2xl font-bold ${result.fraudScore > 50 ? 'text-red-600' : 'text-green-600'}`}>
@@ -308,7 +308,7 @@ const DocumentVerification = () => {
                           <div className="text-sm text-gray-600">Confidence</div>
                           <div className="text-2xl font-bold text-blue-600">{result.confidence}%</div>
                         </div>
-                      </div>
+                      </div> */}
 
                       {result.detectedIssues.length > 0 && (
                         <div>

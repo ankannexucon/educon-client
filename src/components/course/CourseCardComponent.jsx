@@ -15,7 +15,8 @@ export default function CourseCardComponent({ courses = [] }) {
 
     toast.success(
       <span>
-        Application successful! <br />
+        Application successful! 
+
         To check status, go to{" "}
         <Link
           to="/your-application"
@@ -48,7 +49,7 @@ export default function CourseCardComponent({ courses = [] }) {
           return (
             <div
               key={index}
-              className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-all group w-75 h-[450px] flex flex-col"
+              className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-all group flex flex-col w-full min-h-[450px]"
             >
               {/* Image */}
               <div className="relative h-40 overflow-hidden">

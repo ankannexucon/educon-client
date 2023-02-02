@@ -1,0 +1,134 @@
+[
+  {
+    "title": "B.Sc. in Computer Science",
+    "institute": "University of NY (European Campus)",
+    "duration": "3 Years",
+    "enrolled": "320 Students",
+    "price": "€9,000 / year",
+    "image": "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
+    "category": "Technology",
+    "level": "Beginner",
+    "description": "Learn the fundamentals of computer science, programming, and problem-solving skills."
+  },
+  {
+    "title": "M.Sc. in Data Science",
+    "institute": "Tech University",
+    "duration": "2 Years",
+    "enrolled": "150 Students",
+    "price": "€12,000 / year",
+    "image": "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg",
+    "category": "Technology",
+    "level": "Intermediate",
+    "description": "Gain expertise in data analysis, machine learning, and predictive modeling techniques."
+  },
+  {
+    "title": "MBA in Marketing",
+    "institute": "Global Business School",
+    "duration": "2 Years",
+    "enrolled": "200 Students",
+    "price": "€14,500 / year",
+    "image": "https://images.pexels.com/photos/327540/pexels-photo-327540.jpeg",
+    "category": "Business",
+    "level": "Intermediate",
+    "description": "Develop strategic marketing skills and learn how to grow businesses effectively."
+  },
+  {
+    "title": "BBA in Management",
+    "institute": "City College Europe",
+    "duration": "3 Years",
+    "enrolled": "180 Students",
+    "price": "€7,500 / year",
+    "image": "https://picsum.photos/id/1014/400/250",
+    "category": "Business",
+    "level": "Beginner",
+    "description": "Understand the basics of business management, leadership, and organizational skills."
+  },
+  {
+    "title": "React Advanced",
+    "institute": "Code Academy Europe",
+    "duration": "8 Weeks",
+    "enrolled": "120 Students",
+    "price": "€450",
+    "image": "https://picsum.photos/id/1015/400/250",
+    "category": "Technology",
+    "level": "Advanced",
+    "description": "Master advanced React concepts, state management, hooks, and component optimization."
+  },
+  {
+    "title": "Tailwind CSS Mastery",
+    "institute": "Design School EU",
+    "duration": "6 Weeks",
+    "enrolled": "95 Students",
+    "price": "€350",
+    "image": "https://picsum.photos/id/1016/400/250",
+    "category": "Design",
+    "level": "Intermediate",
+    "description": "Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS."
+  },
+  {
+    "title": "Python for Data Analysis",
+    "institute": "Data School Europe",
+    "duration": "12 Weeks",
+    "enrolled": "140 Students",
+    "price": "€600",
+    "image": "https://picsum.photos/id/1018/400/250",
+    "category": "Technology",
+    "level": "Intermediate",
+    "description": "Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib."
+  },
+  {
+    "title": "Fullstack Web Development",
+    "institute": "Tech Hub EU",
+    "duration": "16 Weeks",
+    "enrolled": "250 Students",
+    "price": "€1,000",
+    "image": "https://picsum.photos/id/1019/400/250",
+    "category": "Technology",
+    "level": "Advanced",
+    "description": "Learn front-end and back-end development with React, Node.js, and databases to build full web applications."
+  },
+  {
+    "title": "Digital Marketing Essentials",
+    "institute": "Marketing Academy Europe",
+    "duration": "8 Weeks",
+    "enrolled": "130 Students",
+    "price": "€400",
+    "image": "https://picsum.photos/id/1020/400/250",
+    "category": "Business",
+    "level": "Beginner",
+    "description": "Understand SEO, social media marketing, content strategies, and analytics to grow a brand online."
+  },
+  {
+    "title": "UI/UX Design Fundamentals",
+    "institute": "Creative Institute EU",
+    "duration": "10 Weeks",
+    "enrolled": "100 Students",
+    "price": "€500",
+    "image": "https://picsum.photos/id/1021/400/250",
+    "category": "Design",
+    "level": "Beginner",
+    "description": "Master the principles of user interface and user experience design to create intuitive digital products."
+  },
+  {
+    "title": "Python for Machine Learning",
+    "institute": "AI Academy Europe",
+    "duration": "12 Weeks",
+    "enrolled": "90 Students",
+    "price": "€700",
+    "image": "https://picsum.photos/id/1022/400/250",
+    "category": "Technology",
+    "level": "Intermediate",
+    "description": "Apply Python programming to implement machine learning algorithms, models, and data pipelines."
+  },
+  {
+    "title": "Financial Analysis & Modeling",
+    "institute": "Finance School EU",
+    "duration": "6 Weeks",
+    "enrolled": "75 Students",
+    "price": "€450",
+    "image": "https://picsum.photos/id/1023/400/250",
+    "category": "Business",
+    "level": "Intermediate",
+    "description": "Learn to analyze financial statements, build models, and make data-driven investment decisions."
+  }
+]
