@@ -1,147 +1,77 @@
 import React from "react";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
-  GraduationCap,
-  Award,
-} from "lucide-react";
-import { Box, Typography, Avatar, Grid, Paper } from "@mui/material";
+import { Avatar, Box, Card, Typography, Chip } from "@mui/material";
+import { Email as MailIcon, Person as UserIcon } from "@mui/icons-material";
 
 export default function StudentInfoComponent() {
   const student = {
     name: "Alex Johnson",
     email: "alex.johnson@student.edu",
-    phone: "+1 (555) 123-4567",
-    location: "New York, USA",
     avatar:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop",
-    enrollmentDate: "September 2023",
-    studentId: "STU-2023-4521",
-    program: "Computer Science",
-    year: "2nd Year",
-    gpa: "3.85",
   };
 
-  const infoItems = [
-    {
-      icon: <GraduationCap color="#2563eb" />,
-      label: "Program",
-      value: student.program,
-      bg: "#dbeafe",
-    },
-    {
-      icon: <Calendar color="#9333ea" />,
-      label: "Year",
-      value: student.year,
-      bg: "#e9d5ff",
-    },
-    {
-      icon: <Award color="#059669" />,
-      label: "GPA",
-      value: student.gpa,
-      bg: "#d1fae5",
-    },
-    {
-      icon: <Calendar color="#ea580c" />,
-      label: "Enrolled",
-      value: student.enrollmentDate,
-      bg: "#fed7aa",
-    },
-  ];
-
   return (
-    <Box sx={{ maxWidth: 900, mx: "auto", p: 3 }}>
-      <Paper elevation={3} sx={{ borderRadius: 3, overflow: "hidden" }}>
-        {/* Header */}
+    <Card
+      sx={{
+        height: "100%",
+        width: "100%",
+        borderRadius: 4,
+        boxShadow: 6,
+        overflow: "hidden",
+        p: { xs: 3, md: 4 },
+        display: "flex",
+        gap: 3,
+        background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)",
+      }}
+    >
+      <Box sx={{ position: "relative" }}>
+        <Avatar
+          src={student.avatar}
+          alt={student.name}
+          sx={{
+            width: 100,
+            height: 100,
+            border: "3px solid white",
+            boxShadow: 4,
+            borderRadius: 3,
+          }}
+        />
         <Box
           sx={{
-            background: "linear-gradient(to right, #2563eb, #4f46e5)",
-            p: 4,
-            color: "white",
+            position: "absolute",
+            top: 5,
+            right: 5,
+            bgcolor: "success.main",
+            p: 0.5,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Box sx={{ display: "flex", gap: 3, alignItems: "flex-start" }}>
-            <Avatar
-              src={student.avatar}
-              alt={student.name}
-              sx={{
-                width: 96,
-                height: 96,
-                border: "4px solid white",
-                boxShadow: 3,
-              }}
-            />
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="h4" fontWeight="bold">
-                {student.name}
-              </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.8, mb: 2 }}>
-                {student.studentId}
-              </Typography>
-
-              <Box
-                sx={{ display: "flex", flexWrap: "wrap", gap: 2, fontSize: 14 }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Mail size={16} />
-                  <Typography variant="body2">{student.email}</Typography>
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Phone size={16} />
-                  <Typography variant="body2">{student.phone}</Typography>
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <MapPin size={16} />
-                  <Typography variant="body2">{student.location}</Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+          <UserIcon sx={{ color: "#fff", fontSize: 18 }} />
         </Box>
+      </Box>
 
-        {/* Academic Details */}
-        <Box sx={{ p: 4, backgroundColor: "#f9fafb" }}>
-          <Grid container spacing={3}>
-            {infoItems.map((item) => (
-              <Grid item xs={12} sm={6} md={3} key={item.label}>
-                <Box sx={{ textAlign: "center" }}>
-                  <Box
-                    sx={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 48,
-                      height: 48,
-                      borderRadius: 1,
-                      backgroundColor: item.bg,
-                      mb: 1,
-                    }}
-                  >
-                    {item.icon}
-                  </Box>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: "#6b7280",
-                      textTransform: "uppercase",
-                      letterSpacing: 0.5,
-                      mb: 0.5,
-                      display: "block",
-                    }}
-                  >
-                    {item.label}
-                  </Typography>
-                  <Typography variant="subtitle1" fontWeight={600}>
-                    {item.value}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Paper>
-    </Box>
+      <Box>
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 700, color: "white", mb: 1 }}
+        >
+          {student.name}
+        </Typography>
+
+        <Chip
+          icon={<MailIcon fontSize="small" />}
+          label={student.email}
+          sx={{
+            bgcolor: "rgba(255,255,255,0.1)",
+            color: "white",
+            "& .MuiChip-icon": { color: "#cbd5e1" },
+            fontSize: "0.9rem",
+          }}
+        />
+      </Box>
+    </Card>
   );
 }
