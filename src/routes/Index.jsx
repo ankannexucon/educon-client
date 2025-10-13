@@ -5,6 +5,7 @@ import NavbarComponent from "../components/navigation/NavbarComponent";
 // Lazy imports
 const UserProfile = lazy(() => import("../pages/profile/UserProfilePage"));
 const CoursesPage = lazy(() => import ("../pages/course/CoursesPage"))
+const AuthPage = lazy(() => import ("../pages/authentication/AuthPage"))
 
 export default function Index() {
   return (
@@ -13,6 +14,8 @@ export default function Index() {
       <Suspense fallback={<div>Loading...</div>}></Suspense>
       <Routes>
         <Route path="/" element={<div>App</div>} />
+        <Route path="/signup" element={<AuthPage mode={"signup"} />} />
+          <Route path="/login" element={<AuthPage mode={"login"} />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/courses" element={<CoursesPage />} />
       </Routes>
