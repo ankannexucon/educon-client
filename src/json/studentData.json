@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@student.edu",
+    "phone": "+1 (555) 123-4567",
+    "location": "New York, USA",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop",
+    "enrollmentDate": "September 2023",
+    "studentId": "STU-2023-4521",
+    "program": "Computer Science",
+    "year": "2nd Year",
+    "gpa": "3.85"
+  }
+]
