@@ -1,5 +1,14 @@
-import Index from "./routes/Index";
+import React from 'react';
+import DocumentVerification from './components/DocumentVerification';
+import EduconChatbot from './components/EduconChatbot';
+import Index from './routes/Index';
 
-export default function App() {
-  return <Index />;
+function App() {
+  return (
+    <div>
+      <Index/>
+    </div>
+  );
 }
+
+export default App;
