@@ -120,7 +120,7 @@ const DocumentVerification = () => {
       {/* Header */}
       <div style={styles.header}>
         <div style={styles.headerContent}>
-          <h1 style={styles.title}>Document Fraud Detection System</h1>
+          <h1 style={styles.title}>Document Verification</h1>
           <p style={styles.subtitle}>
             Advanced AI-powered verification for educational and financial documents
           </p>
