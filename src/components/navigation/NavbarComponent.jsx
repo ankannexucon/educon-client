@@ -12,16 +12,42 @@ import {
   ListItem,
   ListItemText,
   Badge,
+  Popover,
+  Paper,
 } from "@mui/material";
-import { Menu, NotificationsNone, School } from "@mui/icons-material";
+import { Menu, NotificationsNone } from "@mui/icons-material";
 import { Link, NavLink } from "react-router-dom";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME || "Educon";
 
+// Dummy notifications
+const dummyNotifications = [
+  {
+    id: 1,
+    title: "Assignment Deadline",
+    message: "Math assignment is due tomorrow.",
+  },
+  {
+    id: 2,
+    title: "New Grade Posted",
+    message: "Your grade for Physics 101 is released.",
+  },
+  {
+    id: 3,
+    title: "Course Announcement",
+    message: "New Web Development module added.",
+  },
+];
+
 export default function NavbarComponent() {
-  // Example user state (replace with real auth state)
-  const [user, setUser] = useState({ name: "Ankan" });
+  const [user] = useState({ name: "Ankan" });
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Notifications popover state
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleNotificationsClick = (event) => setAnchorEl(event.currentTarget);
+  const handleNotificationsClose = () => setAnchorEl(null);
+  const open = Boolean(anchorEl);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -31,9 +57,7 @@ export default function NavbarComponent() {
     { name: "Contact", path: "/contact" },
   ];
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", mt: 2 }}>
@@ -57,47 +81,21 @@ export default function NavbarComponent() {
           </ListItem>
         </List>
       ))}
-      <Box sx={{ mt: 2 }}>
-        {user ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <Avatar alt="User" src="/default-avatar.png" />
-            <Typography variant="body2" fontWeight={500}>
-              My Profile
-            </Typography>
-          </Box>
-        ) : (
-          <>
-            <Button
-              variant="outlined"
-              sx={{
-                color: "#2563eb",
-                borderColor: "#2563eb",
-                mr: 1,
-                "&:hover": { backgroundColor: "#eff6ff" },
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#2563eb",
-                color: "#fff",
-                "&:hover": { backgroundColor: "#1e40af" },
-              }}
-            >
-              Sign Up
-            </Button>
-          </>
-        )}
-      </Box>
+      {user && (
+        <Box
+          sx={{
+            mt: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar alt="User" src="/default-avatar.png" />
+          <Typography variant="body2" fontWeight={500}>
+            My Profile
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 
@@ -108,13 +106,10 @@ export default function NavbarComponent() {
         <AppBar
           position="static"
           elevation={0}
-          sx={{
-            backgroundColor: "#fff",
-            color: "#1e293b",
-          }}
+          sx={{ backgroundColor: "#fff", color: "#1e293b" }}
         >
           <Toolbar sx={{ justifyContent: "space-between" }}>
-            {/* Left side: logo + name */}
+            {/* Logo */}
             <Box display="flex" alignItems="center" gap={1}>
               <Typography
                 variant="h6"
@@ -130,7 +125,7 @@ export default function NavbarComponent() {
               </Typography>
             </Box>
 
-            {/* Middle: nav links (desktop only) */}
+            {/* Nav Links */}
             <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3 }}>
               {navItems.map((item) => (
                 <Button
@@ -139,31 +134,10 @@ export default function NavbarComponent() {
                   to={item.path}
                   disableRipple
                   sx={{
-                    position: "relative",
                     color: "#1e293b",
                     fontWeight: 500,
                     textTransform: "none",
-                    px: 0,
-                    mx: 1,
-                    minWidth: "auto",
                     "&:hover": { color: "#2563eb", background: "transparent" },
-                    "&::after": {
-                      content: '""',
-                      position: "absolute",
-                      bottom: -4,
-                      left: 0,
-                      width: 0,
-                      height: "2px",
-                      backgroundColor: "#2563eb",
-                      transition: "width 0.3s ease-in-out",
-                    },
-                    "&:hover::after": {
-                      width: "100%",
-                    },
-                    "&.active": {
-                      color: "#2563eb",
-                      "&::after": { width: "100%" },
-                    },
                   }}
                 >
                   {item.name}
@@ -171,7 +145,7 @@ export default function NavbarComponent() {
               ))}
             </Box>
 
-            {/* Right side: user or auth buttons */}
+            {/* Right Side */}
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
@@ -181,11 +155,51 @@ export default function NavbarComponent() {
             >
               {user ? (
                 <>
-                  <IconButton>
-                    <Badge color="error" variant="dot">
+                  {/* Notifications Bell */}
+                  <IconButton onClick={handleNotificationsClick}>
+                    <Badge
+                      badgeContent={dummyNotifications.length}
+                      color="error"
+                    >
                       <NotificationsNone sx={{ color: "#1e293b" }} />
                     </Badge>
                   </IconButton>
+
+                  {/* Notifications Popover */}
+                  <Popover
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleNotificationsClose}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
+                  >
+                    <Paper
+                      sx={{
+                        width: 300,
+                        maxHeight: 400,
+                        overflowY: "auto",
+                        p: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{ fontWeight: 600, mb: 1, color: "grey" }}
+                      >
+                        Notifications
+                      </Typography>
+                      {dummyNotifications.map((item) => (
+                        <Box key={item.id} sx={{ p: 1 }}>
+                          <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
+                            {item.title}
+                          </Typography>
+                          <Typography sx={{ fontSize: 12, color: "#64748b" }}>
+                            {item.message}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Paper>
+                  </Popover>
+
+                  {/* User Avatar */}
                   <Avatar
                     component={Link}
                     to={"/profile"}
@@ -226,7 +240,7 @@ export default function NavbarComponent() {
               )}
             </Box>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu */}
             <IconButton
               sx={{ display: { md: "none" }, color: "#2563eb" }}
               onClick={handleDrawerToggle}
@@ -236,15 +250,12 @@ export default function NavbarComponent() {
           </Toolbar>
         </AppBar>
 
-        {/* Drawer (mobile menu) */}
+        {/* Mobile Drawer */}
         <Drawer
           anchor="right"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": { width: 240, boxSizing: "border-box" },
-          }}
+          sx={{ "& .MuiDrawer-paper": { width: 240 } }}
         >
           {drawer}
         </Drawer>
