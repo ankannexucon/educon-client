@@ -15,7 +15,7 @@ export default function Index() {
       <Routes>
         <Route path="/" element={<div>App</div>} />
         <Route path="/signup" element={<AuthPage mode={"signup"} />} />
-          <Route path="/login" element={<AuthPage mode={"login"} />} />
+        <Route path="/login" element={<AuthPage mode={"login"} />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/courses" element={<CoursesPage />} />
       </Routes>
