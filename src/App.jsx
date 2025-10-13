@@ -1,5 +1,5 @@
 import React from 'react';
-import Chatbot from './Components/Chatbot';
+import Chatbot from './components/EduconChatbot';
 
 function App() {
   return (
@@ -10,8 +10,8 @@ function App() {
       fontFamily: 'Arial, sans-serif'
     }}>
       <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ color: '#333', margin: 0 }}>AI Chatbot with Gemini</h1>
-        <p style={{ color: '#666', fontSize: '18px' }}>Powered by Google's Gemini AI - Ready to Chat! 🚀</p>
+        <h1 style={{ color: '#333', margin: 0 }}>Your Website</h1>
+        <p style={{ color: '#666', fontSize: '18px' }}>With Floating AI Chatbot</p>
       </header>
       
       <main style={{
@@ -22,35 +22,21 @@ function App() {
         borderRadius: '12px',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
       }}>
-        <h2>Welcome to Your AI Assistant!</h2>
-        <p>Your Gemini API key is integrated and the chatbot is ready to use. Click the chat button in the bottom right to start a conversation with AI!</p>
+        <h2>Welcome!</h2>
+        <p>Look for the floating chat button in the bottom-right corner to start a conversation with our AI assistant!</p>
         
         <div style={{ marginTop: '30px' }}>
-          <h3>What you can ask:</h3>
+          <h3>Features:</h3>
           <ul>
-            <li>💡 Explain complex concepts</li>
-            <li>✍️ Help with writing and editing</li>
-            <li>🔍 Answer questions on various topics</li>
-            <li>💭 Brainstorm ideas</li>
-            <li>📚 Learn new things</li>
+            <li>💬 Floating chat interface</li>
+            <li>🤖 Gemini AI powered</li>
+            <li>📱 Minimize/maximize functionality</li>
+            <li>🎨 Beautiful design</li>
           </ul>
-        </div>
-
-        <div style={{ 
-          background: '#ecfdf5', 
-          padding: '20px', 
-          borderRadius: '8px', 
-          marginTop: '30px',
-          border: '1px solid #d1fae5'
-        }}>
-          <h4 style={{ color: '#065f46', margin: '0 0 10px 0' }}>✅ Ready to Go!</h4>
-          <p style={{ color: '#047857', margin: 0 }}>
-            Your Gemini API is connected. The chatbot is fully functional and ready to provide intelligent responses!
-          </p>
         </div>
       </main>
       
-      {/* Chatbot Component with Gemini AI */}
+      {/* Floating Chatbot Component */}
       <Chatbot />
     </div>
   );
