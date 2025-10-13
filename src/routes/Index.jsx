@@ -4,6 +4,7 @@ import NavbarComponent from "../components/navigation/NavbarComponent";
 
 // Lazy imports
 const UserProfile = lazy(() => import("../pages/profile/UserProfilePage"));
+const CoursesPage = lazy(() => import ("../pages/course/CoursesPage"))
 
 export default function Index() {
   return (
@@ -13,6 +14,7 @@ export default function Index() {
       <Routes>
         <Route path="/" element={<div>App</div>} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/courses" element={<CoursesPage />} />
       </Routes>
     </BrowserRouter>
   );
