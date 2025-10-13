@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
+import Index from "./routes/Index";
 
 export default function App() {
-  return <Box>App</Box>;
+  return <Index />;
 }
