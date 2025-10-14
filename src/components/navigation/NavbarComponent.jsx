@@ -31,7 +31,6 @@ import {
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
-import { TrendingUp } from "lucide-react";
 import { ArrowUpRight } from "lucide-react";
 import { Crown } from "lucide-react";
 
@@ -97,6 +96,13 @@ export default function NavbarComponent() {
       {
         name: "Student Application Overview",
         path: "/university-application-view",
+        icon: <ArrowUpRight size={18} />,
+      },
+    ],
+    student: [
+      {
+        name: "Your Applications",
+        path: "/your-application",
         icon: <ArrowUpRight size={18} />,
       },
     ],
@@ -193,92 +199,91 @@ export default function NavbarComponent() {
               </Button>
             ))}
 
-            {/* Role-based “More” dropdown */}
-            {(user?.role === "agency" || user?.role === "university") && (
-              <Box sx={{ position: "relative" }}>
-                <Button
-                  onClick={() => toggleDropdown("more")}
-                  endIcon={<ChevronDown size={18} />}
+            {/* “More” dropdown */}
+
+            <Box sx={{ position: "relative" }}>
+              <Button
+                onClick={() => toggleDropdown("more")}
+                endIcon={<ChevronDown size={18} />}
+                sx={{
+                  textTransform: "none",
+                  fontSize: "0.95rem",
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1,
+                  backgroundColor: open.more ? "#f3f4f6" : "transparent",
+                  "&:hover": { backgroundColor: "#f3f4f6" },
+                  color: "#374151",
+                  transition: "0.2s",
+                }}
+              >
+                More
+              </Button>
+
+              {open.more && (
+                <Paper
                   sx={{
-                    textTransform: "none",
-                    fontSize: "0.95rem",
-                    borderRadius: 2,
-                    px: 2,
-                    py: 1,
-                    backgroundColor: open.more ? "#f3f4f6" : "transparent",
-                    "&:hover": { backgroundColor: "#f3f4f6" },
-                    color: "#374151",
-                    transition: "0.2s",
+                    position: "absolute",
+                    top: "110%",
+                    right: 0,
+                    mt: 1,
+                    borderRadius: 3,
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                    border: "1px solid #e5e7eb",
+                    overflow: "hidden",
+                    zIndex: 20,
                   }}
                 >
-                  More
-                </Button>
-
-                {open.more && (
-                  <Paper
+                  <Box
                     sx={{
-                      position: "absolute",
-                      top: "110%",
-                      right: 0,
-                      mt: 1,
-                      borderRadius: 3,
-                      boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
-                      border: "1px solid #e5e7eb",
-                      overflow: "hidden",
-                      zIndex: 20,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      p: 2,
+                      borderBottom: "1px solid #f3f4f6",
                     }}
                   >
-                    <Box
+                    <Typography fontWeight={700} fontSize="1rem">
+                      Select Option
+                    </Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => setOpen({ ...open, more: false })}
+                    >
+                      <X size={18} />
+                    </IconButton>
+                  </Box>
+
+                  {moreOptions[user.role].map((option, i) => (
+                    <MenuItem
+                      key={i}
+                      onClick={() => setOpen({ ...open, more: false })}
                       sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        p: 2,
-                        borderBottom: "1px solid #f3f4f6",
+                        py: 1.2,
+                        px: 2,
+                        fontWeight: 500,
+                        "&:hover": { backgroundColor: "#f9fafb" },
                       }}
                     >
-                      <Typography fontWeight={700} fontSize="1rem">
-                        Select Option
-                      </Typography>
-                      <IconButton
-                        size="small"
-                        onClick={() => setOpen({ ...open, more: false })}
-                      >
-                        <X size={18} />
-                      </IconButton>
-                    </Box>
-
-                    {moreOptions[user.role].map((option, i) => (
-                      <MenuItem
-                        key={i}
-                        onClick={() => setOpen({ ...open, more: false })}
-                        sx={{
-                          py: 1.2,
-                          px: 2,
-                          fontWeight: 500,
-                          "&:hover": { backgroundColor: "#f9fafb" },
+                      <Button
+                        component={Link}
+                        to={option.path}
+                        startIcon={option.icon}
+                        style={{
+                          justifyContent: "flex-start",
+                          textAlign: "left",
+                          color: "inherit",
+                          width: "100%",
                         }}
                       >
-                        <Button
-                          component={Link}
-                          to={option.path}
-                          startIcon={option.icon}
-                          style={{
-                            justifyContent: "flex-start",
-                            textAlign: "left",
-                            color: "inherit",
-                            width: "100%",
-                          }}
-                        >
-                          <Typography fontWeight={600} fontSize="0.9rem">
-                            {option.name}
-                          </Typography>
-                        </Button>
-                      </MenuItem>
-                    ))}
-                  </Paper>
-                )}
-              </Box>
-            )}
+                        <Typography fontWeight={600} fontSize="0.9rem">
+                          {option.name}
+                        </Typography>
+                      </Button>
+                    </MenuItem>
+                  ))}
+                </Paper>
+              )}
+            </Box>
           </Box>
 
           {/* Right Side */}
