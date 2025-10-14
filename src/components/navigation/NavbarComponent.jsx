@@ -515,6 +515,27 @@ export default function NavbarComponent() {
 
           <Divider sx={{ my: 2 }} />
 
+          {moreOptions[user?.role].map((item) => (
+            <ListItemButton
+              key={item.name}
+              component={NavLink}
+              to={item.path}
+              onClick={() => setMobileOpen(false)}
+              sx={{
+                borderRadius: 2,
+                color: "#374151",
+                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          ))}
+
+          <Divider sx={{ my: 2 }} />
+
           {user ? (
             <>
               <ListItemButton component={Link} to="/profile">
