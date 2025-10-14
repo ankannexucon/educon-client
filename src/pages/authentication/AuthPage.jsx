@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { FaGoogle, FaLinkedin } from "react-icons/fa";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function AuthPage() {
-  const [authMode, setAuthMode] = useState("login"); 
-  const [role, setRole] = useState("student");
+  const [authMode, setAuthMode] = useState("login");
+  const { user } = useAuth(); // get role from AuthContext
+  const [role, setRole] = useState(user?.role || "student");
 
   const handleAuthToggle = () => {
     setAuthMode(authMode === "login" ? "signup" : "login");
@@ -17,9 +19,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white-500 via-white-700 to-indigo-900 p-4">
-      <div
-        className="bg-white/95 shadow-2xl rounded-2xl p-8 w-full max-w-md text-center transform transition-all duration-700 hover:scale-[1.02] hover:shadow-blue-300"
-      >
+      <div className="bg-white/95 shadow-2xl rounded-2xl p-8 w-full max-w-md text-center transform transition-all duration-700 hover:scale-[1.02] hover:shadow-blue-300">
         {/* Title */}
         <h2 className="text-3xl font-bold text-blue-700 mb-2">
           {authMode === "login" ? "Welcome Back!" : "Create an Account"}
@@ -30,22 +30,24 @@ export default function AuthPage() {
             : "Sign up to explore opportunities and connect globally."}
         </p>
 
-        {/* Role Tabs */}
-        <div className="flex justify-center mb-6 space-x-2">
-          {roles.map((r) => (
-            <button
-              key={r.value}
-              onClick={() => setRole(r.value)}
-              className={`px-4 py-1 rounded-full font-semibold text-sm transition-all duration-300 ${
-                role === r.value
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-gray-100 text-gray-700 hover:bg-blue-100"
-              }`}
-            >
-              {r.label}
-            </button>
-          ))}
-        </div>
+        {/* ✅ Role Tabs - Only show during Sign Up */}
+        {authMode === "signup" && (
+          <div className="flex justify-center mb-6 space-x-2">
+            {roles.map((r) => (
+              <button
+                key={r.value}
+                onClick={() => setRole(r.value)}
+                className={`px-4 py-1 rounded-full font-semibold text-sm transition-all duration-300 ${
+                  role === r.value
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+                }`}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Form */}
         <form className="flex flex-col gap-3 text-left">
@@ -136,3 +138,4 @@ export default function AuthPage() {
     </div>
   );
 }
+
