@@ -33,6 +33,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { TrendingUp } from "lucide-react";
 import { ArrowUpRight } from "lucide-react";
+import { Crown } from "lucide-react";
 
 const APP_NAME = "Educon";
 
@@ -84,6 +85,11 @@ export default function NavbarComponent() {
       {
         name: "Student Application",
         path: "/student-application",
+        icon: <ArrowUpRight size={18} />,
+      },
+      {
+        name: "Document Verification",
+        path: "/document-verification",
         icon: <ArrowUpRight size={18} />,
       },
     ],
@@ -401,6 +407,18 @@ export default function NavbarComponent() {
                   }}
                 >
                   <User size={20} />
+                </IconButton>
+                {/* Supcriptions */}
+                <IconButton
+                  component={Link}
+                  to="/subscriptions"
+                  sx={{
+                    p: 1,
+                    borderRadius: 2,
+                    "&:hover": { backgroundColor: "#f3f4f6" },
+                  }}
+                >
+                  <Crown size={20} />
                 </IconButton>
               </>
             ) : (

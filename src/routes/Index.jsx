@@ -24,7 +24,7 @@ export default function Index() {
         <Route path="/signup" element={<AuthPage mode={"signup"} />} />
         <Route path="/login" element={<AuthPage mode={"login"} />} />
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/fraude-detection" element={<DocumentVerification />} />
+        <Route path="/document-verification" element={<DocumentVerification />} />
         
         <Route path="/university" element={<UniversityDashboardPage />} />
         <Route path="/courses" element={<CoursesPage />} />
@@ -32,6 +32,8 @@ export default function Index() {
           path="/student-application"
           element={<StudentApplicationPage />}
         />
+        <Route path="/subscriptions" element={<div>Subscriptions Page</div>} />
+        <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
       <footer>
         <FooterComponent />

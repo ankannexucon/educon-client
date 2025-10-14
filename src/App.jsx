@@ -6,12 +6,12 @@ import Index from "./routes/Index";
 function App() {
   return (
     <AuthProvider>
-      (
+      
     <div>
       <Index />
       <EduconChatbot />
     </div>
-  )
+  
     </AuthProvider>
   );
 }
