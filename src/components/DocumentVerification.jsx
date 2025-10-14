@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const DocumentVerification = () => {
   const [selectedDocument, setSelectedDocument] = useState('');
@@ -6,6 +6,8 @@ const DocumentVerification = () => {
   const [verificationResults, setVerificationResults] = useState([]);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationProgress, setVerificationProgress] = useState(0);
+  const [currentStep, setCurrentStep] = useState('');
+  const [selectedFileForPreview, setSelectedFileForPreview] = useState(null);
   const fileInputRef = useRef(null);
 
   const documentTypes = [
@@ -28,6 +30,24 @@ const DocumentVerification = () => {
     'Watermark Issues'
   ];
 
+  const verificationSteps = [
+    { id: 'upload', name: 'Document Analysis', icon: '📥', duration: 1000 },
+    { id: 'pattern', name: 'Pattern Recognition', icon: '🔍', duration: 1500 },
+    { id: 'ai', name: 'AI Verification', icon: '🤖', duration: 2000 },
+    { id: 'results', name: 'Result Compilation', icon: '📊', duration: 1000 }
+  ];
+
+  // Clean up object URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      uploadedFiles.forEach(file => {
+        if (file.previewUrl) {
+          URL.revokeObjectURL(file.previewUrl);
+        }
+      });
+    };
+  }, [uploadedFiles]);
+
   const handleDocumentSelect = (docType) => {
     setSelectedDocument(docType);
     setUploadedFiles([]);
@@ -36,89 +56,397 @@ const DocumentVerification = () => {
 
   const handleFileUpload = (event) => {
     const files = Array.from(event.target.files);
-    const newFiles = files.map(file => ({
+    const validFiles = files.filter(file => {
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+      
+      if (file.size > maxSize) {
+        alert(`File ${file.name} exceeds 10MB limit`);
+        return false;
+      }
+      
+      if (!allowedTypes.includes(file.type)) {
+        alert(`File ${file.name} is not a supported format (PDF, JPG, PNG only)`);
+        return false;
+      }
+      
+      return true;
+    });
+
+    const newFiles = validFiles.map(file => ({
       id: Date.now() + Math.random(),
       name: file.name,
       type: file.type,
       size: file.size,
       file: file,
       status: 'pending',
-      uploadedAt: new Date()
+      uploadedAt: new Date(),
+      previewUrl: URL.createObjectURL(file)
     }));
     
     setUploadedFiles(prev => [...prev, ...newFiles]);
   };
 
-  const simulateVerification = () => {
+  const simulateVerification = async () => {
     if (uploadedFiles.length === 0 || !selectedDocument) return;
 
     setIsVerifying(true);
     setVerificationProgress(0);
     setVerificationResults([]);
+    setCurrentStep('');
 
-    const progressInterval = setInterval(() => {
-      setVerificationProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 10;
+    // Simulate verification steps with animations
+    for (let step of verificationSteps) {
+      setCurrentStep(step.id);
+      
+      // Animate progress for this step
+      const stepProgress = 100 / verificationSteps.length;
+      const startProgress = verificationProgress;
+      const endProgress = startProgress + stepProgress;
+      
+      await new Promise(resolve => {
+        const interval = setInterval(() => {
+          setVerificationProgress(prev => {
+            if (prev >= endProgress) {
+              clearInterval(interval);
+              resolve();
+              return endProgress;
+            }
+            return prev + 1;
+          });
+        }, step.duration / stepProgress);
       });
-    }, 200);
+    }
 
-    setTimeout(() => {
-      clearInterval(progressInterval);
-      const results = uploadedFiles.map(file => {
-        const isFraudulent = Math.random() > 0.7; // 30% chance of fraud for demo
-        const fraudScore = Math.random() * 100;
-        const detectedIssues = isFraudulent 
-          ? fraudIndicators.slice(0, Math.floor(Math.random() * 3) + 1)
-          : [];
+    // Generate final results
+    const results = uploadedFiles.map(file => {
+      const isFraudulent = Math.random() > 0.7;
+      const fraudScore = Math.random() * 100;
+      const detectedIssues = isFraudulent 
+        ? fraudIndicators.slice(0, Math.floor(Math.random() * 3) + 1)
+        : [];
 
-        return {
-          fileId: file.id,
-          fileName: file.name,
-          isVerified: !isFraudulent,
-          fraudScore: Math.round(fraudScore),
-          detectedIssues,
-          verificationDate: new Date(),
-          confidence: Math.round(100 - fraudScore)
-        };
-      });
+      return {
+        fileId: file.id,
+        fileName: file.name,
+        isVerified: !isFraudulent,
+        fraudScore: Math.round(fraudScore),
+        detectedIssues,
+        verificationDate: new Date(),
+        confidence: Math.round(100 - fraudScore)
+      };
+    });
 
-      setVerificationResults(results);
-      setIsVerifying(false);
-      setVerificationProgress(100);
-    }, 2000);
+    setVerificationResults(results);
+    setIsVerifying(false);
+    setVerificationProgress(100);
+    setCurrentStep('complete');
   };
 
   const removeFile = (fileId) => {
+    const fileToRemove = uploadedFiles.find(file => file.id === fileId);
+    if (fileToRemove?.previewUrl) {
+      URL.revokeObjectURL(fileToRemove.previewUrl);
+    }
     setUploadedFiles(prev => prev.filter(file => file.id !== fileId));
     setVerificationResults(prev => prev.filter(result => result.fileId !== fileId));
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'verified': return '#10b981';
-      case 'fraudulent': return '#ef4444';
-      case 'pending': return '#f59e0b';
-      default: return '#6b7280';
+    if (selectedFileForPreview?.id === fileId) {
+      setSelectedFileForPreview(null);
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'verified': return '✅';
-      case 'fraudulent': return '❌';
-      case 'pending': return '⏳';
-      default: return '📄';
-    }
+  const getFileIcon = (fileType) => {
+    if (fileType.includes('image')) return '🖼️';
+    if (fileType.includes('pdf')) return '📄';
+    return '📁';
   };
+
+  const FilePreview = ({ file, onClose }) => {
+    const [pdfPages, setPdfPages] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pdfError, setPdfError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+      if (file && file.type.includes('pdf')) {
+        loadPdfPreview();
+      }
+    }, [file]);
+
+    const loadPdfPreview = async () => {
+      try {
+        setIsLoading(true);
+        setPdfError(false);
+        
+        // Simulate PDF loading with multiple pages
+        setTimeout(() => {
+          const simulatedPages = [
+            { pageNum: 1, text: 'Certificate of Achievement - Page 1' },
+            { pageNum: 2, text: 'Academic Transcript - Page 2' },
+            { pageNum: 3, text: 'Verification Details - Page 3' }
+          ];
+          setPdfPages(simulatedPages);
+          setIsLoading(false);
+        }, 1000);
+        
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+        setPdfError(true);
+        setIsLoading(false);
+      }
+    };
+
+    const nextPage = () => {
+      if (currentPage < pdfPages.length) {
+        setCurrentPage(currentPage + 1);
+      }
+    };
+
+    const prevPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+
+    const handleDownload = () => {
+      const link = document.createElement('a');
+      link.href = file.previewUrl;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    if (!file) return null;
+
+    return (
+      <div style={styles.previewOverlay}>
+        <div style={styles.previewModal}>
+          <div style={styles.previewHeader}>
+            <h3 style={styles.previewTitle}>File Preview</h3>
+            <button onClick={onClose} style={styles.closeButton}>✕</button>
+          </div>
+          <div style={styles.previewContent}>
+            {file.type.includes('image') ? (
+              <img 
+                src={file.previewUrl} 
+                alt={file.name}
+                style={styles.previewImage}
+              />
+            ) : file.type.includes('pdf') ? (
+              <div style={styles.pdfPreview}>
+                {isLoading ? (
+                  <div style={styles.pdfLoading}>
+                    <div style={styles.loadingSpinner}></div>
+                    <div style={styles.loadingText}>Loading PDF preview...</div>
+                  </div>
+                ) : pdfError ? (
+                  <div style={styles.pdfError}>
+                    <div style={styles.pdfErrorIcon}>📄</div>
+                    <div style={styles.pdfErrorText}>
+                      Unable to load PDF preview
+                    </div>
+                    <div style={styles.pdfErrorSubtext}>
+                      Please download the file to view it properly
+                    </div>
+                  </div>
+                ) : pdfPages.length > 0 ? (
+                  <div style={styles.pdfViewer}>
+                    <div style={styles.pdfPages}>
+                      {pdfPages.map((page) => (
+                        <div
+                          key={page.pageNum}
+                          style={{
+                            ...styles.pdfPage,
+                            display: currentPage === page.pageNum ? 'block' : 'none'
+                          }}
+                        >
+                          <div style={styles.pdfPageContent}>
+                            <div style={styles.pdfPageHeader}>
+                              <span style={styles.pdfPageNumber}>
+                                Page {page.pageNum} of {pdfPages.length}
+                              </span>
+                              <span style={styles.pdfFileName}>
+                                {file.name}
+                              </span>
+                            </div>
+                            <div style={styles.pdfPageBody}>
+                              <div style={styles.pdfDocument}>
+                                <div style={styles.pdfPlaceholder}>
+                                  <div style={styles.pdfIcon}>📄</div>
+                                  <div style={styles.pdfText}>
+                                    {page.text}
+                                  </div>
+                                  <div style={styles.pdfWatermark}>
+                                    PDF Document Preview
+                                  </div>
+                                  <div style={styles.pdfDemoNote}>
+                                    In a real application, this would show the actual PDF content
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* PDF Controls */}
+                    {pdfPages.length > 1 && (
+                      <div style={styles.pdfControls}>
+                        <button
+                          onClick={prevPage}
+                          disabled={currentPage === 1}
+                          style={{
+                            ...styles.pdfControlButton,
+                            ...(currentPage === 1 ? styles.pdfControlButtonDisabled : {})
+                          }}
+                        >
+                          ← Previous
+                        </button>
+                        
+                        <div style={styles.pdfPageInfo}>
+                          Page {currentPage} of {pdfPages.length}
+                        </div>
+                        
+                        <button
+                          onClick={nextPage}
+                          disabled={currentPage === pdfPages.length}
+                          style={{
+                            ...styles.pdfControlButton,
+                            ...(currentPage === pdfPages.length ? styles.pdfControlButtonDisabled : {})
+                          }}
+                        >
+                          Next →
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div style={styles.pdfLoading}>
+                    <div style={styles.loadingSpinner}></div>
+                    <div style={styles.loadingText}>Preparing PDF preview...</div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div style={styles.documentPreview}>
+                <div style={styles.documentIconLarge}>{getFileIcon(file.type)}</div>
+                <div style={styles.documentName}>{file.name}</div>
+                <div style={styles.documentType}>{file.type}</div>
+                <div style={styles.downloadHint}>
+                  This file type cannot be previewed. Please download to view.
+                </div>
+              </div>
+            )}
+          </div>
+          <div style={styles.previewFooter}>
+            <div style={styles.fileInfo}>
+              <div style={styles.fileNameSection}>
+                <strong style={styles.fileNameText}>{file.name}</strong>
+                <span style={styles.fileTypeBadge}>
+                  {file.type.split('/')[1]?.toUpperCase() || 'FILE'}
+                </span>
+              </div>
+              <div style={styles.fileActions}>
+                <span style={styles.fileSize}>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                <button
+                  onClick={handleDownload}
+                  style={styles.downloadButton}
+                >
+                  ⬇️ Download
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const VerificationAnimation = () => (
+    <div style={styles.verificationAnimation}>
+      <div style={styles.animationContainer}>
+        <div 
+          style={{
+            ...styles.scanningLine,
+            animation: 'scan 2s ease-in-out infinite'
+          }}
+        ></div>
+        <div style={styles.documentOutline}>
+          <div 
+            style={{
+              ...styles.documentContent,
+              animation: 'pulse 1.5s ease-in-out infinite'
+            }}
+          >
+            {currentStep === 'upload' && <div style={styles.animText}>Analyzing Document...</div>}
+            {currentStep === 'pattern' && <div style={styles.animText}>Checking Patterns...</div>}
+            {currentStep === 'ai' && <div style={styles.animText}>AI Processing...</div>}
+            {currentStep === 'results' && <div style={styles.animText}>Compiling Results...</div>}
+          </div>
+        </div>
+      </div>
+      <div style={styles.stepIndicators}>
+        {verificationSteps.map((step, index) => (
+          <div
+            key={step.id}
+            style={{
+              ...styles.stepIndicator,
+              ...(currentStep === step.id ? styles.stepActive : {}),
+              ...(verificationProgress >= (index + 1) * (100 / verificationSteps.length) 
+                ? styles.stepCompleted : {})
+            }}
+          >
+            <span style={styles.stepIcon}>{step.icon}</span>
+            <span style={styles.stepName}>{step.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <div style={styles.container}>
+      {/* Add CSS styles for animations */}
+      <style>
+        {`
+          @keyframes scan {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(148px); }
+            100% { transform: translateY(0); }
+          }
+
+          @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+          @media (max-width: 768px) {
+            .mobile-stack {
+              flex-direction: column !important;
+            }
+            .mobile-full {
+              width: 100% !important;
+            }
+            .mobile-text-center {
+              text-align: center !important;
+            }
+            .mobile-padding {
+              padding: 15px !important;
+            }
+          }
+        `}
+      </style>
+
       {/* Header */}
-      <div style={styles.header}>
+      <div style={{...styles.header, ...styles.mobileStack}}>
         <div style={styles.headerContent}>
           <h1 style={styles.title}>Document Verification</h1>
           <p style={styles.subtitle}>
@@ -137,7 +465,7 @@ const DocumentVerification = () => {
         </div>
       </div>
 
-      <div style={styles.content}>
+      <div style={{...styles.content, ...styles.mobileStack}}>
         {/* Left Panel - Document Selection & Upload */}
         <div style={styles.leftPanel}>
           {/* Document Type Selection */}
@@ -187,24 +515,39 @@ const DocumentVerification = () => {
             {/* Uploaded Files List */}
             {uploadedFiles.length > 0 && (
               <div style={styles.uploadedFiles}>
-                <h4 style={styles.uploadedFilesTitle}>Uploaded Files</h4>
+                <h4 style={styles.uploadedFilesTitle}>Uploaded Files ({uploadedFiles.length})</h4>
                 {uploadedFiles.map(file => (
                   <div key={file.id} style={styles.fileItem}>
-                    <div style={styles.fileInfo}>
-                      <span style={styles.fileIcon}>📄</span>
+                    <div 
+                      style={styles.fileInfo}
+                      onClick={() => setSelectedFileForPreview(file)}
+                    >
+                      <span style={styles.fileIcon}>
+                        {getFileIcon(file.type)}
+                      </span>
                       <div>
                         <div style={styles.fileName}>{file.name}</div>
                         <div style={styles.fileDetails}>
-                          {(file.size / 1024 / 1024).toFixed(2)} MB • {file.type}
+                          {(file.size / 1024 / 1024).toFixed(2)} MB • {file.type.split('/')[1]?.toUpperCase()}
                         </div>
                       </div>
                     </div>
-                    <button
-                      onClick={() => removeFile(file.id)}
-                      style={styles.removeButton}
-                    >
-                      🗑️
-                    </button>
+                    <div style={styles.fileActions}>
+                      <button
+                        onClick={() => setSelectedFileForPreview(file)}
+                        style={styles.previewButton}
+                        title="Preview"
+                      >
+                        👁️
+                      </button>
+                      <button
+                        onClick={() => removeFile(file.id)}
+                        style={styles.removeButton}
+                        title="Remove"
+                      >
+                        🗑️
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -212,26 +555,24 @@ const DocumentVerification = () => {
           </div>
 
           {/* Verify Button */}
-          {uploadedFiles.length > 0 && selectedDocument && (
+          {uploadedFiles.length > 0 && selectedDocument && !isVerifying && (
             <button
               onClick={simulateVerification}
               disabled={isVerifying}
-              style={{
-                ...styles.verifyButton,
-                ...(isVerifying ? styles.verifyButtonDisabled : {})
-              }}
+              style={styles.verifyButton}
             >
-              {isVerifying ? 'Verifying...' : 'Start Fraud Detection'}
+              🔍 Start Fraud Detection
             </button>
           )}
         </div>
 
-        {/* Right Panel - Results */}
+        {/* Right Panel - Results & Animations */}
         <div style={styles.rightPanel}>
-          {/* Verification Progress */}
+          {/* Verification Animation */}
           {isVerifying && (
             <div style={styles.progressSection}>
-              <h3 style={styles.sectionTitle}>Verification Progress</h3>
+              <h3 style={styles.sectionTitle}>Verification in Progress</h3>
+              <VerificationAnimation />
               <div style={styles.progressContainer}>
                 <div style={styles.progressBar}>
                   <div
@@ -242,14 +583,8 @@ const DocumentVerification = () => {
                   ></div>
                 </div>
                 <div style={styles.progressText}>
-                  {verificationProgress}% Complete
+                  {Math.round(verificationProgress)}% Complete
                 </div>
-              </div>
-              <div style={styles.verificationSteps}>
-                <div style={styles.step}>📥 Document Analysis</div>
-                <div style={styles.step}>🔍 Pattern Recognition</div>
-                <div style={styles.step}>🤖 AI Verification</div>
-                <div style={styles.step}>📊 Result Compilation</div>
               </div>
             </div>
           )}
@@ -264,13 +599,14 @@ const DocumentVerification = () => {
                     key={result.fileId}
                     style={{
                       ...styles.resultCard,
-                      borderColor: result.isVerified ? '#10b981' : '#ef4444'
+                      borderColor: result.isVerified ? '#10b981' : '#ef4444',
+                      background: result.isVerified ? '#f0fdf4' : '#fef2f2'
                     }}
                   >
-                    <div style={styles.resultHeader}>
+                    <div style={{...styles.resultHeader, ...styles.mobileStack}}>
                       <div style={styles.resultFileInfo}>
                         <span style={styles.resultIcon}>
-                          {getStatusIcon(result.isVerified ? 'verified' : 'fraudulent')}
+                          {result.isVerified ? '✅' : '❌'}
                         </span>
                         <div>
                           <div style={styles.resultFileName}>{result.fileName}</div>
@@ -344,6 +680,14 @@ const DocumentVerification = () => {
         </div>
       </div>
 
+      {/* File Preview Modal */}
+      {selectedFileForPreview && (
+        <FilePreview 
+          file={selectedFileForPreview} 
+          onClose={() => setSelectedFileForPreview(null)} 
+        />
+      )}
+
       {/* Fraud Detection Features */}
       <div style={styles.featuresSection}>
         <h2 style={styles.featuresTitle}>Advanced Fraud Detection Features</h2>
@@ -396,6 +740,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  mobileStack: {
+    '@media (max-width: 768px)': {
+      flexDirection: 'column'
+    }
   },
   headerContent: {
     flex: 1
@@ -532,12 +881,15 @@ const styles = {
     border: '1px solid #e5e7eb',
     borderRadius: '8px',
     marginBottom: '10px',
-    background: 'white'
+    background: 'white',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease'
   },
   fileInfo: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px'
+    gap: '12px',
+    flex: 1
   },
   fileIcon: {
     fontSize: '1.2rem'
@@ -549,6 +901,19 @@ const styles = {
   fileDetails: {
     fontSize: '0.8rem',
     color: '#6b7280'
+  },
+  fileActions: {
+    display: 'flex',
+    gap: '8px'
+  },
+  previewButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '1.2rem',
+    cursor: 'pointer',
+    padding: '5px',
+    borderRadius: '4px',
+    transition: 'background 0.2s ease'
   },
   removeButton: {
     background: 'none',
@@ -571,16 +936,380 @@ const styles = {
     transition: 'all 0.3s ease',
     boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
   },
-  verifyButtonDisabled: {
-    opacity: 0.6,
-    cursor: 'not-allowed'
+  
+  // Verification Animation Styles
+  verificationAnimation: {
+    textAlign: 'center',
+    marginBottom: '30px'
   },
-  progressSection: {
+  animationContainer: {
+    position: 'relative',
+    width: '200px',
+    height: '150px',
+    margin: '0 auto 30px',
+    background: '#f8fafc',
+    border: '2px solid #e5e7eb',
+    borderRadius: '12px',
+    overflow: 'hidden'
+  },
+  scanningLine: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '2px',
+    background: 'linear-gradient(90deg, transparent, #667eea, transparent)'
+  },
+  documentOutline: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px'
+  },
+  documentContent: {
+    textAlign: 'center'
+  },
+  animText: {
+    fontSize: '0.9rem',
+    color: '#667eea',
+    fontWeight: '500'
+  },
+  stepIndicators: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '10px'
+  },
+  stepIndicator: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '10px',
+    background: '#f8fafc',
+    borderRadius: '8px',
+    transition: 'all 0.3s ease'
+  },
+  stepActive: {
+    background: '#667eea15',
+    border: '1px solid #667eea',
+    transform: 'scale(1.05)'
+  },
+  stepCompleted: {
+    background: '#10b98115',
+    border: '1px solid #10b981'
+  },
+  stepIcon: {
+    fontSize: '1.2rem'
+  },
+  stepName: {
+    fontSize: '0.9rem',
+    fontWeight: '500',
+    color: '#374151'
+  },
+
+  // File Preview Styles
+  previewOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0, 0, 0, 0.8)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: '20px'
+  },
+  previewModal: {
     background: 'white',
-    padding: '25px',
     borderRadius: '15px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+    width: '800px',
+    display: 'flex',
+    flexDirection: 'column'
   },
+  previewHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '20px',
+    borderBottom: '1px solid #e5e7eb'
+  },
+  previewTitle: {
+    margin: 0,
+    fontSize: '1.3rem',
+    color: '#1f2937'
+  },
+  closeButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '1.5rem',
+    cursor: 'pointer',
+    padding: '5px',
+    borderRadius: '4px',
+    transition: 'background 0.2s ease'
+  },
+  previewContent: {
+    flex: 1,
+    padding: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '500px',
+    overflow: 'auto'
+  },
+  previewImage: {
+    maxWidth: '100%',
+    maxHeight: '70vh',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+  },
+  
+  // PDF Preview Styles
+  pdfPreview: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  pdfViewer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    background: '#f8f9fa'
+  },
+  pdfPages: {
+    flex: 1,
+    position: 'relative'
+  },
+  pdfPage: {
+    width: '100%',
+    height: '100%',
+    padding: '20px'
+  },
+  pdfPageContent: {
+    background: 'white',
+    borderRadius: '8px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  pdfPageHeader: {
+    padding: '15px 20px',
+    borderBottom: '1px solid #e9ecef',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    background: '#f8f9fa',
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: '8px'
+  },
+  pdfPageNumber: {
+    fontWeight: '600',
+    color: '#495057'
+  },
+  pdfFileName: {
+    color: '#6c757d',
+    fontSize: '0.9rem'
+  },
+  pdfPageBody: {
+    flex: 1,
+    padding: '30px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  pdfDocument: {
+    width: '100%',
+    maxWidth: '600px',
+    aspectRatio: '1.414 / 1',
+    background: 'white',
+    border: '1px solid #dee2e6',
+    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+    position: 'relative'
+  },
+  pdfPlaceholder: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(45deg, #f8f9fa 25%, transparent 25%), linear-gradient(-45deg, #f8f9fa 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f8f9fa 75%), linear-gradient(-45deg, transparent 75%, #f8f9fa 75%)',
+    backgroundSize: '20px 20px',
+    backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px'
+  },
+  pdfIcon: {
+    fontSize: '4rem',
+    marginBottom: '20px',
+    opacity: 0.7
+  },
+  pdfText: {
+    fontSize: '1.2rem',
+    fontWeight: '500',
+    color: '#495057',
+    marginBottom: '10px'
+  },
+  pdfWatermark: {
+    fontSize: '0.9rem',
+    color: '#6c757d',
+    opacity: 0.6,
+    marginBottom: '5px'
+  },
+  pdfDemoNote: {
+    fontSize: '0.8rem',
+    color: '#6c757d',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    maxWidth: '80%'
+  },
+  pdfControls: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '15px 20px',
+    background: 'white',
+    borderTop: '1px solid #dee2e6',
+    borderBottomLeftRadius: '8px',
+    borderBottomRightRadius: '8px'
+  },
+  pdfControlButton: {
+    padding: '8px 16px',
+    border: '1px solid #007bff',
+    background: '#007bff',
+    color: 'white',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '0.9rem',
+    transition: 'all 0.2s ease'
+  },
+  pdfControlButtonDisabled: {
+    background: '#6c757d',
+    borderColor: '#6c757d',
+    cursor: 'not-allowed',
+    opacity: 0.6
+  },
+  pdfPageInfo: {
+    fontWeight: '600',
+    color: '#495057'
+  },
+  pdfLoading: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '300px'
+  },
+  loadingSpinner: {
+    width: '40px',
+    height: '40px',
+    border: '4px solid #f3f3f3',
+    borderTop: '4px solid #007bff',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+    marginBottom: '15px'
+  },
+  loadingText: {
+    color: '#6c757d',
+    fontSize: '1rem'
+  },
+  pdfError: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '300px',
+    textAlign: 'center'
+  },
+  pdfErrorIcon: {
+    fontSize: '3rem',
+    marginBottom: '15px',
+    opacity: 0.5
+  },
+  pdfErrorText: {
+    fontSize: '1.1rem',
+    color: '#495057',
+    marginBottom: '8px'
+  },
+  pdfErrorSubtext: {
+    fontSize: '0.9rem',
+    color: '#6c757d'
+  },
+  documentPreview: {
+    textAlign: 'center',
+    padding: '40px'
+  },
+  documentIconLarge: {
+    fontSize: '4rem',
+    marginBottom: '20px',
+    opacity: 0.7
+  },
+  documentType: {
+    color: '#6c757d',
+    fontSize: '0.9rem'
+  },
+  previewFooter: {
+    padding: '15px 20px',
+    borderTop: '1px solid #e5e7eb',
+    background: '#f9fafc',
+    borderBottomLeftRadius: '15px',
+    borderBottomRightRadius: '15px'
+  },
+  fileInfo: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  fileNameSection: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  fileNameText: {
+    fontSize: '1rem'
+  },
+  fileTypeBadge: {
+    background: '#e9ecef',
+    color: '#495057',
+    padding: '2px 8px',
+    borderRadius: '12px',
+    fontSize: '0.7rem',
+    fontWeight: '500'
+  },
+  fileActions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px'
+  },
+  fileSize: {
+    color: '#6c757d',
+    fontSize: '0.9rem'
+  },
+  downloadButton: {
+    background: '#28a745',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '0.8rem',
+    transition: 'background 0.2s ease'
+  },
+  downloadHint: {
+    marginTop: '15px',
+    padding: '10px',
+    background: '#fff3cd',
+    color: '#856404',
+    borderRadius: '4px',
+    fontSize: '0.9rem',
+    textAlign: 'center'
+  },
+
+  // Progress Bar Styles
   progressContainer: {
     marginBottom: '20px'
   },
@@ -603,20 +1332,8 @@ const styles = {
     fontWeight: '500',
     color: '#374151'
   },
-  verificationSteps: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '15px',
-    marginTop: '20px'
-  },
-  step: {
-    padding: '12px',
-    background: '#f8fafc',
-    borderRadius: '8px',
-    textAlign: 'center',
-    fontSize: '0.9rem',
-    color: '#374151'
-  },
+
+  // Results Styles
   resultsSection: {
     background: 'white',
     padding: '25px',
@@ -662,7 +1379,8 @@ const styles = {
     borderRadius: '20px',
     color: 'white',
     fontSize: '0.8rem',
-    fontWeight: '600'
+    fontWeight: '600',
+    whiteSpace: 'nowrap'
   },
   resultMetrics: {
     display: 'flex',
