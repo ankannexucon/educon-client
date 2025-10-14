@@ -219,7 +219,7 @@ export default function NavbarComponent() {
                       boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
                       border: "1px solid #e5e7eb",
                       overflow: "hidden",
-                      zIndex: 9999,
+                      zIndex: 20,
                     }}
                   >
                     <Box
@@ -311,7 +311,7 @@ export default function NavbarComponent() {
                         boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
                         border: "1px solid #e5e7eb",
                         overflow: "hidden",
-                        zIndex: 9999,
+                        zIndex: 20,
                       }}
                     >
                       <Box
