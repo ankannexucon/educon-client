@@ -117,8 +117,6 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50/30 via-white to-indigo-50/30">
       {/* Hero Section */}
-
-      {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-800 to-indigo-900">
         <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5"></div>
 
@@ -177,10 +175,13 @@ export default function LandingPage() {
                 Explore Courses
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <button className="cursor-not-allowed px-8 py-4 border-2 border-white text-white rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-300 flex items-center gap-2">
-                <Play className="w-5 h-5" />
-                Watch Demo
-              </button>
+              <Link
+                to={"/university"}
+                className="group px-8 py-4 border-2 border-white text-white rounded-xl font-semibold text-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+              >
+                Explore Universities
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </div>
         </div>
@@ -307,3 +308,4 @@ export default function LandingPage() {
     </div>
   );
 }
+//
