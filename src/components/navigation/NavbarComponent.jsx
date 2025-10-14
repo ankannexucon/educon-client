@@ -93,7 +93,13 @@ export default function NavbarComponent() {
         icon: <ArrowUpRight size={18} />,
       },
     ],
-    university: [],
+    university: [
+      {
+        name: "Student Application Overview",
+        path: "/university-application-view",
+        icon: <ArrowUpRight size={18} />,
+      },
+    ],
   };
 
   const toggleDropdown = (key) =>

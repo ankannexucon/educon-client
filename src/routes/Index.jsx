@@ -9,6 +9,8 @@ import StudentApplicationPage from "../pages/application/StudentApplicationPage"
 import AboutUsPage from "../pages/info/AboutUsPage";
 import NotFoundPage from "../pages/info/NotFoundPage";
 import ScrollToTop from "../utils/ScrollToTop";
+import UniversityApplicationPage from "../pages/application/UniversityApplicationPage";
+import UniversityApplicationView from "../pages/application/UniversityApplicationView";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -30,8 +32,8 @@ export default function Index() {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<AuthPage mode={"signup"} />} />
-          <Route path="/login" element={<AuthPage mode={"login"} />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/login" element={<AuthPage />} />
           <Route path="/profile" element={<UserProfile />} />
 
           <Route
@@ -45,6 +47,14 @@ export default function Index() {
           <Route
             path="/student-application"
             element={<StudentApplicationPage />}
+          />
+          <Route
+            path="/university-application"
+            element={<UniversityApplicationPage />}
+          />
+          <Route
+            path="/university-application-view"
+            element={<UniversityApplicationView />}
           />
           <Route path="/subscriptions" element={<SubscriptionPage />} />
           <Route path="*" element={<NotFoundPage />} />
