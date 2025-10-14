@@ -5,6 +5,7 @@ import DocumentVerification from "../components/DocumentVerification";
 import FooterComponent from "../components/footer/FooterComponent";
 import AdmissionPage from "../pages/Admission/admissionPage";
 import CVBuilder from "../pages/profile/CVBuilder";
+import StudentApplicationPage from "../pages/application/StudentApplicationPage";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -26,10 +27,16 @@ export default function Index() {
         <Route path="/login" element={<AuthPage mode={"login"} />} />
         <Route path="/profile" element={<UserProfile />} />
 
-        <Route path="/fraude-detection" element={<DocumentVerification />} />
+        <Route path="/document-verification" element={<DocumentVerification />} />
         <Route path="/admissions" element={<AdmissionPage />} />
         <Route path="/university" element={<UniversityDashboardPage />} />
         <Route path="/courses" element={<CoursesPage />} />
+        <Route
+          path="/student-application"
+          element={<StudentApplicationPage />}
+        />
+        <Route path="/subscriptions" element={<div>Subscriptions Page</div>} />
+        <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
       <footer>
         <FooterComponent />

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  User,
   Mail,
   BookOpen,
   Calendar,
@@ -9,15 +8,15 @@ import {
   Edit2,
   Camera,
   MapPin,
-  Phone,
   Globe,
-  Linkedin,
-  Github,
   Clock,
   Target,
   CheckCircle2,
   Activity,
+  Sparkles,
 } from "lucide-react";
+import CvBuilderModal from "../../components/CvBuilderModal";
+
 
 const student = {
   name: "Alex Johnson",
@@ -99,6 +98,7 @@ const stats = [
 
 export default function UserProfile() {
   const [isEditing, setIsEditing] = useState(false);
+  const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -142,13 +142,24 @@ export default function UserProfile() {
                 </div>
               </div>
 
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg"
-              >
-                <Edit2 className="w-4 h-4" />
-                Edit Profile
-              </button>
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg"
+                >
+                  <Edit2 className="w-4 h-4" />
+                  Edit Profile
+                </button>
+
+                <button
+                  onClick={() => setIsCvModalOpen(true)}
+                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  AI CV Builder
+                </button>
+              </div>
             </div>
 
             {/* Bio */}
@@ -177,7 +188,7 @@ export default function UserProfile() {
               className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-all"
             >
               <div className="flex items-center justify-between mb-3">
-                <stat.icon className={`w-8 h-8 `} />
+                <stat.icon className={`w-8 h-8 ${stat.color}`} />
               </div>
               <p className="text-3xl font-bold text-slate-900 mb-1">
                 {stat.value}
@@ -187,6 +198,7 @@ export default function UserProfile() {
           ))}
         </div>
 
+        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Academic Info */}
           <div className="lg:col-span-1">
@@ -243,6 +255,9 @@ export default function UserProfile() {
                     key={achievement.id}
                     className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-all"
                   >
+                    <achievement.icon
+                      className={`w-5 h-5 ${achievement.color.split(" ")[1]}`}
+                    />
                     <div>
                       <p className="font-semibold text-slate-900 text-sm">
                         {achievement.title}
@@ -319,6 +334,12 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
+
+      {/* AI CV Builder Modal */}
+      <CvBuilderModal
+        isOpen={isCvModalOpen}
+        onClose={() => setIsCvModalOpen(false)}
+      />
     </div>
   );
 }

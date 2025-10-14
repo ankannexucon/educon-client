@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "studentName": "Sarah Johnson",
+    "email": "sarah.j@email.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Main St, Boston, MA",
+    "program": "Computer Science",
+    "university": "MIT",
+    "gpa": "3.9",
+    "submittedDate": "2024-10-10",
+    "status": "pending",
+    "documents": [
+      "Transcript",
+      "Statement of Purpose",
+      "Recommendation Letters"
+    ],
+    "notes": ""
+  },
+  {
+    "id": 2,
+    "studentName": "Michael Chen",
+    "email": "m.chen@email.com",
+    "phone": "+1 (555) 234-5678",
+    "address": "456 Oak Ave, Seattle, WA",
+    "program": "Business Administration",
+    "university": "Harvard Business School",
+    "gpa": "3.8",
+    "submittedDate": "2024-10-12",
+    "status": "pending",
+    "documents": ["Transcript", "Resume", "Essays"],
+    "notes": ""
+  },
+  {
+    "id": 3,
+    "studentName": "Emily Rodriguez",
+    "email": "emily.r@email.com",
+    "phone": "+1 (555) 345-6789",
+    "address": "789 Pine Rd, Austin, TX",
+    "program": "Medicine",
+    "university": "Johns Hopkins",
+    "gpa": "4.0",
+    "submittedDate": "2024-10-08",
+    "status": "pending",
+    "documents": ["Transcript", "MCAT Scores", "Research Papers"],
+    "notes": ""
+  }
+]
