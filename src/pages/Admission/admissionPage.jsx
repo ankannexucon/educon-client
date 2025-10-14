@@ -9,6 +9,7 @@ import {
   X,
   ChevronRight,
 } from "lucide-react";
+import { Flame } from "lucide-react";
 
 const AdmissionPage = () => {
   const [activeTab, setActiveTab] = useState("programs");
@@ -124,9 +125,10 @@ const AdmissionPage = () => {
         ></div>
         <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-              <span className="text-sm font-medium">
-                Admissions Open for 2024-25
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white mb-6">
+              <Flame className="w-4 h-4 text-yellow-300" />
+              <span className="text-sm font-semibold">
+                Admission Open for 2024-2025
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
@@ -273,7 +275,7 @@ const AdmissionPage = () => {
                             <span
                               className={`text-xs px-3 py-1 rounded-full font-medium ${
                                 selectedProgram?.id === program.id
-                                  ? "bg-white bg-opacity-30 text-white"
+                                  ? "bg-purple-50 bg-opacity-30 text-black"
                                   : "bg-emerald-100 text-emerald-700"
                               }`}
                             >

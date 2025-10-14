@@ -32,12 +32,12 @@ importers:
       html2canvas:
         specifier: ^1.4.1
         version: 1.4.1
-      js-cookie:
-        specifier: ^3.0.5
-        version: 3.0.5
       jspdf:
         specifier: ^3.0.3
         version: 3.0.3
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
       lucide-react:
         specifier: ^0.545.0
         version: 0.545.0(react@19.2.0)

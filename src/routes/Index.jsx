@@ -4,7 +4,7 @@ import NavbarComponent from "../components/navigation/NavbarComponent";
 import DocumentVerification from "../components/DocumentVerification";
 import FooterComponent from "../components/footer/FooterComponent";
 import AdmissionPage from "../pages/Admission/admissionPage";
-import CVBuilder from "../pages/profile/CVBuilder";
+// import CVBuilder from "../pages/profile/CVBuilder";
 import StudentApplicationPage from "../pages/application/StudentApplicationPage";
 
 // Lazy imports
