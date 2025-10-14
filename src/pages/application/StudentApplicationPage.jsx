@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Check,
   X,
@@ -11,55 +11,12 @@ import {
   Calendar,
 } from "lucide-react";
 
+import studentApplicationData from "../../json/studentApplicationData.json";
+
 export default function StudentApplicationPage() {
-  const [applications, setApplications] = useState([
-    {
-      id: 1,
-      studentName: "Sarah Johnson",
-      email: "sarah.j@email.com",
-      phone: "+1 (555) 123-4567",
-      address: "123 Main St, Boston, MA",
-      program: "Computer Science",
-      university: "MIT",
-      gpa: "3.9",
-      submittedDate: "2024-10-10",
-      status: "pending",
-      documents: [
-        "Transcript",
-        "Statement of Purpose",
-        "Recommendation Letters",
-      ],
-      notes: "",
-    },
-    {
-      id: 2,
-      studentName: "Michael Chen",
-      email: "m.chen@email.com",
-      phone: "+1 (555) 234-5678",
-      address: "456 Oak Ave, Seattle, WA",
-      program: "Business Administration",
-      university: "Harvard Business School",
-      gpa: "3.8",
-      submittedDate: "2024-10-12",
-      status: "pending",
-      documents: ["Transcript", "Resume", "Essays"],
-      notes: "",
-    },
-    {
-      id: 3,
-      studentName: "Emily Rodriguez",
-      email: "emily.r@email.com",
-      phone: "+1 (555) 345-6789",
-      address: "789 Pine Rd, Austin, TX",
-      program: "Medicine",
-      university: "Johns Hopkins",
-      gpa: "4.0",
-      submittedDate: "2024-10-08",
-      status: "pending",
-      documents: ["Transcript", "MCAT Scores", "Research Papers"],
-      notes: "",
-    },
-  ]);
+  const [applications, setApplications] = useState(
+    studentApplicationData || []
+  );
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
@@ -138,7 +95,7 @@ export default function StudentApplicationPage() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-lg font-medium capitalize transition-all ${
+              className={`cursor-pointer px-4 py-2 rounded-lg font-medium capitalize transition-all ${
                 filter === f
                   ? "bg-slate-900 text-white shadow-md"
                   : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
@@ -229,14 +186,14 @@ export default function StudentApplicationPage() {
                   <div className="flex gap-2 pt-2">
                     <button
                       onClick={() => handleAction(app, "accepted")}
-                      className="flex-1 flex items-center justify-center gap-1 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+                      className="cursor-pointer flex-1 flex items-center justify-center gap-1 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
                     >
                       <Check className="w-4 h-4" />
                       Accept
                     </button>
                     <button
                       onClick={() => handleAction(app, "rejected")}
-                      className="flex-1 flex items-center justify-center gap-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                      className="cursor-pointer flex-1 flex items-center justify-center gap-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
                     >
                       <X className="w-4 h-4" />
                       Reject
@@ -270,7 +227,7 @@ export default function StudentApplicationPage() {
 
       {/* Confirmation Dialog Modal */}
       {showDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/20 bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
             <h3 className="text-xl font-bold text-slate-900 mb-2">
               {dialogAction === "accepted"
@@ -301,13 +258,13 @@ export default function StudentApplicationPage() {
                   setShowDialog(false);
                   setFeedback("");
                 }}
-                className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-medium transition-colors"
+                className="cursor-pointer px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-medium transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmAction}
-                className={`px-4 py-2 rounded-lg font-medium text-white transition-colors ${
+                className={`cursor-pointer px-4 py-2 rounded-lg font-medium text-white transition-colors ${
                   dialogAction === "accepted"
                     ? "bg-green-600 hover:bg-green-700"
                     : "bg-red-600 hover:bg-red-700"
