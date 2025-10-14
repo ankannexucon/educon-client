@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // const [verifiedError, setVerifiedError] = useState(false);
-  const [userDetails, setUserDetails] = useState({ role: "student" });
+  const [userDetails, setUserDetails] = useState({ role: "agency" });
 
   // const userInfo = async (token) => {
   //   if (!token) return;
