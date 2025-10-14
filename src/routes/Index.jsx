@@ -2,6 +2,8 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavbarComponent from "../components/navigation/NavbarComponent";
 import DocumentVerification from "../components/DocumentVerification";
+
+  import AdmissionPage from "../pages/Admission/admissionPage";
 // Lazy imports
 const UserProfile = lazy(() => import("../pages/profile/UserProfilePage"));
 
@@ -14,6 +16,7 @@ export default function Index() {
         <Route path="/" element={<div>App</div>} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/fraude-detection" element={<DocumentVerification />} />
+        <Route path="/admission-page" element={<AdmissionPage />} />
         
       </Routes>
     </BrowserRouter>
