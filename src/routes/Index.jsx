@@ -19,8 +19,7 @@ export default function Index() {
       <Suspense fallback={<div>Loading...</div>}></Suspense>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<AuthPage mode={"signup"} />} />
-        <Route path="/login" element={<AuthPage mode={"login"} />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/university" element={<UniversityDashboardPage />} />
         <Route path="/courses" element={<CoursesPage />} />
