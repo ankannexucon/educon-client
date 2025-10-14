@@ -270,7 +270,7 @@ Generated on: ${new Date().toLocaleDateString()}`;
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 1000,
+      zIndex: 2000,
       padding: '16px',
     },
     modal: {
