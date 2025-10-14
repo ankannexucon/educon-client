@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavbarComponent from "../components/navigation/NavbarComponent";
 import DocumentVerification from "../components/DocumentVerification";
 import FooterComponent from "../components/footer/FooterComponent";
+import StudentApplicationPage from "../pages/application/StudentApplicationPage";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -27,6 +28,10 @@ export default function Index() {
         
         <Route path="/university" element={<UniversityDashboardPage />} />
         <Route path="/courses" element={<CoursesPage />} />
+        <Route
+          path="/student-application"
+          element={<StudentApplicationPage />}
+        />
       </Routes>
       <footer>
         <FooterComponent />

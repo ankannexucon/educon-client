@@ -7,14 +7,13 @@ import {
   IconButton,
   Badge,
   Drawer,
-  List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Divider,
   Button,
   Paper,
-  Fade,
+  MenuItem,
 } from "@mui/material";
 import { Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
 import {
@@ -28,8 +27,12 @@ import {
   LogIn,
   UserPlus,
   X,
+  ChevronDown,
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext";
+import { TrendingUp } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const APP_NAME = "Educon";
 
@@ -58,9 +61,9 @@ const dummyNotifications = [
 ];
 
 export default function NavbarComponent() {
-  const [user] = useState({ name: "Ankan" });
+  const { user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [open, setOpen] = useState({ more: false, notification: false });
 
   const navItems = [
     { name: "Home", path: "/", icon: <BookOpen size={18} /> },
@@ -71,6 +74,28 @@ export default function NavbarComponent() {
   ];
 
   const unreadCount = dummyNotifications.filter((n) => n.unread).length;
+  const moreOptions = {
+    agency: [
+      {
+        name: "University Application",
+        path: "/university-application",
+        icon: <ArrowUpRight size={18} />,
+      },
+      {
+        name: "Student Application",
+        path: "/student-application",
+        icon: <ArrowUpRight size={18} />,
+      },
+    ],
+    university: [],
+  };
+
+  const toggleDropdown = (key) =>
+    setOpen((prev) => ({
+      more: false,
+      notification: false,
+      [key]: !prev[key],
+    }));
 
   return (
     <>
@@ -125,7 +150,7 @@ export default function NavbarComponent() {
                 component={NavLink}
                 to={item.path}
                 startIcon={item.icon}
-                sx={(theme) => ({
+                sx={{
                   position: "relative",
                   px: 2,
                   py: 1,
@@ -133,7 +158,6 @@ export default function NavbarComponent() {
                   fontWeight: 500,
                   fontSize: "0.95rem",
                   textTransform: "none",
-                  transition: "color 0.2s",
                   "&::after": {
                     content: '""',
                     position: "absolute",
@@ -148,20 +172,101 @@ export default function NavbarComponent() {
                     color: "#432dd7",
                     backgroundColor: "transparent",
                   },
-                  "&:hover::after": {
-                    width: "100%",
-                  },
-                  "&.active::after": {
-                    width: "100%",
-                  },
-                  "&.active": {
-                    color: "#432dd7",
-                  },
-                })}
+                  "&:hover::after": { width: "100%" },
+                  "&.active::after": { width: "100%" },
+                  "&.active": { color: "#432dd7" },
+                }}
               >
                 {item.name}
               </Button>
             ))}
+
+            {/* Role-based “More” dropdown */}
+            {(user?.role === "agency" || user?.role === "university") && (
+              <Box sx={{ position: "relative" }}>
+                <Button
+                  onClick={() => toggleDropdown("more")}
+                  endIcon={<ChevronDown size={18} />}
+                  sx={{
+                    textTransform: "none",
+                    fontSize: "0.95rem",
+                    borderRadius: 2,
+                    px: 2,
+                    py: 1,
+                    backgroundColor: open.more ? "#f3f4f6" : "transparent",
+                    "&:hover": { backgroundColor: "#f3f4f6" },
+                    color: "#374151",
+                    transition: "0.2s",
+                  }}
+                >
+                  More
+                </Button>
+
+                {open.more && (
+                  <Paper
+                    sx={{
+                      position: "absolute",
+                      top: "110%",
+                      right: 0,
+                      mt: 1,
+                      borderRadius: 3,
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                      border: "1px solid #e5e7eb",
+                      overflow: "hidden",
+                      zIndex: 9999,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        p: 2,
+                        borderBottom: "1px solid #f3f4f6",
+                      }}
+                    >
+                      <Typography fontWeight={700} fontSize="1rem">
+                        Select Option
+                      </Typography>
+                      <IconButton
+                        size="small"
+                        onClick={() => setOpen({ ...open, more: false })}
+                      >
+                        <X size={18} />
+                      </IconButton>
+                    </Box>
+
+                    {moreOptions[user.role].map((option, i) => (
+                      <MenuItem
+                        key={i}
+                        onClick={() => setOpen({ ...open, more: false })}
+                        sx={{
+                          py: 1.2,
+                          px: 2,
+                          fontWeight: 500,
+                          "&:hover": { backgroundColor: "#f9fafb" },
+                        }}
+                      >
+                        <Button
+                          component={Link}
+                          to={option.path}
+                          startIcon={option.icon}
+                          style={{
+                            justifyContent: "flex-start",
+                            textAlign: "left",
+                            color: "inherit",
+                            width: "100%",
+                          }}
+                        >
+                          <Typography fontWeight={600} fontSize="0.9rem">
+                            {option.name}
+                          </Typography>
+                        </Button>
+                      </MenuItem>
+                    ))}
+                  </Paper>
+                )}
+              </Box>
+            )}
           </Box>
 
           {/* Right Side */}
@@ -177,7 +282,7 @@ export default function NavbarComponent() {
                 {/* Notifications */}
                 <Box sx={{ position: "relative" }}>
                   <IconButton
-                    onClick={() => setNotificationsOpen(!notificationsOpen)}
+                    onClick={() => toggleDropdown("notification")}
                     sx={{
                       p: 1,
                       borderRadius: 2,
@@ -189,107 +294,99 @@ export default function NavbarComponent() {
                     </Badge>
                   </IconButton>
 
-                  {/* Notifications Dropdown */}
-                  {notificationsOpen && (
-                    <>
-                      <Paper
+                  {open.notification && (
+                    <Paper
+                      sx={{
+                        position: "absolute",
+                        top: "110%",
+                        right: 0,
+                        width: 320,
+                        borderRadius: 3,
+                        boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                        border: "1px solid #e5e7eb",
+                        overflow: "hidden",
+                        zIndex: 9999,
+                      }}
+                    >
+                      <Box
                         sx={{
-                          position: "absolute",
-                          top: "110%",
-                          right: 0,
-                          width: 320,
-                          borderRadius: 3,
-                          boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
-                          border: "1px solid #e5e7eb",
-                          overflow: "hidden",
-                          zIndex: 9999,
+                          p: 2,
+                          display: "flex",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <Box
-                          sx={{
-                            p: 2,
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
+                        <Typography fontWeight={700} fontSize="1rem">
+                          Notifications
+                        </Typography>
+                        <IconButton
+                          size="small"
+                          onClick={() =>
+                            setOpen({ ...open, notification: false })
+                          }
                         >
-                          <Typography fontWeight={700} fontSize="1rem">
-                            Notifications
-                          </Typography>
-                          <IconButton
-                            size="small"
-                            onClick={() => setNotificationsOpen(false)}
-                          >
-                            <X size={18} />
-                          </IconButton>
-                        </Box>
+                          <X size={18} />
+                        </IconButton>
+                      </Box>
 
-                        <Box sx={{ maxHeight: 380, overflowY: "auto" }}>
-                          {dummyNotifications.map((n) => (
-                            <Box
-                              key={n.id}
-                              sx={{
-                                p: 2,
-                                borderBottom: "1px solid #f3f4f6",
-                                backgroundColor: n.unread
-                                  ? "#faf5ff"
-                                  : "transparent",
-                                transition: "0.2s",
-                                "&:hover": { backgroundColor: "#f9fafb" },
-                              }}
-                            >
-                              <Box sx={{ display: "flex", gap: 1.5 }}>
-                                {n.unread && (
-                                  <Box
-                                    sx={{
-                                      width: 8,
-                                      height: 8,
-                                      backgroundColor: "#7e22ce",
-                                      borderRadius: "50%",
-                                      mt: 0.5,
-                                    }}
-                                  />
-                                )}
-                                <Box>
-                                  <Typography
-                                    fontWeight={600}
-                                    fontSize="0.9rem"
-                                  >
-                                    {n.title}
-                                  </Typography>
-                                  <Typography
-                                    color="text.secondary"
-                                    fontSize="0.8rem"
-                                  >
-                                    {n.message}
-                                  </Typography>
-                                  <Typography
-                                    color="text.disabled"
-                                    fontSize="0.7rem"
-                                  >
-                                    {n.time}
-                                  </Typography>
-                                </Box>
+                      <Box sx={{ maxHeight: 380, overflowY: "auto" }}>
+                        {dummyNotifications.map((n) => (
+                          <Box
+                            key={n.id}
+                            sx={{
+                              p: 2,
+                              borderBottom: "1px solid #f3f4f6",
+                              backgroundColor: n.unread
+                                ? "#faf5ff"
+                                : "transparent",
+                              transition: "0.2s",
+                              "&:hover": { backgroundColor: "#f9fafb" },
+                            }}
+                          >
+                            <Box sx={{ display: "flex", gap: 1.5 }}>
+                              {n.unread && (
+                                <Box
+                                  sx={{
+                                    width: 8,
+                                    height: 8,
+                                    backgroundColor: "#7e22ce",
+                                    borderRadius: "50%",
+                                    mt: 0.5,
+                                  }}
+                                />
+                              )}
+                              <Box>
+                                <Typography fontWeight={600} fontSize="0.9rem">
+                                  {n.title}
+                                </Typography>
+                                <Typography
+                                  color="text.secondary"
+                                  fontSize="0.8rem"
+                                >
+                                  {n.message}
+                                </Typography>
+                                <Typography
+                                  color="text.disabled"
+                                  fontSize="0.7rem"
+                                >
+                                  {n.time}
+                                </Typography>
                               </Box>
                             </Box>
-                          ))}
-                        </Box>
+                          </Box>
+                        ))}
+                      </Box>
 
-                        <Box
-                          sx={{
-                            textAlign: "center",
-                            p: 1.5,
-                            bgcolor: "#f9fafb",
-                          }}
+                      <Box
+                        sx={{ textAlign: "center", p: 1.5, bgcolor: "#f9fafb" }}
+                      >
+                        <Button
+                          size="small"
+                          sx={{ color: "#6b21a8", fontWeight: 600 }}
                         >
-                          <Button
-                            size="small"
-                            sx={{ color: "#6b21a8", fontWeight: 600 }}
-                          >
-                            View All Notifications
-                          </Button>
-                        </Box>
-                      </Paper>
-                    </>
+                          View All Notifications
+                        </Button>
+                      </Box>
+                    </Paper>
                   )}
                 </Box>
 
@@ -345,7 +442,7 @@ export default function NavbarComponent() {
             )}
           </Box>
 
-          {/* Mobile Button */}
+          {/* Mobile Toggle */}
           <IconButton
             sx={{
               display: { xs: "flex", md: "none" },
@@ -358,90 +455,6 @@ export default function NavbarComponent() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      {/* Mobile Drawer */}
-      <Drawer
-        anchor="right"
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        PaperProps={{
-          sx: { width: 280, borderLeft: "1px solid #e5e7eb" },
-        }}
-      >
-        <Box sx={{ p: 2 }}>
-          {navItems.map((item) => (
-            <ListItemButton
-              key={item.name}
-              component={NavLink}
-              to={item.path}
-              onClick={() => setMobileOpen(false)}
-              sx={{
-                borderRadius: 2,
-                color: "#374151",
-                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItemButton>
-          ))}
-
-          <Divider sx={{ my: 2 }} />
-
-          {user ? (
-            <>
-              <ListItemButton component={Link} to="/profile">
-                <ListItemIcon>
-                  <User size={18} />
-                </ListItemIcon>
-                <ListItemText primary="My Profile" />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Bell size={18} />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Notifications"
-                  secondary={`${unreadCount} unread`}
-                />
-              </ListItemButton>
-            </>
-          ) : (
-            <Box
-              sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}
-            >
-              <Button
-                startIcon={<LogIn size={18} />}
-                variant="outlined"
-                sx={{
-                  textTransform: "none",
-                  color: "#6b21a8",
-                  borderColor: "#6b21a8",
-                  fontWeight: 600,
-                  "&:hover": { backgroundColor: "#faf5ff" },
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                startIcon={<UserPlus size={18} />}
-                variant="contained"
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                  background: "linear-gradient(to right, #6b21a8, #312e81)",
-                  "&:hover": {
-                    boxShadow: "0 4px 14px rgba(107,33,168,0.3)",
-                  },
-                }}
-              >
-                Sign Up
-              </Button>
-            </Box>
-          )}
-        </Box>
-      </Drawer>
     </>
   );
 }
