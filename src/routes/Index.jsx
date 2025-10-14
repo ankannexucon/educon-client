@@ -9,6 +9,8 @@ const UniversityDashboardPage = lazy(() =>
   import("../pages/dashboard/UniversityDashboardPage")
 );
 const UserProfile = lazy(() => import("../pages/profile/UserProfilePage"));
+const CoursesPage = lazy(() => import("../pages/course/CoursesPage"));
+const AuthPage = lazy(() => import("../pages/authentication/AuthPage"));
 
 export default function Index() {
   return (
@@ -17,8 +19,11 @@ export default function Index() {
       <Suspense fallback={<div>Loading...</div>}></Suspense>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<AuthPage mode={"signup"} />} />
+        <Route path="/login" element={<AuthPage mode={"login"} />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/university" element={<UniversityDashboardPage />} />
+        <Route path="/courses" element={<CoursesPage />} />
       </Routes>
       <footer>
         <FooterComponent />
