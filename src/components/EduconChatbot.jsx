@@ -5,21 +5,92 @@ const EduconChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: "Hello! I'm your Educon AI assistant. I'm here to help you with learning, questions, and educational support! How can I assist you today?",
-      sender: 'bot',
-      timestamp: new Date()
-    }
-  ]);
+  const [activeMode, setActiveMode] = useState('helpdesk'); // 'helpdesk' or 'global'
+  const [messages, setMessages] = useState({
+    helpdesk: [
+      {
+        id: 1,
+        text: "Hello! I'm your EduTech SaaS Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?",
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: 'helpdesk'
+      }
+    ],
+    global: [
+      {
+        id: 1,
+        text: "Hello! I'm your Global AI Assistant powered by Gemini. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: 'global'
+      }
+    ]
+  });
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [messageAnimations, setMessageAnimations] = useState({});
+  const [suggestedQuestions, setSuggestedQuestions] = useState([]);
   const messagesEndRef = useRef(null);
 
   // Initialize Google GenAI with your API key
   const ai = new GoogleGenAI({ apiKey: "AIzaSyDXLHQx0mVDaXYVzDF7klzYpF2qdmlOcAE" });
+
+  // Hardcoded FAQ database for EduTech SaaS product
+  const faqDatabase = {
+    // Product Features
+    'features': "Our EduTech SaaS platform includes: • Interactive virtual classrooms • AI-powered assessments • Student progress tracking • Parent-teacher communication portal • Lesson planning tools • Grade management system • Attendance tracking • Resource library",
+
+    'virtual classroom': "Virtual Classroom Features: • Real-time video conferencing • Interactive whiteboard • Screen sharing • Breakout rooms • Polls and quizzes • Chat functionality • Recording capabilities • Up to 100 participants simultaneously",
+
+    'assessments': "Assessment Tools: • Create custom quizzes and tests • AI-powered question generation • Automatic grading • Performance analytics • Rubric-based scoring • Peer assessment • Timed exams • Plagiarism detection",
+
+    'progress tracking': "Student Progress Tracking: • Real-time performance dashboards • Skill mastery indicators • Learning gap analysis • Customizable reports • Progress comparisons • Goal setting • Intervention recommendations",
+
+    // Technical Issues
+    'login issues': "Login Troubleshooting: 1. Clear browser cache and cookies 2. Try incognito/private mode 3. Reset password using 'Forgot Password' 4. Check internet connection 5. Update browser to latest version 6. Contact support if issue persists",
+
+    'video not working': "Video Issues: • Check camera permissions in browser • Ensure no other app is using camera • Test camera on other websites • Update browser • Try different browser (Chrome recommended) • Check internet speed (min 5 Mbps required)",
+
+    'audio problems': "Audio Troubleshooting: • Check microphone permissions • Ensure correct input device is selected • Test microphone on other apps • Update audio drivers • Use headphones to reduce echo • Check volume levels",
+
+    'performance slow': "Performance Issues: • Close unnecessary browser tabs • Clear browser cache • Use wired internet connection • Update browser • Disable browser extensions • Check system requirements (4GB RAM minimum)",
+
+    // Billing & Account
+    'pricing': "Pricing Plans: • Basic: $29/month - Up to 50 students • Pro: $79/month - Up to 200 students • Enterprise: $199/month - Unlimited students + premium features • Annual plans save 20%. All plans include basic support.",
+
+    'billing': "Billing Information: • Monthly/Annual billing options • Credit card and PayPal accepted • Invoice available upon request • Billing cycle starts on signup date • Cancel anytime with 30-day money back guarantee",
+
+    'account upgrade': "Account Upgrade: • Login to your dashboard • Go to Billing section • Select desired plan • Complete payment • Changes take effect immediately • Prorated charges may apply",
+
+    'cancel subscription': "Cancellation Process: • Login to your account • Navigate to Billing settings • Click 'Cancel Subscription' • Confirm cancellation • Service continues until end of billing period • Data exported upon request",
+
+    // Setup & Configuration
+    'setup': "Quick Setup Guide: 1. Create your institution profile 2. Add teachers and staff 3. Set up classes and subjects 4. Import student data 5. Configure assessment settings 6. Customize communication templates 7. Train team on platform features",
+
+    'integration': "Available Integrations: • Google Classroom • Microsoft Teams • LMS (Canvas, Moodle, Blackboard) • Student Information Systems • Single Sign-On (SSO) • Zoom • Learning Tools Interoperability (LTI)",
+
+    'data import': "Data Import Options: • CSV/Excel file upload • API integration • Manual entry • Bulk import tools • Student photo upload • Curriculum data import • Previous performance data",
+
+    // Support & Training
+    'training': "Training Resources: • Weekly live webinars • Video tutorials library • Documentation portal • Certified trainer program • Onboarding sessions • Best practices guides • Community forums",
+
+    'support': "Support Channels: • Email: support@edutech.com • Phone: 1-800-EDUTECH (Mon-Fri 9AM-6PM EST) • Live Chat: Available in dashboard • Help Center: 24/7 knowledge base • Emergency: Critical issue hotline",
+
+    'mobile app': "Mobile App Features: • iOS and Android available • Real-time notifications • Offline access to materials • Mobile assessments • Parent communication • Grade viewing • Attendance marking",
+
+    // Default fallback
+    'default': "I understand you're asking about our EduTech platform. For specific technical issues, please contact our support team at support@edutech.com or call 1-800-EDUTECH. For product features, check our documentation at docs.edutech.com."
+  };
+
+  // Suggested questions for helpdesk mode (EdTech SaaS focused)
+  const helpdeskQuickQuestions = [
+    "What features are included?",
+    "How to setup virtual classroom?",
+    "Pricing plans information",
+    "Login issues troubleshooting",
+    "Mobile app features",
+    "Integration options"
+  ];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,81 +98,73 @@ const EduconChatbot = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages[activeMode]]);
 
   useEffect(() => {
     if (isOpen && isInitialLoad) {
       const timer = setTimeout(() => {
         setIsInitialLoad(false);
+        // Only set suggestions for helpdesk mode
+        if (activeMode === 'helpdesk') {
+          setSuggestedQuestions(helpdeskQuickQuestions);
+        } else {
+          setSuggestedQuestions([]); // No suggestions for global mode
+        }
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [isOpen, isInitialLoad]);
+  }, [isOpen, isInitialLoad, activeMode]);
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    
-    if (!inputMessage.trim()) return;
-
-    // Add user message with animation
-    const userMessage = {
-      id: Date.now(),
-      text: inputMessage,
-      sender: 'user',
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
-    setIsLoading(true);
-
-    // Add typing animation
-    setMessageAnimations(prev => ({
-      ...prev,
-      [userMessage.id]: 'slideInRight'
-    }));
-
-    try {
-      const response = await getGeminiResponse(inputMessage);
-      
-      const botMessage = {
-        id: Date.now() + 1,
-        text: response,
-        sender: 'bot',
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, botMessage]);
-      
-      // Add bot message animation
-      setTimeout(() => {
-        setMessageAnimations(prev => ({
-          ...prev,
-          [botMessage.id]: 'slideInLeft'
-        }));
-      }, 100);
-      
-    } catch (error) {
-      console.error('Error calling Gemini API:', error);
-      const errorMessage = {
-        id: Date.now() + 1,
-        text: `Sorry, I encountered an error: ${error.message}. Please try again.`,
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
-      
-      setTimeout(() => {
-        setMessageAnimations(prev => ({
-          ...prev,
-          [errorMessage.id]: 'slideInLeft'
-        }));
-      }, 100);
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    // Update suggested questions when mode changes
+    if (activeMode === 'helpdesk') {
+      setSuggestedQuestions(helpdeskQuickQuestions);
+    } else {
+      setSuggestedQuestions([]); // No suggestions for global mode
     }
+  }, [activeMode]);
+
+  // Helpdesk mode response handler - only uses hardcoded answers
+  const getHelpdeskResponse = (userInput) => {
+    const input = userInput.toLowerCase().trim();
+    
+    // Exact matches first
+    for (const [key, answer] of Object.entries(faqDatabase)) {
+      if (key !== 'default' && input.includes(key)) {
+        return answer;
+      }
+    }
+    
+    // Keyword matching with scoring
+    const keywordMatches = [];
+    for (const [key, answer] of Object.entries(faqDatabase)) {
+      if (key === 'default') continue;
+      
+      const keywords = key.split(' ');
+      let score = 0;
+      
+      keywords.forEach(keyword => {
+        if (input.includes(keyword)) {
+          score += 1;
+        }
+      });
+      
+      if (score > 0) {
+        keywordMatches.push({ key, answer, score });
+      }
+    }
+    
+    // Return best match
+    if (keywordMatches.length > 0) {
+      keywordMatches.sort((a, b) => b.score - a.score);
+      return keywordMatches[0].answer;
+    }
+    
+    // Fallback to default
+    return faqDatabase.default;
   };
 
+  // Global mode response handler (Gemini API)
   const getGeminiResponse = async (userMessage) => {
     try {
       const modelsToTry = [
@@ -138,18 +201,158 @@ const EduconChatbot = () => {
     }
   };
 
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    
+    if (!inputMessage.trim()) return;
+
+    // Add user message with animation
+    const userMessage = {
+      id: Date.now(),
+      text: inputMessage,
+      sender: 'user',
+      timestamp: new Date(),
+      mode: activeMode
+    };
+
+    setMessages(prev => ({
+      ...prev,
+      [activeMode]: [...prev[activeMode], userMessage]
+    }));
+    setInputMessage('');
+    setIsLoading(true);
+
+    // Add typing animation
+    setMessageAnimations(prev => ({
+      ...prev,
+      [userMessage.id]: 'slideInRight'
+    }));
+
+    try {
+      let response;
+      
+      if (activeMode === 'helpdesk') {
+        // Helpdesk mode - use hardcoded responses only
+        setTimeout(() => {
+          response = getHelpdeskResponse(inputMessage);
+          
+          const botMessage = {
+            id: Date.now() + 1,
+            text: response,
+            sender: 'bot',
+            timestamp: new Date(),
+            mode: activeMode
+          };
+
+          setMessages(prev => ({
+            ...prev,
+            [activeMode]: [...prev[activeMode], botMessage]
+          }));
+          
+          // Add bot message animation
+          setTimeout(() => {
+            setMessageAnimations(prev => ({
+              ...prev,
+              [botMessage.id]: 'slideInLeft'
+            }));
+          }, 100);
+          
+          setIsLoading(false);
+        }, 800 + Math.random() * 400); // Reduced delay for better UX
+        
+      } else {
+        // Global mode - use Gemini API
+        response = await getGeminiResponse(inputMessage);
+        
+        const botMessage = {
+          id: Date.now() + 1,
+          text: response,
+          sender: 'bot',
+          timestamp: new Date(),
+          mode: activeMode
+        };
+
+        setMessages(prev => ({
+          ...prev,
+          [activeMode]: [...prev[activeMode], botMessage]
+        }));
+        
+        // Add bot message animation
+        setTimeout(() => {
+          setMessageAnimations(prev => ({
+            ...prev,
+            [botMessage.id]: 'slideInLeft'
+          }));
+        }, 100);
+        
+        setIsLoading(false);
+      }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      const errorMessage = {
+        id: Date.now() + 1,
+        text: `Sorry, I encountered an error: ${error.message}. Please try again.`,
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: activeMode
+      };
+      setMessages(prev => ({
+        ...prev,
+        [activeMode]: [...prev[activeMode], errorMessage]
+      }));
+      
+      setTimeout(() => {
+        setMessageAnimations(prev => ({
+          ...prev,
+          [errorMessage.id]: 'slideInLeft'
+        }));
+      }, 100);
+      setIsLoading(false);
+    }
+  };
+
+  const handleQuickQuestion = (question) => {
+    setInputMessage(question);
+    // Auto-send after a brief delay
+    setTimeout(() => {
+      const fakeEvent = { preventDefault: () => {} };
+      handleSendMessage(fakeEvent);
+    }, 100);
+  };
+
+  const handleModeChange = (mode) => {
+    setActiveMode(mode);
+    if (mode === 'helpdesk') {
+      setSuggestedQuestions(helpdeskQuickQuestions);
+    } else {
+      setSuggestedQuestions([]); // No suggestions for global mode
+    }
+  };
+
   const formatTime = (timestamp) => {
     return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   const clearChat = () => {
-    setMessages([{
-      id: 1,
-      text: "Hello! I'm your Educon AI assistant. I'm here to help you with learning, questions, and educational support! How can I assist you today?",
-      sender: 'bot',
-      timestamp: new Date()
-    }]);
+    setMessages(prev => ({
+      ...prev,
+      [activeMode]: [{
+        id: 1,
+        text: activeMode === 'helpdesk' 
+          ? "Hello! I'm your EduTech SaaS Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?"
+          : "Hello! I'm your Global AI Assistant powered by Gemini. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: activeMode
+      }]
+    }));
     setMessageAnimations({});
+    if (activeMode === 'helpdesk') {
+      setSuggestedQuestions(helpdeskQuickQuestions);
+    } else {
+      setSuggestedQuestions([]);
+    }
   };
 
   const toggleMinimize = () => {
@@ -166,9 +369,12 @@ const EduconChatbot = () => {
     setIsOpen(true);
   };
 
-  // Inline Styles with Enhanced Animations
+  const getMessageAnimation = (messageId) => {
+    return messageAnimations[messageId] || 'messageAppear';
+  };
+
+  // Inline Styles
   const styles = {
-    // Floating Toggle Button
     floatingButton: {
       position: 'fixed',
       bottom: '25px',
@@ -190,13 +396,12 @@ const EduconChatbot = () => {
       animation: 'pulse 2s infinite, float 6s ease-in-out infinite',
     },
 
-    // Floating Chat Window
     chatWindow: {
       position: 'fixed',
       bottom: '25px',
       right: '25px',
-      width: '380px',
-      height: isMinimized ? '70px' : '550px',
+      width: '420px',
+      height: isMinimized ? '70px' : '600px',
       background: 'white',
       borderRadius: '20px',
       boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
@@ -211,7 +416,6 @@ const EduconChatbot = () => {
       opacity: isInitialLoad ? 0 : 1,
     },
 
-    // Header
     header: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -264,6 +468,32 @@ const EduconChatbot = () => {
       animation: isLoading ? 'pulse 1.5s infinite' : 'none',
     },
 
+    modeSelector: {
+      display: 'flex',
+      background: 'rgba(255, 255, 255, 0.1)',
+      borderRadius: '12px',
+      padding: '4px',
+      marginTop: '8px',
+    },
+
+    modeButton: {
+      flex: 1,
+      padding: '6px 12px',
+      border: 'none',
+      background: 'transparent',
+      color: 'white',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontSize: '11px',
+      fontWeight: '500',
+      transition: 'all 0.3s ease',
+    },
+
+    activeMode: {
+      background: 'rgba(255, 255, 255, 0.3)',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+    },
+
     headerActions: {
       display: 'flex',
       gap: '8px',
@@ -285,7 +515,6 @@ const EduconChatbot = () => {
       transition: 'all 0.3s ease',
     },
 
-    // Messages Container
     messagesContainer: {
       flex: 1,
       padding: '20px',
@@ -308,7 +537,7 @@ const EduconChatbot = () => {
     },
 
     messageBubble: {
-      maxWidth: '260px',
+      maxWidth: '300px',
       padding: '12px 16px',
       borderRadius: '18px',
       position: 'relative',
@@ -343,7 +572,26 @@ const EduconChatbot = () => {
       textAlign: 'right',
     },
 
-    // Typing Indicator
+    quickQuestions: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+      marginTop: '15px',
+      marginBottom: '10px',
+    },
+
+    quickQuestion: {
+      background: 'rgba(255, 255, 255, 0.8)',
+      border: '1px solid rgba(102, 126, 234, 0.3)',
+      borderRadius: '12px',
+      padding: '10px 15px',
+      fontSize: '12px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      textAlign: 'left',
+      color: '#374151',
+    },
+
     typingIndicator: {
       display: 'flex',
       gap: '4px',
@@ -365,7 +613,6 @@ const EduconChatbot = () => {
       marginLeft: '8px',
     },
 
-    // Input Area
     inputArea: {
       padding: '20px',
       background: 'white',
@@ -407,7 +654,6 @@ const EduconChatbot = () => {
       boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
     },
 
-    // Enhanced Keyframes for animations
     keyframes: `
       @keyframes float {
         0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -444,30 +690,13 @@ const EduconChatbot = () => {
         0% { transform: translateX(-50px); opacity: 0; }
         100% { transform: translateX(0); opacity: 1; }
       }
-      
-      @keyframes glow {
-        0%, 100% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.5); }
-        50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
-      }
-      
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-      }
     `,
-  };
-
-  const getMessageAnimation = (messageId) => {
-    return messageAnimations[messageId] || 'messageAppear';
   };
 
   return (
     <>
-      {/* Enhanced CSS Keyframes */}
       <style>{styles.keyframes}</style>
 
-      {/* Floating Toggle Button */}
       {!isOpen && (
         <button 
           style={styles.floatingButton}
@@ -480,27 +709,60 @@ const EduconChatbot = () => {
             e.target.style.transform = 'scale(1) rotate(0deg)';
             e.target.style.boxShadow = '0 8px 30px rgba(102, 126, 234, 0.4)';
           }}
-          title="Chat with Educon AI"
+          title="Dual Mode AI Assistant"
         >
-          🎓
+          {activeMode === 'helpdesk' ? '📚' : '🌍'}
         </button>
       )}
 
-      {/* Floating Chat Window */}
       {isOpen && (
         <div style={styles.chatWindow}>
-          {/* Header */}
           <div 
             style={styles.header}
             onClick={isMinimized ? toggleMinimize : undefined}
           >
             <div style={styles.title}>
-              <div style={styles.botAvatar}>🎓</div>
+              <div style={styles.botAvatar}>
+                {activeMode === 'helpdesk' ? '📚' : '🌍'}
+              </div>
               <div style={styles.titleText}>
-                <h3 style={styles.titleH3}>Educon AI Assistant</h3>
+                <h3 style={styles.titleH3}>
+                  {activeMode === 'helpdesk' ? 'EduTech SaaS Helpdesk' : 'Global AI Assistant'}
+                </h3>
                 <span style={styles.status}>
-                  {isLoading ? '● Thinking...' : '● Ready to help'}
+                  {isLoading 
+                    ? activeMode === 'helpdesk' 
+                      ? '● Searching knowledge base...' 
+                      : '● Thinking...'
+                    : '● Online'
+                  }
                 </span>
+                <div style={styles.modeSelector}>
+                  <button
+                    style={{
+                      ...styles.modeButton,
+                      ...(activeMode === 'helpdesk' ? styles.activeMode : {})
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleModeChange('helpdesk');
+                    }}
+                  >
+                    📚 Helpdesk
+                  </button>
+                  <button
+                    style={{
+                      ...styles.modeButton,
+                      ...(activeMode === 'global' ? styles.activeMode : {})
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleModeChange('global');
+                    }}
+                  >
+                    🌍 Global AI
+                  </button>
+                </div>
               </div>
             </div>
             <div style={styles.headerActions}>
@@ -548,7 +810,7 @@ const EduconChatbot = () => {
                   e.stopPropagation();
                   handleClose();
                 }}
-                title="Close chat"
+                title="Close assistant"
                 onMouseEnter={(e) => {
                   e.target.style.background = 'rgba(255, 255, 255, 0.3)';
                   e.target.style.transform = 'scale(1.1)';
@@ -563,9 +825,8 @@ const EduconChatbot = () => {
             </div>
           </div>
 
-          {/* Messages Container */}
           <div style={styles.messagesContainer}>
-            {messages.map((message) => (
+            {messages[activeMode].map((message) => (
               <div
                 key={message.id}
                 style={{
@@ -585,6 +846,33 @@ const EduconChatbot = () => {
                 </div>
               </div>
             ))}
+            
+            {/* Quick Questions - Only show in helpdesk mode */}
+            {activeMode === 'helpdesk' && suggestedQuestions.length > 0 && !isLoading && (
+              <div style={styles.quickQuestions}>
+                <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
+                  Common questions:
+                </div>
+                {suggestedQuestions.map((question, index) => (
+                  <button
+                    key={index}
+                    style={styles.quickQuestion}
+                    onClick={() => handleQuickQuestion(question)}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = 'rgba(102, 126, 234, 0.1)';
+                      e.target.style.transform = 'translateX(5px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'rgba(255, 255, 255, 0.8)';
+                      e.target.style.transform = 'translateX(0)';
+                    }}
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            )}
+            
             {isLoading && (
               <div style={{...styles.message, ...styles.botMessage}}>
                 <div style={{...styles.messageBubble, ...styles.botBubble}}>
@@ -592,7 +880,9 @@ const EduconChatbot = () => {
                     <span style={{...styles.typingDot, animationDelay: '-0.32s'}}></span>
                     <span style={{...styles.typingDot, animationDelay: '-0.16s'}}></span>
                     <span style={styles.typingDot}></span>
-                    <span style={styles.typingText}>Educon AI is thinking...</span>
+                    <span style={styles.typingText}>
+                      {activeMode === 'helpdesk' ? 'Searching knowledge base...' : 'Gemini AI is thinking...'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -600,14 +890,17 @@ const EduconChatbot = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area */}
           <form style={styles.inputArea} onSubmit={handleSendMessage}>
             <div style={styles.inputContainer}>
               <input
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Ask me anything about education..."
+                placeholder={
+                  activeMode === 'helpdesk' 
+                    ? "Ask about features, pricing, technical issues..."
+                    : "Ask me anything about any topic..."
+                }
                 style={{
                   ...styles.input,
                   borderColor: inputMessage ? '#667eea' : '#e5e7eb',
@@ -645,7 +938,7 @@ const EduconChatbot = () => {
                   }
                 }}
               >
-                {isLoading ? '⏳' : '🎯'}
+                {isLoading ? '⏳' : '📨'}
               </button>
             </div>
           </form>

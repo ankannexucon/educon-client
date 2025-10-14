@@ -46,7 +46,6 @@ function LayoutWrapper() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
-          <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route

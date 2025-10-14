@@ -322,7 +322,7 @@ export default function FooterComponent() {
       </Container>
 
       {/* Floating Support Button */}
-      <Box
+      {/* <Box
         sx={{
           position: "fixed",
           bottom: 24,
@@ -349,7 +349,7 @@ export default function FooterComponent() {
         >
           <MessageCircle size={24} />
         </IconButton>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
