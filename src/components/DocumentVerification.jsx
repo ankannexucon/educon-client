@@ -1299,11 +1299,11 @@ const styles = {
     borderBottomLeftRadius: "15px",
     borderBottomRightRadius: "15px",
   },
-  fileInfo: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+  // fileInfo: {
+  //   display: "flex",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  // },
   fileNameSection: {
     display: "flex",
     alignItems: "center",
