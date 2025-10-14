@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  User,
   Mail,
   BookOpen,
   Calendar,
@@ -9,10 +8,7 @@ import {
   Edit2,
   Camera,
   MapPin,
-  Phone,
   Globe,
-  Linkedin,
-  Github,
   Clock,
   Target,
   CheckCircle2,
