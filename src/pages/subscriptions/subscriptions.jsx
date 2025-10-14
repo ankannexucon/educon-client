@@ -15,7 +15,17 @@ import {
   Building,
   Smartphone,
   Wallet,
-  QrCode
+  QrCode,
+  GraduationCap,
+  BookOpen,
+  Video,
+  Award,
+  Clock,
+  Globe,
+  BarChart3,
+  Users2,
+  BookMarked,
+  Target
 } from "lucide-react";
 
 export default function SubscriptionPage() {
@@ -28,69 +38,80 @@ export default function SubscriptionPage() {
   const plans = [
     {
       id: "free",
-      name: "Free",
-      description: "Perfect for getting started",
+      name: "Student",
+      description: "Perfect for individual learners",
       price: { monthly: 0, yearly: 0 },
       popular: false,
-      icon: FileText,
+      icon: BookOpen,
       color: "bg-gray-500",
       features: [
-        "Basic CV Templates",
-        "3 CV Downloads per month",
-        "Standard Formatting",
-        "Email Support",
-        "Basic Analytics"
+        "Access to 50+ basic courses",
+        "Video lectures & materials",
+        "Basic assignments & quizzes",
+        "Community forum access",
+        "Email support",
+        "Progress tracking",
+        "Mobile app access",
+        "Certificate of completion"
       ],
       limitations: [
-        "Limited template access",
-        "Watermark on downloads",
-        "No AI features"
+        "Limited to 3 courses at a time",
+        "No downloadable resources",
+        "Standard video quality",
+        "No mentor support"
       ]
     },
     {
       id: "lite",
-      name: "Lite",
-      description: "Great for regular users",
-      price: { monthly: 9, yearly: 90 },
+      name: "Professional",
+      description: "For serious learners & career growth",
+      price: { monthly: 29, yearly: 290 },
       popular: true,
       icon: Zap,
       color: "bg-blue-500",
       features: [
-        "All Basic Features",
-        "Unlimited CV Downloads",
-        "10+ Professional Templates",
-        "AI Content Suggestions",
-        "Priority Support",
-        "Custom Branding",
-        "PDF Export",
-        "Cloud Storage (50MB)"
+        "All Student features",
+        "Unlimited course access",
+        "500+ premium courses",
+        "Downloadable resources",
+        "HD video quality",
+        "1-on-1 mentor support",
+        "Career guidance sessions",
+        "Project-based learning",
+        "Industry certifications",
+        "Resume building tools",
+        "LinkedIn profile review",
+        "Job placement assistance"
       ],
       limitations: [
-        "Limited AI features",
-        "Basic analytics only"
+        "Limited to 5 mentor sessions/month",
+        "Basic career support"
       ]
     },
     {
       id: "pro",
-      name: "Pro",
-      description: "For professionals & power users",
-      price: { monthly: 19, yearly: 190 },
+      name: "Enterprise",
+      description: "For teams & comprehensive learning",
+      price: { monthly: 79, yearly: 790 },
       popular: false,
       icon: Crown,
       color: "bg-purple-500",
       features: [
-        "All Lite Features",
-        "Unlimited AI Content Generation",
-        "30+ Premium Templates",
-        "ATS Optimization",
-        "Cover Letter Builder",
-        "Resume Analytics",
-        "Custom Domain",
-        "Cloud Storage (500MB)",
-        "24/7 Priority Support",
-        "Multiple CV Versions",
-        "Export to Word & PDF",
-        "Collaboration Tools"
+        "All Professional features",
+        "Unlimited mentor sessions",
+        "1000+ expert-led courses",
+        "Custom learning paths",
+        "Team management dashboard",
+        "Advanced analytics & reports",
+        "API access",
+        "White-label solutions",
+        "Dedicated success manager",
+        "Custom content creation",
+        "Skill gap analysis",
+        "Learning & development planning",
+        "Bulk user management",
+        "SSO integration",
+        "Advanced security features"
       ],
       limitations: []
     }
@@ -98,52 +119,87 @@ export default function SubscriptionPage() {
 
   const features = [
     {
-      name: "CV Templates",
-      free: "3 Basic",
-      lite: "10+ Professional",
-      pro: "30+ Premium"
+      name: "Course Access",
+      free: "50+ Courses",
+      lite: "500+ Premium",
+      pro: "1000+ Expert"
     },
     {
-      name: "AI Content Generation",
+      name: "Video Quality",
+      free: "Standard",
+      lite: "HD",
+      pro: "4K & Download"
+    },
+    {
+      name: "Mentor Support",
       free: "❌",
-      lite: "Limited",
+      lite: "5 sessions/month",
       pro: "Unlimited"
     },
     {
-      name: "Downloads",
-      free: "3/month",
-      lite: "Unlimited",
-      pro: "Unlimited"
+      name: "Certifications",
+      free: "Basic",
+      lite: "Industry-recognized",
+      pro: "Advanced + Custom"
     },
     {
-      name: "Cloud Storage",
-      free: "10MB",
-      lite: "50MB",
-      pro: "500MB"
+      name: "Career Support",
+      free: "❌",
+      lite: "Resume & LinkedIn",
+      pro: "Full placement assistance"
     },
     {
-      name: "Export Formats",
-      free: "PDF",
-      lite: "PDF",
-      pro: "PDF, Word, HTML"
+      name: "Learning Paths",
+      free: "Standard",
+      lite: "Customizable",
+      pro: "AI-Powered Custom"
     },
     {
-      name: "Support",
-      free: "Email",
-      lite: "Priority",
-      pro: "24/7 Priority"
+      name: "Team Features",
+      free: "❌",
+      lite: "❌",
+      pro: "Full suite"
     },
     {
-      name: "ATS Optimization",
+      name: "Analytics",
+      free: "Basic",
+      lite: "Advanced",
+      pro: "Enterprise-grade"
+    },
+    {
+      name: "API Access",
       free: "❌",
       lite: "❌",
       pro: "✅"
     },
     {
-      name: "Custom Branding",
-      free: "❌",
-      lite: "✅",
-      pro: "✅"
+      name: "Support",
+      free: "Email",
+      lite: "Priority + Chat",
+      pro: "24/7 Dedicated"
+    }
+  ];
+
+  const learningOutcomes = [
+    {
+      icon: Target,
+      title: "Skill Mastery",
+      description: "Master in-demand skills with hands-on projects"
+    },
+    {
+      icon: BarChart3,
+      title: "Career Growth",
+      description: "Boost your career with industry-recognized certifications"
+    },
+    {
+      icon: Users2,
+      title: "Expert Community",
+      description: "Learn from industry experts and peers"
+    },
+    {
+      icon: BookMarked,
+      title: "Lifetime Access",
+      description: "Keep your skills updated with continuous learning"
     }
   ];
 
@@ -483,7 +539,7 @@ export default function SubscriptionPage() {
               <ul className="text-xs text-gray-600 space-y-1">
                 <li>• All payments are secure and encrypted</li>
                 <li>• You'll get instant access after payment</li>
-                <li>• 14-day money-back guarantee</li>
+                <li>• 30-day money-back guarantee</li>
                 <li>• Contact support for any payment issues</li>
               </ul>
             </div>
@@ -500,16 +556,29 @@ export default function SubscriptionPage() {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-4">
             <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 rounded-2xl">
-              <Sparkles size={32} />
+              <GraduationCap size={32} />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Choose Your Plan
+            Unlock Your Learning Potential
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Unlock powerful features to create professional CVs that get you noticed. 
-            Start free, upgrade anytime.
+            Choose the perfect plan to accelerate your learning journey. 
+            From individual courses to enterprise solutions, we have you covered.
           </p>
+        </div>
+
+        {/* Learning Outcomes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {learningOutcomes.map((outcome, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 text-center">
+              <div className="bg-gradient-to-r from-purple-500 to-blue-500 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <outcome.icon size={24} className="text-white" />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">{outcome.title}</h3>
+              <p className="text-sm text-gray-600">{outcome.description}</p>
+            </div>
+          ))}
         </div>
 
         {/* Billing Toggle */}
@@ -535,7 +604,7 @@ export default function SubscriptionPage() {
                 </span>
                 {isYearly && (
                   <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
-                    Save 20%
+                    Save 17%
                   </span>
                 )}
               </div>
@@ -659,13 +728,13 @@ export default function SubscriptionPage() {
                 >
                   {isFree ? (
                     <>
-                      Get Started
+                      Start Learning Free
                       <ArrowRight size={16} />
                     </>
                   ) : (
                     <>
                       <CreditCard size={16} />
-                      Subscribe Now
+                      Get Started
                     </>
                   )}
                 </button>
@@ -675,10 +744,10 @@ export default function SubscriptionPage() {
         </div>
 
         {/* Feature Comparison Table */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden mb-16">
           <div className="p-8">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
-              Compare Plans
+              Compare Learning Plans
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -719,7 +788,7 @@ export default function SubscriptionPage() {
         </div>
 
         {/* Trust Indicators */}
-        <div className="text-center mt-16">
+        <div className="text-center">
           <div className="flex flex-wrap justify-center gap-8 mb-8">
             <div className="flex items-center gap-2 text-gray-600">
               <Shield size={20} className="text-green-500" />
@@ -731,11 +800,15 @@ export default function SubscriptionPage() {
             </div>
             <div className="flex items-center gap-2 text-gray-600">
               <Users size={20} className="text-purple-500" />
-              <span className="font-semibold">10,000+ Users</span>
+              <span className="font-semibold">50,000+ Learners</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-600">
+              <Award size={20} className="text-orange-500" />
+              <span className="font-semibold">Industry Certifications</span>
             </div>
           </div>
           <p className="text-gray-500 max-w-2xl mx-auto">
-            All plans include a 14-day money-back guarantee. Cancel anytime. 
+            All paid plans include a 30-day money-back guarantee. Cancel anytime. 
             No hidden fees. Upgrade or downgrade your plan at any time.
           </p>
         </div>
