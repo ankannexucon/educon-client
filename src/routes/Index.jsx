@@ -6,6 +6,9 @@ import FooterComponent from "../components/footer/FooterComponent";
 import AdmissionPage from "../pages/Admission/admissionPage";
 // import CVBuilder from "../pages/profile/CVBuilder";
 import StudentApplicationPage from "../pages/application/StudentApplicationPage";
+import AboutUsPage from "../pages/info/AboutUsPage";
+import UniversityApplicationPage from "../pages/application/UniversityApplicationPage";
+import UniversityApplicationView from "../pages/application/UniversityApplicationView";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -24,17 +27,27 @@ export default function Index() {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<AuthPage mode={"signup"} />} />
-          <Route path="/login" element={<AuthPage mode={"login"} />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/login" element={<AuthPage />} />
           <Route path="/profile" element={<UserProfile />} />
+          
   
         <Route path="/document-verification" element={<DocumentVerification />} />
           <Route path="/admissions" element={<AdmissionPage />} />
           <Route path="/university" element={<UniversityDashboardPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/about" element={<AboutUsPage/>} />
           <Route
             path="/student-application"
             element={<StudentApplicationPage />}
+          />
+          <Route
+            path="/university-application"
+            element={<UniversityApplicationPage />}
+          />
+          <Route
+            path="/university-application-view"
+            element={<UniversityApplicationView />}
           />
           <Route path="/subscriptions" element={<SubscriptionPage />} />
           <Route path="*" element={<div>404 Not Found</div>} />
