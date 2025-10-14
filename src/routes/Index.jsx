@@ -6,6 +6,8 @@ import FooterComponent from "../components/footer/FooterComponent";
 import AdmissionPage from "../pages/Admission/admissionPage";
 // import CVBuilder from "../pages/profile/CVBuilder";
 import StudentApplicationPage from "../pages/application/StudentApplicationPage";
+import UniversityApplicationPage from "../pages/application/UniversityApplicationPage";
+import UniversityApplicationView from "../pages/application/UniversityApplicationView";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -35,6 +37,14 @@ export default function Index() {
           <Route
             path="/student-application"
             element={<StudentApplicationPage />}
+          />
+          <Route
+            path="/university-application"
+            element={<UniversityApplicationPage />}
+          />
+          <Route
+            path="/university-application-view"
+            element={<UniversityApplicationView />}
           />
           <Route path="/subscriptions" element={<SubscriptionPage />} />
           <Route path="*" element={<div>404 Not Found</div>} />
