@@ -7,6 +7,8 @@ import AdmissionPage from "../pages/Admission/admissionPage";
 // import CVBuilder from "../pages/profile/CVBuilder";
 import StudentApplicationPage from "../pages/application/StudentApplicationPage";
 import AboutUsPage from "../pages/info/AboutUsPage";
+import NotFoundPage from "../pages/info/NotFoundPage";
+import ScrollToTop from "../utils/ScrollToTop";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -16,31 +18,36 @@ const UniversityDashboardPage = lazy(() =>
 const UserProfile = lazy(() => import("../pages/profile/UserProfilePage"));
 const CoursesPage = lazy(() => import("../pages/course/CoursesPage"));
 const AuthPage = lazy(() => import("../pages/authentication/AuthPage"));
-const SubscriptionPage = lazy(() => import("../pages/subscriptions/subscriptions"));
+const SubscriptionPage = lazy(() =>
+  import("../pages/subscriptions/subscriptions")
+);
 
 export default function Index() {
   return (
     <BrowserRouter>
       <NavbarComponent />
+      <ScrollToTop />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<AuthPage mode={"signup"} />} />
           <Route path="/login" element={<AuthPage mode={"login"} />} />
           <Route path="/profile" element={<UserProfile />} />
-          
-  
-        <Route path="/document-verification" element={<DocumentVerification />} />
+
+          <Route
+            path="/document-verification"
+            element={<DocumentVerification />}
+          />
           <Route path="/admissions" element={<AdmissionPage />} />
           <Route path="/university" element={<UniversityDashboardPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/about" element={<AboutUsPage/>} />
+          <Route path="/about" element={<AboutUsPage />} />
           <Route
             path="/student-application"
             element={<StudentApplicationPage />}
           />
           <Route path="/subscriptions" element={<SubscriptionPage />} />
-          <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
       <footer>
