@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "email": "agency@nexucon.com",
+    "password": "1234",
+    "role": "agency"
+  },
+  {
+    "id": 2,
+    "email": "university@nexucon.com",
+    "password": "1234",
+    "role": "university"
+  },
+  {
+    "id": 3,
+    "email": "student@nexucon.com",
+    "password": "1234",
+    "role": "student"
+  }
+]

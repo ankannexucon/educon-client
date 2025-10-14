@@ -2,264 +2,488 @@ import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
-  Typography,
   Box,
-  Button,
+  Typography,
   IconButton,
-  Avatar,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
   Badge,
-  Popover,
+  Drawer,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Button,
   Paper,
+  MenuItem,
 } from "@mui/material";
-import { Menu, NotificationsNone } from "@mui/icons-material";
+import { Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
+import {
+  Bell,
+  User,
+  BookOpen,
+  GraduationCap,
+  Building2,
+  FileText,
+  Info,
+  LogIn,
+  UserPlus,
+  X,
+  ChevronDown,
+} from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext";
+import { ArrowUpRight } from "lucide-react";
+import { Crown } from "lucide-react";
 
-const APP_NAME = import.meta.env.VITE_APP_NAME || "Educon";
+const APP_NAME = "Educon";
 
-// Dummy notifications
 const dummyNotifications = [
   {
     id: 1,
     title: "Assignment Deadline",
     message: "Math assignment is due tomorrow.",
+    time: "2h ago",
+    unread: true,
   },
   {
     id: 2,
     title: "New Grade Posted",
     message: "Your grade for Physics 101 is released.",
+    time: "5h ago",
+    unread: true,
   },
   {
     id: 3,
     title: "Course Announcement",
     message: "New Web Development module added.",
+    time: "1d ago",
+    unread: false,
   },
 ];
 
 export default function NavbarComponent() {
-  const [user] = useState({ name: "Ankan" });
+  const { user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  // Notifications popover state
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleNotificationsClick = (event) => setAnchorEl(event.currentTarget);
-  const handleNotificationsClose = () => setAnchorEl(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = useState({ more: false, notification: false });
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Courses", path: "/courses" },
-    { name: "Admissions", path: "/admissions" },
-    { name: "About Us", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: "Home", path: "/", icon: <BookOpen size={18} /> },
+    { name: "Courses", path: "/courses", icon: <GraduationCap size={18} /> },
+    { name: "University", path: "/university", icon: <Building2 size={18} /> },
+    { name: "Admissions", path: "/admissions", icon: <FileText size={18} /> },
+    { name: "About Us", path: "/about", icon: <Info size={18} /> },
   ];
 
-  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const unreadCount = dummyNotifications.filter((n) => n.unread).length;
+  const moreOptions = {
+    agency: [
+      {
+        name: "University Application",
+        path: "/university-application",
+        icon: <ArrowUpRight size={18} />,
+      },
+      {
+        name: "Student Application",
+        path: "/student-application",
+        icon: <ArrowUpRight size={18} />,
+      },
+      {
+        name: "Document Verification",
+        path: "/document-verification",
+        icon: <ArrowUpRight size={18} />,
+      },
+    ],
+    university: [
+      {
+        name: "Student Application Overview",
+        path: "/university-application-view",
+        icon: <ArrowUpRight size={18} />,
+      },
+    ],
+    student: [
+      {
+        name: "Your Applications",
+        path: "/your-application",
+        icon: <ArrowUpRight size={18} />,
+      },
+    ],
+  };
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", mt: 2 }}>
-      <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-        {APP_NAME}
-      </Typography>
-      {navItems.map((item) => (
-        <List key={item.name}>
-          <ListItem disablePadding>
-            <ListItemText
-              primary={item.name}
-              sx={{
-                textAlign: "center",
-                "& span": {
-                  fontWeight: 500,
-                  color: "#1e293b",
-                  fontSize: "1rem",
-                },
-              }}
-            />
-          </ListItem>
-        </List>
-      ))}
-      {user && (
-        <Box
-          sx={{
-            mt: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar alt="User" src="/default-avatar.png" />
-          <Typography variant="body2" fontWeight={500}>
-            My Profile
-          </Typography>
-        </Box>
-      )}
-    </Box>
-  );
+  const toggleDropdown = (key) =>
+    setOpen((prev) => ({
+      more: false,
+      notification: false,
+      [key]: !prev[key],
+    }));
 
   return (
     <>
-      <div className="h-[60px]"></div>
-      <div className="fixed top-0 left-0 w-screen">
-        <AppBar
-          position="static"
-          elevation={0}
-          sx={{ backgroundColor: "#fff", color: "#1e293b" }}
+      <Box height={80} /> {/* Spacer */}
+      <AppBar
+        position="fixed"
+        elevation={1}
+        sx={{
+          backgroundColor: "rgba(255,255,255,0.95)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid #e5e7eb",
+          boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+          color: "#111827",
+        }}
+      >
+        <Toolbar
+          sx={{
+            maxWidth: "1200px",
+            mx: "auto",
+            width: "100%",
+            px: { xs: 2, sm: 4 },
+            height: 80,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
-          <Toolbar sx={{ justifyContent: "space-between" }}>
-            {/* Logo */}
-            <Box display="flex" alignItems="center" gap={1}>
-              <Typography
-                variant="h6"
-                component={Link}
-                to="/"
+          {/* Logo */}
+          <Typography
+            variant="h5"
+            fontWeight={700}
+            component={Link}
+            to="/"
+            sx={{
+              color: "#111827",
+              textDecoration: "none",
+            }}
+          >
+            {APP_NAME}
+          </Typography>
+
+          {/* Desktop Navigation */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            {navItems.map((item) => (
+              <Button
+                key={item.name}
+                component={NavLink}
+                to={item.path}
+                startIcon={item.icon}
                 sx={{
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                  letterSpacing: 0.5,
+                  position: "relative",
+                  px: 2,
+                  py: 1,
+                  color: "#374151",
+                  fontWeight: 500,
+                  fontSize: "0.95rem",
+                  textTransform: "none",
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    width: "0",
+                    height: "2px",
+                    backgroundColor: "#432dd7",
+                    transition: "width 0.3s",
+                  },
+                  "&:hover": {
+                    color: "#432dd7",
+                    backgroundColor: "transparent",
+                  },
+                  "&:hover::after": { width: "100%" },
+                  "&.active::after": { width: "100%" },
+                  "&.active": { color: "#432dd7" },
                 }}
               >
-                {APP_NAME}
-              </Typography>
-            </Box>
+                {item.name}
+              </Button>
+            ))}
 
-            {/* Nav Links */}
-            <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3 }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.name}
-                  component={NavLink}
-                  to={item.path}
-                  disableRipple
+            {/* “More” dropdown */}
+
+            <Box sx={{ position: "relative" }}>
+              <Button
+                onClick={() => toggleDropdown("more")}
+                endIcon={<ChevronDown size={18} />}
+                sx={{
+                  textTransform: "none",
+                  fontSize: "0.95rem",
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1,
+                  backgroundColor: open.more ? "#f3f4f6" : "transparent",
+                  "&:hover": { backgroundColor: "#f3f4f6" },
+                  color: "#374151",
+                  transition: "0.2s",
+                }}
+              >
+                More
+              </Button>
+
+              {open.more && (
+                <Paper
                   sx={{
-                    color: "#1e293b",
-                    fontWeight: 500,
-                    textTransform: "none",
-                    "&:hover": { color: "#2563eb", background: "transparent" },
+                    position: "absolute",
+                    top: "110%",
+                    right: 0,
+                    mt: 1,
+                    borderRadius: 3,
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                    border: "1px solid #e5e7eb",
+                    overflow: "hidden",
+                    zIndex: 20,
                   }}
                 >
-                  {item.name}
-                </Button>
-              ))}
-            </Box>
-
-            {/* Right Side */}
-            <Box
-              sx={{
-                display: { xs: "none", md: "flex" },
-                alignItems: "center",
-                gap: 2,
-              }}
-            >
-              {user ? (
-                <>
-                  {/* Notifications Bell */}
-                  <IconButton onClick={handleNotificationsClick}>
-                    <Badge
-                      badgeContent={dummyNotifications.length}
-                      color="error"
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      p: 2,
+                      borderBottom: "1px solid #f3f4f6",
+                    }}
+                  >
+                    <Typography fontWeight={700} fontSize="1rem">
+                      Select Option
+                    </Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => setOpen({ ...open, more: false })}
                     >
-                      <NotificationsNone sx={{ color: "#1e293b" }} />
+                      <X size={18} />
+                    </IconButton>
+                  </Box>
+
+                  {moreOptions[user.role].map((option, i) => (
+                    <MenuItem
+                      key={i}
+                      onClick={() => setOpen({ ...open, more: false })}
+                      sx={{
+                        py: 1.2,
+                        px: 2,
+                        fontWeight: 500,
+                        "&:hover": { backgroundColor: "#f9fafb" },
+                      }}
+                    >
+                      <Button
+                        component={Link}
+                        to={option.path}
+                        startIcon={option.icon}
+                        style={{
+                          justifyContent: "flex-start",
+                          textAlign: "left",
+                          color: "inherit",
+                          width: "100%",
+                        }}
+                      >
+                        <Typography fontWeight={600} fontSize="0.9rem">
+                          {option.name}
+                        </Typography>
+                      </Button>
+                    </MenuItem>
+                  ))}
+                </Paper>
+              )}
+            </Box>
+          </Box>
+
+          {/* Right Side */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 1.5,
+            }}
+          >
+            {user ? (
+              <>
+                {/* Notifications */}
+                <Box sx={{ position: "relative" }}>
+                  <IconButton
+                    onClick={() => toggleDropdown("notification")}
+                    sx={{
+                      p: 1,
+                      borderRadius: 2,
+                      "&:hover": { backgroundColor: "#f3f4f6" },
+                    }}
+                  >
+                    <Badge badgeContent={unreadCount} color="error">
+                      <Bell size={20} />
                     </Badge>
                   </IconButton>
 
-                  {/* Notifications Popover */}
-                  <Popover
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleNotificationsClose}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    transformOrigin={{ vertical: "top", horizontal: "right" }}
-                  >
+                  {open.notification && (
                     <Paper
                       sx={{
-                        width: 300,
-                        maxHeight: 400,
-                        overflowY: "auto",
-                        p: 1,
+                        position: "absolute",
+                        top: "110%",
+                        right: 0,
+                        width: 320,
+                        borderRadius: 3,
+                        boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+                        border: "1px solid #e5e7eb",
+                        overflow: "hidden",
+                        zIndex: 20,
                       }}
                     >
-                      <Typography
-                        sx={{ fontWeight: 600, mb: 1, color: "grey" }}
+                      <Box
+                        sx={{
+                          p: 2,
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
                       >
-                        Notifications
-                      </Typography>
-                      {dummyNotifications.map((item) => (
-                        <Box key={item.id} sx={{ p: 1 }}>
-                          <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
-                            {item.title}
-                          </Typography>
-                          <Typography sx={{ fontSize: 12, color: "#64748b" }}>
-                            {item.message}
-                          </Typography>
-                        </Box>
-                      ))}
+                        <Typography fontWeight={700} fontSize="1rem">
+                          Notifications
+                        </Typography>
+                        <IconButton
+                          size="small"
+                          onClick={() =>
+                            setOpen({ ...open, notification: false })
+                          }
+                        >
+                          <X size={18} />
+                        </IconButton>
+                      </Box>
+
+                      <Box sx={{ maxHeight: 380, overflowY: "auto" }}>
+                        {dummyNotifications.map((n) => (
+                          <Box
+                            key={n.id}
+                            sx={{
+                              p: 2,
+                              borderBottom: "1px solid #f3f4f6",
+                              backgroundColor: n.unread
+                                ? "#faf5ff"
+                                : "transparent",
+                              transition: "0.2s",
+                              "&:hover": { backgroundColor: "#f9fafb" },
+                            }}
+                          >
+                            <Box sx={{ display: "flex", gap: 1.5 }}>
+                              {n.unread && (
+                                <Box
+                                  sx={{
+                                    width: 8,
+                                    height: 8,
+                                    backgroundColor: "#7e22ce",
+                                    borderRadius: "50%",
+                                    mt: 0.5,
+                                  }}
+                                />
+                              )}
+                              <Box>
+                                <Typography fontWeight={600} fontSize="0.9rem">
+                                  {n.title}
+                                </Typography>
+                                <Typography
+                                  color="text.secondary"
+                                  fontSize="0.8rem"
+                                >
+                                  {n.message}
+                                </Typography>
+                                <Typography
+                                  color="text.disabled"
+                                  fontSize="0.7rem"
+                                >
+                                  {n.time}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </Box>
+                        ))}
+                      </Box>
+
+                      <Box
+                        sx={{ textAlign: "center", p: 1.5, bgcolor: "#f9fafb" }}
+                      >
+                        <Button
+                          size="small"
+                          sx={{ color: "#6b21a8", fontWeight: 600 }}
+                        >
+                          View All Notifications
+                        </Button>
+                      </Box>
                     </Paper>
-                  </Popover>
+                  )}
+                </Box>
 
-                  {/* User Avatar */}
-                  <Avatar
-                    component={Link}
-                    to={"/profile"}
-                    alt="User"
-                    src="/default-avatar.png"
-                    sx={{
-                      width: 36,
-                      height: 36,
-                      cursor: "pointer",
-                      "&:hover": { boxShadow: 2 },
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <Button
-                    variant="text"
-                    sx={{
-                      color: "#2563eb",
-                      fontWeight: 600,
-                      textTransform: "none",
-                    }}
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#2563eb",
-                      color: "#fff",
-                      textTransform: "none",
-                      "&:hover": { backgroundColor: "#1e40af" },
-                    }}
-                  >
-                    Sign Up
-                  </Button>
-                </>
-              )}
-            </Box>
+                {/* User Icon */}
+                <IconButton
+                  component={Link}
+                  to="/profile"
+                  sx={{
+                    p: 1,
+                    borderRadius: 2,
+                    "&:hover": { backgroundColor: "#f3f4f6" },
+                  }}
+                >
+                  <User size={20} />
+                </IconButton>
+                {/* Supcriptions */}
+                <IconButton
+                  component={Link}
+                  to="/subscriptions"
+                  sx={{
+                    p: 1,
+                    borderRadius: 2,
+                    "&:hover": { backgroundColor: "#f3f4f6" },
+                  }}
+                >
+                  <Crown size={20} />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="text"
+                  sx={{
+                    px: 3,
+                    py: 1.2,
+                    color: "#6b21a8",
+                    fontWeight: 600,
+                    borderRadius: 2,
+                    textTransform: "none",
+                    "&:hover": { backgroundColor: "#faf5ff" },
+                  }}
+                  startIcon={<LogIn size={18} />}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    px: 3,
+                    py: 1.2,
+                    borderRadius: 2,
+                    fontWeight: 600,
+                    textTransform: "none",
+                    background: "linear-gradient(to right, #6b21a8, #312e81)",
+                    "&:hover": {
+                      boxShadow: "0 4px 14px rgba(107,33,168,0.3)",
+                      transform: "translateY(-2px)",
+                    },
+                  }}
+                  startIcon={<UserPlus size={18} />}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </Box>
 
-            {/* Mobile Menu */}
-            <IconButton
-              sx={{ display: { md: "none" }, color: "#2563eb" }}
-              onClick={handleDrawerToggle}
-            >
-              <Menu />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-
-        {/* Mobile Drawer */}
-        <Drawer
-          anchor="right"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          sx={{ "& .MuiDrawer-paper": { width: 240 } }}
-        >
-          {drawer}
-        </Drawer>
-      </div>
+          {/* Mobile Toggle */}
+          <IconButton
+            sx={{
+              display: { xs: "flex", md: "none" },
+              borderRadius: 2,
+              "&:hover": { backgroundColor: "#f3f4f6" },
+            }}
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
     </>
   );
 }
