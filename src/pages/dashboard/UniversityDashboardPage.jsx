@@ -1,21 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Grid,
-  Container,
-  Paper,
-  Typography,
-  Chip,
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Slider,
-  Rating,
-} from "@mui/material";
-import { School, TrendingUp, NewReleases, Whatshot } from "@mui/icons-material";
-import UniversityCardComponent from "../../components/card/UniversityCardComponent";
+import React, { useState, useMemo } from "react";
+import { Search, Star, TrendingUp, Award, Filter } from "lucide-react";
+import UniversityCard from "../../components/card/UniversityCard";
 
 const mockUniversities = [
   {
@@ -30,22 +15,13 @@ const mockUniversities = [
       "https://media.cnn.com/api/v1/images/stellar/prod/220504131533-stanford-campus-2020-file.jpg?c=original",
     description:
       "A private research university known for entrepreneurship and innovation in Silicon Valley.",
-    featured: true,
-    popular: true,
     category: "Technology & Engineering",
     price: 199,
     discountPrice: 89,
-    instructor: "Dr. Sarah Johnson",
-    language: "English",
-    subtitles: true,
     level: "All Levels",
     duration: "12 weeks",
-    whatYouLearn: [
-      "Advanced programming concepts",
-      "Machine learning fundamentals",
-      "Software architecture",
-      "Project management",
-    ],
+    featured: true,
+    trending: true,
   },
   {
     id: 2,
@@ -59,22 +35,13 @@ const mockUniversities = [
       "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201704/mit-supply-chain-management-00_0.jpg?itok=8RWKirTY",
     description:
       "World-renowned for STEM education, research, and technological innovation.",
-    featured: true,
-    popular: true,
     category: "Science & Technology",
     price: 249,
     discountPrice: 99,
-    instructor: "Prof. Michael Chen",
-    language: "English",
-    subtitles: true,
     level: "Intermediate",
     duration: "10 weeks",
-    whatYouLearn: [
-      "Data science methodologies",
-      "Statistical analysis",
-      "Research techniques",
-      "Scientific computing",
-    ],
+    featured: true,
+    top: true,
   },
   {
     id: 3,
@@ -88,22 +55,12 @@ const mockUniversities = [
       "https://www.currentaffairs.org/hubfs/Imported_Blog_Media/umass-1024x646-1.jpg",
     description:
       "Ivy League university with comprehensive programs in business, law, and arts.",
-    featured: false,
-    popular: true,
     category: "Business & Arts",
     price: 179,
     discountPrice: 79,
-    instructor: "Dr. Emily Rodriguez",
-    language: "English",
-    subtitles: true,
     level: "Beginner",
     duration: "15 weeks",
-    whatYouLearn: [
-      "Business fundamentals",
-      "Leadership skills",
-      "Economic principles",
-      "Communication strategies",
-    ],
+    top: true,
   },
   {
     id: 4,
@@ -117,22 +74,88 @@ const mockUniversities = [
       "https://www.tclf.org/sites/default/files/thumbnails/image/CA_Berkeley_UniversityOfCaliforniaAtBerkeley_byCharlieNguyen-Flickr_2008_001_Sig.jpg",
     description:
       "Public research university known for entrepreneurship and social impact.",
-    featured: true,
-    popular: false,
     category: "Social Sciences",
     price: 169,
     discountPrice: 69,
-    instructor: "Prof. David Kim",
-    language: "English",
-    subtitles: true,
     level: "All Levels",
     duration: "8 weeks",
-    whatYouLearn: [
-      "Social research methods",
-      "Data analysis",
-      "Policy development",
-      "Community engagement",
-    ],
+    trending: true,
+  },
+  {
+    id: 5,
+    name: "Yale University",
+    location: "New Haven, CT",
+    rating: 4.8,
+    reviews: 11200,
+    students: 13500,
+    courses: 165,
+    image:
+      "https://www.currentaffairs.org/hubfs/Imported_Blog_Media/umass-1024x646-1.jpg",
+    description:
+      "Historic Ivy League institution with strong liberal arts and professional programs.",
+    category: "Business & Arts",
+    price: 189,
+    discountPrice: 85,
+    level: "All Levels",
+    duration: "14 weeks",
+    featured: true,
+  },
+  {
+    id: 6,
+    name: "Princeton University",
+    location: "Princeton, NJ",
+    rating: 4.9,
+    reviews: 9800,
+    students: 8500,
+    courses: 140,
+    image:
+      "https://media.cnn.com/api/v1/images/stellar/prod/220504131533-stanford-campus-2020-file.jpg?c=original",
+    description:
+      "Elite research university with exceptional undergraduate education.",
+    category: "Science & Technology",
+    price: 209,
+    discountPrice: 95,
+    level: "Advanced",
+    duration: "11 weeks",
+    top: true,
+  },
+  {
+    id: 7,
+    name: "Columbia University",
+    location: "New York, NY",
+    rating: 4.7,
+    reviews: 13400,
+    students: 31000,
+    courses: 195,
+    image:
+      "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201704/mit-supply-chain-management-00_0.jpg?itok=8RWKirTY",
+    description:
+      "Ivy League university in the heart of Manhattan with diverse academic offerings.",
+    category: "Business & Arts",
+    price: 199,
+    discountPrice: 89,
+    level: "Intermediate",
+    duration: "13 weeks",
+    trending: true,
+  },
+  {
+    id: 8,
+    name: "Caltech",
+    location: "Pasadena, CA",
+    rating: 4.9,
+    reviews: 5600,
+    students: 2400,
+    courses: 85,
+    image:
+      "https://www.tclf.org/sites/default/files/thumbnails/image/CA_Berkeley_UniversityOfCaliforniaAtBerkeley_byCharlieNguyen-Flickr_2008_001_Sig.jpg",
+    description:
+      "Small but mighty institution focused on science and engineering excellence.",
+    category: "Technology & Engineering",
+    price: 229,
+    discountPrice: 99,
+    level: "Advanced",
+    duration: "9 weeks",
+    featured: true,
   },
 ];
 
@@ -142,355 +165,264 @@ const categories = [
   "Science & Technology",
   "Business & Arts",
   "Social Sciences",
-  "Health & Medicine",
-  "Arts & Humanities",
 ];
-
 const levels = ["All Levels", "Beginner", "Intermediate", "Advanced"];
-const durations = ["Any", "0-4 weeks", "4-8 weeks", "8-12 weeks", "12+ weeks"];
-const features = ["Subtitles", "Certificates", "Exercises", "Downloadable"];
 
 export default function UniversityDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredUniversities, setFilteredUniversities] =
-    useState(mockUniversities);
-  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [selectedLevel, setSelectedLevel] = useState("All Levels");
-  const [selectedDuration, setSelectedDuration] = useState("Any");
-  const [priceRange, setPriceRange] = useState([0, 300]);
-  const [rating, setRating] = useState(0);
-  const [wishlist, setWishlist] = useState([]);
+  const [filters, setFilters] = useState({
+    category: "All Categories",
+    level: "All Levels",
+    minRating: 0,
+  });
 
-  useEffect(() => {
-    filterResults();
-  }, [
-    searchQuery,
-    selectedCategory,
-    selectedLevel,
-    selectedDuration,
-    priceRange,
-    rating,
-  ]);
+  const filteredUniversities = useMemo(() => {
+    if (
+      !searchQuery &&
+      filters.category === "All Categories" &&
+      filters.level === "All Levels" &&
+      filters.minRating === 0
+    ) {
+      return [];
+    }
 
-  const filterResults = () => {
-    let filtered = mockUniversities.filter((uni) => {
+    return mockUniversities.filter((uni) => {
       const matchesSearch =
+        searchQuery === "" ||
         uni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         uni.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         uni.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        uni.instructor.toLowerCase().includes(searchQuery.toLowerCase());
+        uni.location.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesCategory =
-        selectedCategory === "All Categories" ||
-        uni.category === selectedCategory;
+        filters.category === "All Categories" ||
+        uni.category === filters.category;
       const matchesLevel =
-        selectedLevel === "All Levels" || uni.level === selectedLevel;
-      const matchesPrice =
-        uni.discountPrice >= priceRange[0] &&
-        uni.discountPrice <= priceRange[1];
-      const matchesRating = uni.rating >= rating;
+        filters.level === "All Levels" || uni.level === filters.level;
+      const matchesRating = uni.rating >= filters.minRating;
 
-      let matchesDuration = true;
-      if (selectedDuration !== "Any") {
-        const durationWeeks = parseInt(uni.duration);
-        if (selectedDuration === "0-4 weeks")
-          matchesDuration = durationWeeks <= 4;
-        else if (selectedDuration === "4-8 weeks")
-          matchesDuration = durationWeeks > 4 && durationWeeks <= 8;
-        else if (selectedDuration === "8-12 weeks")
-          matchesDuration = durationWeeks > 8 && durationWeeks <= 12;
-        else if (selectedDuration === "12+ weeks")
-          matchesDuration = durationWeeks > 12;
-      }
-
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesLevel &&
-        matchesPrice &&
-        matchesRating &&
-        matchesDuration
-      );
+      return matchesSearch && matchesCategory && matchesLevel && matchesRating;
     });
+  }, [searchQuery, filters]);
 
-    setFilteredUniversities(filtered);
-  };
+  const featuredUniversities = mockUniversities.filter((uni) => uni.featured);
+  const topUniversities = mockUniversities.filter((uni) => uni.top);
+  const trendingUniversities = mockUniversities.filter((uni) => uni.trending);
+
+  const showSearchResults =
+    searchQuery ||
+    filters.category !== "All Categories" ||
+    filters.level !== "All Levels" ||
+    filters.minRating > 0;
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background: `
-          linear-gradient(135deg, rgba(99, 102, 241, 0.02) 0%, rgba(168, 85, 247, 0.02) 100%),
-          radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
-          #ffffff
-        `,
-        position: "relative",
-      }}
-    >
-      {/* Header */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="sm:w-[90vw] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">
+            Discover Universities
+          </h1>
+          <p className="text-slate-600">
+            Explore top institutions and find your perfect learning path
+          </p>
+        </div>
 
-      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
-        <Box sx={{ py: 4 }}>
-          {/* Hero Section */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: 4,
-              mb: 4,
-              background: "linear-gradient(135deg, #5624d0 0%, #2d3b8f 100%)",
-              color: "white",
-              borderRadius: 2,
-            }}
-          >
-            <Grid container spacing={4} alignItems="center">
-              <Grid>
-                <Typography variant="h3" sx={{ fontWeight: 800, mb: 2 }}>
-                  Learning that gets you
-                </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{ opacity: 0.9, mb: 3, fontWeight: 300 }}
+        {/* Search Bar */}
+        <div className="mb-8">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search universities, categories, locations, or programs..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 rounded-xl border border-slate-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-lg"
+            />
+          </div>
+        </div>
+
+        {/* Filter Box - Show when searching */}
+        {showSearchResults && (
+          <div className="mb-8 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <Filter className="w-5 h-5 text-indigo-600" />
+              <h3 className="text-lg font-semibold text-slate-900">
+                Filter Results
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Category
+                </label>
+                <select
+                  value={filters.category}
+                  onChange={(e) =>
+                    setFilters({ ...filters, category: e.target.value })
+                  }
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
-                  Skills for your present and your future. Get started with us.
-                </Typography>
-                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-                  <Chip
-                    icon={<Whatshot color="white" />}
-                    label="Trending Courses"
-                    variant="outlined"
-                    sx={{ color: "white", borderColor: "white" }}
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Level
+                </label>
+                <select
+                  value={filters.level}
+                  onChange={(e) =>
+                    setFilters({ ...filters, level: e.target.value })
+                  }
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  {levels.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Minimum Rating
+                </label>
+                <select
+                  value={filters.minRating}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      minRating: Number(e.target.value),
+                    })
+                  }
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value={0}>Any Rating</option>
+                  <option value={4}>4+ Stars</option>
+                  <option value={4.5}>4.5+ Stars</option>
+                  <option value={4.7}>4.7+ Stars</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <p className="text-slate-600">
+                Showing{" "}
+                <span className="font-semibold text-slate-900">
+                  {filteredUniversities.length}
+                </span>{" "}
+                {filteredUniversities.length === 1 ? "result" : "results"}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Search Results */}
+        {showSearchResults && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              Search Results
+            </h2>
+            {filteredUniversities.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredUniversities.map((uni) => (
+                  <UniversityCard key={uni.id} uni={uni} />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-slate-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                  No universities found
+                </h3>
+                <p className="text-slate-600">
+                  Try adjusting your search or filters
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Featured Section */}
+        {!showSearchResults && (
+          <>
+            <div className="mb-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Award className="w-7 h-7 text-indigo-600" />
+                <h2 className="text-2xl font-bold text-slate-900">
+                  Featured Universities
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {featuredUniversities.map((uni) => (
+                  <UniversityCard
+                    key={uni.id}
+                    uni={uni}
+                    badge={{
+                      icon: <Award className="w-3 h-3" />,
+                      text: "Featured",
+                    }}
                   />
-                  <Chip
-                    icon={<NewReleases color="white" />}
-                    label="New Programs"
-                    variant="outlined"
-                    sx={{ color: "white", borderColor: "white" }}
+                ))}
+              </div>
+            </div>
+
+            {/* Top Rated Section */}
+            <div className="mb-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Star className="w-7 h-7 text-yellow-500" />
+                <h2 className="text-2xl font-bold text-slate-900">
+                  Top Rated Universities
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {topUniversities.map((uni) => (
+                  <UniversityCard
+                    key={uni.id}
+                    uni={uni}
+                    badge={{
+                      icon: <Star className="w-3 h-3" />,
+                      text: "Top Rated",
+                    }}
                   />
-                  <Chip
-                    icon={<TrendingUp color="white" />}
-                    label="Career Paths"
-                    variant="outlined"
-                    sx={{ color: "white", borderColor: "white" }}
+                ))}
+              </div>
+            </div>
+
+            {/* Trending Section */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <TrendingUp className="w-7 h-7 text-emerald-600" />
+                <h2 className="text-2xl font-bold text-slate-900">
+                  Trending Now
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {trendingUniversities.map((uni) => (
+                  <UniversityCard
+                    key={uni.id}
+                    uni={uni}
+                    badge={{
+                      icon: <TrendingUp className="w-3 h-3" />,
+                      text: "Trending",
+                    }}
                   />
-                </Box>
-              </Grid>
-            </Grid>
-          </Paper>
-
-          {/* Results Header */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 3,
-            }}
-          >
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: 700,
-                color: "#1e3a8a",
-                mb: 2,
-                letterSpacing: 0.5,
-                textTransform: "uppercase",
-                position: "relative",
-                "&::after": {
-                  content: '""',
-                  display: "block",
-                  width: 60,
-                  height: 3,
-                  background:
-                    "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
-                  borderRadius: 2,
-                  mt: 0.5,
-                },
-              }}
-            >
-              {selectedCategory === "All Categories"
-                ? "Featured Universities"
-                : selectedCategory}
-            </Typography>
-            {/* <Typography variant="body1" color="text.secondary">
-              {filteredUniversities.length} results
-            </Typography> */}
-          </Box>
-
-          {/* Courses Grid */}
-          <Grid container spacing={3}>
-            {filteredUniversities.map((course) => (
-              <Grid ey={course.id}>
-                <UniversityCardComponent course={course} wishlist={[]} />
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* No Results */}
-          {filteredUniversities.length === 0 && (
-            <Paper
-              sx={{
-                p: 8,
-                textAlign: "center",
-                borderRadius: 2,
-                background: "rgba(86, 36, 208, 0.02)",
-              }}
-            >
-              <School
-                sx={{
-                  fontSize: 64,
-                  color: "text.secondary",
-                  mb: 2,
-                  opacity: 0.5,
-                }}
-              />
-              <Typography variant="h5" color="text.secondary" gutterBottom>
-                No courses found
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                Try adjusting your search filters or browse our categories
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#5624d0" }}
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedCategory("All Categories");
-                  setSelectedLevel("All Levels");
-                  setSelectedDuration("Any");
-                  setPriceRange([0, 300]);
-                  setRating(0);
-                }}
-              >
-                Clear all filters
-              </Button>
-            </Paper>
-          )}
-        </Box>
-      </Container>
-
-      {/* Filter Drawer */}
-      <Drawer
-        anchor="right"
-        open={filterDrawerOpen}
-        onClose={() => setFilterDrawerOpen(false)}
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: { xs: 300, sm: 350 },
-            p: 3,
-          },
-        }}
-      >
-        <Typography variant="h6" sx={{ mb: 3, fontWeight: 700 }}>
-          Filters
-        </Typography>
-
-        {/* Category Filter */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-            Category
-          </Typography>
-          <List dense>
-            {categories.map((category) => (
-              <ListItem
-                key={category}
-                button
-                selected={selectedCategory === category}
-                onClick={() => setSelectedCategory(category)}
-              >
-                <ListItemText primary={category} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-
-        {/* Level Filter */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-            Level
-          </Typography>
-          <List dense>
-            {levels.map((level) => (
-              <ListItem
-                key={level}
-                button
-                selected={selectedLevel === level}
-                onClick={() => setSelectedLevel(level)}
-              >
-                <ListItemText primary={level} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-
-        {/* Duration Filter */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-            Duration
-          </Typography>
-          <List dense>
-            {durations.map((duration) => (
-              <ListItem
-                key={duration}
-                button
-                selected={selectedDuration === duration}
-                onClick={() => setSelectedDuration(duration)}
-              >
-                <ListItemText primary={duration} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-
-        {/* Price Range */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-            Price Range: ${priceRange[0]} - ${priceRange[1]}
-          </Typography>
-          <Slider
-            value={priceRange}
-            onChange={(_, newValue) => setPriceRange(newValue)}
-            valueLabelDisplay="auto"
-            min={0}
-            max={300}
-            sx={{ color: "#5624d0" }}
-          />
-        </Box>
-
-        {/* Rating Filter */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-            Minimum Rating
-          </Typography>
-          <Rating
-            value={rating}
-            onChange={(_, newValue) => setRating(newValue || 0)}
-            precision={0.5}
-            size="large"
-          />
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {rating > 0 ? `${rating}+ stars` : "Any rating"}
-          </Typography>
-        </Box>
-
-        {/* Clear Filters */}
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => {
-            setSelectedCategory("All Categories");
-            setSelectedLevel("All Levels");
-            setSelectedDuration("Any");
-            setPriceRange([0, 300]);
-            setRating(0);
-          }}
-          sx={{ mt: 2 }}
-        >
-          Clear All Filters
-        </Button>
-      </Drawer>
-    </Box>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 }

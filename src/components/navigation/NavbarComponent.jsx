@@ -125,7 +125,7 @@ export default function NavbarComponent() {
                 component={NavLink}
                 to={item.path}
                 startIcon={item.icon}
-                sx={{
+                sx={(theme) => ({
                   position: "relative",
                   px: 2,
                   py: 1,
@@ -134,22 +134,30 @@ export default function NavbarComponent() {
                   fontSize: "0.95rem",
                   textTransform: "none",
                   transition: "color 0.2s",
-                  "&:hover": {
-                    color: "#6b21a8",
-                    backgroundColor: "transparent",
-                  },
                   "&::after": {
                     content: '""',
                     position: "absolute",
                     bottom: 0,
                     left: 0,
-                    width: 0,
+                    width: "0",
                     height: "2px",
-                    background: "linear-gradient(to right, #6b21a8, #312e81)",
+                    backgroundColor: "#432dd7",
                     transition: "width 0.3s",
                   },
-                  "&:hover::after": { width: "100%" },
-                }}
+                  "&:hover": {
+                    color: "#432dd7",
+                    backgroundColor: "transparent",
+                  },
+                  "&:hover::after": {
+                    width: "100%",
+                  },
+                  "&.active::after": {
+                    width: "100%",
+                  },
+                  "&.active": {
+                    color: "#432dd7",
+                  },
+                })}
               >
                 {item.name}
               </Button>
