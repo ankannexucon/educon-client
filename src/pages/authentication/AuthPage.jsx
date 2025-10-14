@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaGoogle, FaLinkedin } from "react-icons/fa";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/authContext";
 
 export default function AuthPage() {
   const [authMode, setAuthMode] = useState("login");
@@ -138,4 +138,3 @@ export default function AuthPage() {
     </div>
   );
 }
-
