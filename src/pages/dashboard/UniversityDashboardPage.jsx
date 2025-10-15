@@ -1,5 +1,15 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Search, Star, TrendingUp, Award, Filter, Sparkles, Brain, Lightbulb, MessageCircle } from "lucide-react";
+import {
+  Search,
+  Star,
+  TrendingUp,
+  Award,
+  Filter,
+  Sparkles,
+  Brain,
+  Lightbulb,
+  MessageCircle,
+} from "lucide-react";
 import UniversityCard from "../../components/card/UniversityCard";
 
 const mockUniversities = [
@@ -175,73 +185,121 @@ const aiSearchKnowledge = {
       "Universities with strong engineering programs in California",
       "Top technology institutes with research facilities",
       "Engineering schools with high placement rates",
-      "Universities with mechanical engineering programs"
+      "Universities with mechanical engineering programs",
     ],
-    keywords: ["engineering", "technology", "computer science", "mechanical", "electrical", "software"]
+    keywords: [
+      "engineering",
+      "technology",
+      "computer science",
+      "mechanical",
+      "electrical",
+      "software",
+    ],
   },
   business: {
     suggestions: [
       "Top-rated business schools with high placement rates",
       "Universities with strong entrepreneurship programs",
       "MBA programs with internship opportunities",
-      "Business schools with international partnerships"
+      "Business schools with international partnerships",
     ],
-    keywords: ["business", "mba", "management", "entrepreneurship", "marketing", "finance"]
+    keywords: [
+      "business",
+      "mba",
+      "management",
+      "entrepreneurship",
+      "marketing",
+      "finance",
+    ],
   },
   affordable: {
     suggestions: [
       "Most affordable universities with quality education",
       "Universities offering scholarships and financial aid",
       "Budget-friendly institutions with good ratings",
-      "Universities with payment plan options"
+      "Universities with payment plan options",
     ],
-    keywords: ["affordable", "cheap", "budget", "low cost", "scholarship", "financial aid"]
+    keywords: [
+      "affordable",
+      "cheap",
+      "budget",
+      "low cost",
+      "scholarship",
+      "financial aid",
+    ],
   },
   research: {
     suggestions: [
       "Research-focused universities with strong science programs",
       "Institutions with high research output and funding",
       "Universities with PhD programs and research opportunities",
-      "Research institutions with laboratory facilities"
+      "Research institutions with laboratory facilities",
     ],
-    keywords: ["research", "science", "phd", "laboratory", "innovation", "development"]
+    keywords: [
+      "research",
+      "science",
+      "phd",
+      "laboratory",
+      "innovation",
+      "development",
+    ],
   },
   california: {
     suggestions: [
       "Top universities in California with engineering programs",
       "California institutions with technology focus",
       "Universities in Silicon Valley area",
-      "California schools with strong computer science"
+      "California schools with strong computer science",
     ],
-    keywords: ["california", "stanford", "berkeley", "pasadena", "silicon valley", "san francisco"]
+    keywords: [
+      "california",
+      "stanford",
+      "berkeley",
+      "pasadena",
+      "silicon valley",
+      "san francisco",
+    ],
   },
   newYork: {
     suggestions: [
       "Universities in New York with business programs",
       "New York institutions with arts and culture",
       "Universities in Manhattan area",
-      "New York schools with international programs"
+      "New York schools with international programs",
     ],
-    keywords: ["new york", "ny", "manhattan", "columbia", "nyc"]
+    keywords: ["new york", "ny", "manhattan", "columbia", "nyc"],
   },
   beginner: {
     suggestions: [
       "Universities with beginner-friendly programs",
       "Institutions with introductory level courses",
       "Schools with foundation year programs",
-      "Universities with flexible learning paths"
+      "Universities with flexible learning paths",
     ],
-    keywords: ["beginner", "introductory", "foundation", "basic", "entry level"]
+    keywords: [
+      "beginner",
+      "introductory",
+      "foundation",
+      "basic",
+      "entry level",
+    ],
   },
   advanced: {
     suggestions: [
       "Universities with advanced degree programs",
       "Institutions with master's and PhD programs",
       "Research universities with specialized courses",
-      "Schools with professional certification programs"
+      "Schools with professional certification programs",
     ],
-    keywords: ["advanced", "master", "phd", "professional", "specialized", "graduate"]
-  }
+    keywords: [
+      "advanced",
+      "master",
+      "phd",
+      "professional",
+      "specialized",
+      "graduate",
+    ],
+  },
 };
 
 // AI-Powered Smart Search Component
@@ -260,14 +318,16 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
 
     // Find matching categories based on keywords
     Object.entries(aiSearchKnowledge).forEach(([category, data]) => {
-      const hasKeyword = data.keywords.some(keyword => 
+      const hasKeyword = data.keywords.some((keyword) =>
         queryLower.includes(keyword.toLowerCase())
       );
-      
+
       if (hasKeyword) {
         matchedCategories.push(category);
         // Add category-specific suggestions
-        data.suggestions.forEach(suggestion => allSuggestions.add(suggestion));
+        data.suggestions.forEach((suggestion) =>
+          allSuggestions.add(suggestion)
+        );
       }
     });
 
@@ -279,21 +339,36 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
         "Affordable universities with quality education",
         "Research-focused institutions with science programs",
         "Universities in California with technology focus",
-        "Beginner-friendly programs with flexible learning"
+        "Beginner-friendly programs with flexible learning",
       ];
     }
 
     // Add some intelligent cross-category suggestions
-    if (matchedCategories.includes('engineering') && matchedCategories.includes('california')) {
-      allSuggestions.add("Top engineering universities in California like Stanford and Caltech");
+    if (
+      matchedCategories.includes("engineering") &&
+      matchedCategories.includes("california")
+    ) {
+      allSuggestions.add(
+        "Top engineering universities in California like Stanford and Caltech"
+      );
     }
-    
-    if (matchedCategories.includes('business') && matchedCategories.includes('newYork')) {
-      allSuggestions.add("Leading business schools in New York like Columbia University");
+
+    if (
+      matchedCategories.includes("business") &&
+      matchedCategories.includes("newYork")
+    ) {
+      allSuggestions.add(
+        "Leading business schools in New York like Columbia University"
+      );
     }
-    
-    if (matchedCategories.includes('affordable') && matchedCategories.includes('engineering')) {
-      allSuggestions.add("Affordable engineering programs with good career outcomes");
+
+    if (
+      matchedCategories.includes("affordable") &&
+      matchedCategories.includes("engineering")
+    ) {
+      allSuggestions.add(
+        "Affordable engineering programs with good career outcomes"
+      );
     }
 
     return Array.from(allSuggestions).slice(0, 6);
@@ -301,7 +376,7 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
 
   const handleSearchChange = (value) => {
     setSearchQuery(value);
-    
+
     if (value.length >= 2) {
       const suggestions = generateAISuggestions(value);
       setAiSuggestions(suggestions);
@@ -321,7 +396,7 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && aiSuggestions.length > 0) {
+    if (e.key === "Enter" && aiSuggestions.length > 0) {
       handleSuggestionClick(aiSuggestions[0]);
     }
   };
@@ -340,11 +415,11 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-purple-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-lg placeholder-purple-300"
         />
-        
+
         {searchQuery && (
           <button
             onClick={() => {
-              setSearchQuery('');
+              setSearchQuery("");
               setShowSuggestions(false);
             }}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -353,12 +428,14 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
           </button>
         )}
       </div>
-      
+
       {showSuggestions && aiSuggestions.length > 0 && (
         <div className="mt-2 bg-white rounded-lg border border-purple-100 shadow-lg p-4 z-50">
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-purple-500" />
-            <p className="text-sm text-purple-600 font-semibold">AI Search Suggestions:</p>
+            <p className="text-sm text-purple-600 font-semibold">
+              AI Search Suggestions:
+            </p>
           </div>
           <div className="space-y-2">
             {aiSuggestions.map((suggestion, index) => (
@@ -389,63 +466,79 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
 const AIMatchScore = ({ university, userProfile }) => {
   const calculateMatchScore = (uni, profile) => {
     let score = 0;
-    
+
     // Location preference match (30 points max)
     if (profile.preferredLocation) {
-      const locationMatch = uni.location.toLowerCase().includes(profile.preferredLocation.toLowerCase()) ||
-                           profile.preferredLocation.toLowerCase().includes(uni.location.split(',')[0].toLowerCase());
+      const locationMatch =
+        uni.location
+          .toLowerCase()
+          .includes(profile.preferredLocation.toLowerCase()) ||
+        profile.preferredLocation
+          .toLowerCase()
+          .includes(uni.location.split(",")[0].toLowerCase());
       if (locationMatch) score += 30;
     }
-    
+
     // Field of study match (35 points max)
     if (profile.fieldOfInterest) {
-      const fieldMatch = uni.category.toLowerCase().includes(profile.fieldOfInterest.toLowerCase()) ||
-                        uni.description.toLowerCase().includes(profile.fieldOfInterest.toLowerCase());
+      const fieldMatch =
+        uni.category
+          .toLowerCase()
+          .includes(profile.fieldOfInterest.toLowerCase()) ||
+        uni.description
+          .toLowerCase()
+          .includes(profile.fieldOfInterest.toLowerCase());
       if (fieldMatch) score += 35;
     }
-    
+
     // Budget match (20 points max)
     if (profile.maxBudget && uni.discountPrice <= profile.maxBudget) {
       const budgetRatio = uni.discountPrice / profile.maxBudget;
       score += 20 * (1 - budgetRatio); // Higher score for lower price relative to budget
     }
-    
+
     // Level match (15 points max)
-    if (profile.experienceLevel && profile.experienceLevel !== 'All Levels') {
+    if (profile.experienceLevel && profile.experienceLevel !== "All Levels") {
       if (uni.level === profile.experienceLevel) score += 15;
     }
-    
+
     // Rating boost (adjust based on rating)
     score += (uni.rating - 4) * 8; // 0-8 points based on rating above 4.0
-    
+
     return Math.min(100, Math.max(0, Math.round(score)));
   };
 
   const matchScore = calculateMatchScore(university, userProfile);
 
   const getMatchColor = (score) => {
-    if (score >= 80) return 'bg-green-500';
-    if (score >= 60) return 'bg-blue-500';
-    if (score >= 40) return 'bg-yellow-500';
-    return 'bg-red-500';
+    if (score >= 80) return "bg-green-500";
+    if (score >= 60) return "bg-blue-500";
+    if (score >= 40) return "bg-yellow-500";
+    return "bg-red-500";
   };
 
   const getMatchText = (score) => {
-    if (score >= 80) return 'Excellent Match';
-    if (score >= 60) return 'Good Match';
-    if (score >= 40) return 'Fair Match';
-    return 'Low Match';
+    if (score >= 80) return "Excellent Match";
+    if (score >= 60) return "Good Match";
+    if (score >= 40) return "Fair Match";
+    return "Low Match";
   };
 
   return (
     <div className="mt-3">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-xs font-medium text-gray-600">AI Match Score</span>
-        <span className="text-xs font-semibold text-gray-700">{matchScore}% - {getMatchText(matchScore)}</span>
+        <span className="text-xs font-medium text-gray-600">
+          AI Match Score
+        </span>
+        <span className="text-xs font-semibold text-gray-700">
+          {matchScore}% - {getMatchText(matchScore)}
+        </span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2">
-        <div 
-          className={`h-2 rounded-full transition-all duration-500 ${getMatchColor(matchScore)}`}
+        <div
+          className={`h-2 rounded-full transition-all duration-500 ${getMatchColor(
+            matchScore
+          )}`}
           style={{ width: `${matchScore}%` }}
         ></div>
       </div>
@@ -457,45 +550,64 @@ const AIMatchScore = ({ university, userProfile }) => {
 const AIRecommendations = ({ universities, userBehavior, userProfile }) => {
   const generateRecommendations = useMemo(() => {
     return universities
-      .map(uni => {
+      .map((uni) => {
         let relevanceScore = 0;
-        
+
         // Based on user search history (40 points max)
-        if (userBehavior.searches && userBehavior.searches.some(search => 
-          uni.name.toLowerCase().includes(search.toLowerCase()) ||
-          uni.description.toLowerCase().includes(search.toLowerCase()) ||
-          uni.category.toLowerCase().includes(search.toLowerCase())
-        )) {
+        if (
+          userBehavior.searches &&
+          userBehavior.searches.some(
+            (search) =>
+              uni.name.toLowerCase().includes(search.toLowerCase()) ||
+              uni.description.toLowerCase().includes(search.toLowerCase()) ||
+              uni.category.toLowerCase().includes(search.toLowerCase())
+          )
+        ) {
           relevanceScore += 40;
         }
-        
+
         // Based on viewed universities (30 points max)
-        if (userBehavior.viewedUniversities && userBehavior.viewedUniversities.includes(uni.id)) {
+        if (
+          userBehavior.viewedUniversities &&
+          userBehavior.viewedUniversities.includes(uni.id)
+        ) {
           relevanceScore += 30;
         }
-        
+
         // Based on user profile preferences (20 points)
-        if (userProfile.fieldOfInterest && 
-            (uni.category.toLowerCase().includes(userProfile.fieldOfInterest.toLowerCase()) ||
-             uni.description.toLowerCase().includes(userProfile.fieldOfInterest.toLowerCase()))) {
+        if (
+          userProfile.fieldOfInterest &&
+          (uni.category
+            .toLowerCase()
+            .includes(userProfile.fieldOfInterest.toLowerCase()) ||
+            uni.description
+              .toLowerCase()
+              .includes(userProfile.fieldOfInterest.toLowerCase()))
+        ) {
           relevanceScore += 20;
         }
-        
+
         // Based on budget compatibility (10 points)
-        if (userProfile.maxBudget && uni.discountPrice <= userProfile.maxBudget) {
+        if (
+          userProfile.maxBudget &&
+          uni.discountPrice <= userProfile.maxBudget
+        ) {
           relevanceScore += 10;
         }
-        
+
         // Rating boost
         relevanceScore += (uni.rating - 4) * 5;
-        
+
         return { ...uni, relevanceScore };
       })
       .sort((a, b) => b.relevanceScore - a.relevanceScore)
       .slice(0, 4);
   }, [universities, userBehavior, userProfile]);
 
-  if (generateRecommendations.length === 0 || generateRecommendations[0].relevanceScore === 0) {
+  if (
+    generateRecommendations.length === 0 ||
+    generateRecommendations[0].relevanceScore === 0
+  ) {
     return null;
   }
 
@@ -528,14 +640,14 @@ const AIRecommendations = ({ universities, userBehavior, userProfile }) => {
 const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
   const getAITags = (university) => {
     const tags = [];
-    
-    if (university.rating >= 4.8) tags.push('🏆 Top Tier');
-    if (university.students > 20000) tags.push('👥 Large Community');
-    if (university.discountPrice < 100) tags.push('💰 Great Value');
-    if (university.courses > 180) tags.push('📚 Extensive Courses');
-    if (university.trending) tags.push('🚀 Growing Popularity');
-    if (university.featured) tags.push('⭐ Featured');
-    
+
+    if (university.rating >= 4.8) tags.push("🏆 Top Tier");
+    if (university.students > 20000) tags.push("👥 Large Community");
+    if (university.discountPrice < 100) tags.push("💰 Great Value");
+    if (university.courses > 180) tags.push("📚 Extensive Courses");
+    if (university.trending) tags.push("🚀 Growing Popularity");
+    if (university.featured) tags.push("⭐ Featured");
+
     return tags.slice(0, 3); // Limit to 3 tags
   };
 
@@ -544,7 +656,11 @@ const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-300 hover:translate-y-[-2px]">
       <div className="relative">
-        <img src={uni.image} alt={uni.name} className="w-full h-48 object-cover" />
+        <img
+          src={uni.image}
+          alt={uni.name}
+          className="w-full h-48 object-cover"
+        />
         {badge && (
           <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
             {badge.icon}
@@ -557,44 +673,62 @@ const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
         <p className="text-slate-600 text-sm mb-3 flex items-center gap-1">
           📍 {uni.location}
         </p>
-        
-        <p className="text-slate-700 text-sm mb-3 line-clamp-2">{uni.description}</p>
-        
+
+        <p className="text-slate-700 text-sm mb-3 line-clamp-2">
+          {uni.description}
+        </p>
+
         {/* AI Tags */}
         {aiTags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {aiTags.map((tag, index) => (
-              <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+              <span
+                key={index}
+                className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
+              >
                 {tag}
               </span>
             ))}
           </div>
         )}
-        
+
         {/* AI Match Score */}
         <AIMatchScore university={uni} userProfile={userProfile} />
-        
+
         <div className="mt-4 flex justify-between items-center">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 text-yellow-500 fill-current" />
             <span className="font-semibold text-slate-900">{uni.rating}</span>
-            <span className="text-slate-500 text-sm">({uni.reviews.toLocaleString()})</span>
+            <span className="text-slate-500 text-sm">
+              ({uni.reviews.toLocaleString()})
+            </span>
           </div>
           <div className="text-right">
-            <span className="text-lg font-bold text-green-600">${uni.discountPrice}</span>
-            <span className="text-slate-500 line-through text-sm ml-2">${uni.price}</span>
+            <span className="text-lg font-bold text-green-600">
+              ${uni.discountPrice}
+            </span>
+            <span className="text-slate-500 line-through text-sm ml-2">
+              ${uni.price}
+            </span>
           </div>
         </div>
-        
+
         <div className="mt-3 flex justify-between items-center text-sm text-slate-600">
           <span>👥 {uni.students.toLocaleString()} students</span>
           <span>📚 {uni.courses} courses</span>
         </div>
-        
+
         <div className="mt-3 flex justify-between items-center text-sm">
-          <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded-full">{uni.level}</span>
+          <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded-full">
+            {uni.level}
+          </span>
           <span className="text-slate-600">{uni.duration}</span>
         </div>
+        <button
+          className={`mt-2 w-full font-medium py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white`}
+        >
+          View Courses
+        </button>
       </div>
     </div>
   );
@@ -606,42 +740,51 @@ const AISmartFilters = ({ universities, filters, setFilters }) => {
 
   const generateInsights = (unis) => {
     const insights = [];
-    
+
     if (unis.length === 0) return insights;
 
     // Price insights
-    const prices = unis.map(uni => uni.discountPrice);
-    const avgPrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+    const prices = unis.map((uni) => uni.discountPrice);
+    const avgPrice =
+      prices.reduce((sum, price) => sum + price, 0) / prices.length;
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
-    
-    insights.push(`💰 Average price: $${avgPrice.toFixed(0)} (range: $${minPrice}-$${maxPrice})`);
-    
+
+    insights.push(
+      `💰 Average price: $${avgPrice.toFixed(
+        0
+      )} (range: $${minPrice}-$${maxPrice})`
+    );
+
     // Rating insights
-    const highRated = unis.filter(uni => uni.rating >= 4.7).length;
+    const highRated = unis.filter((uni) => uni.rating >= 4.7).length;
     const total = unis.length;
     insights.push(`⭐ ${highRated} of ${total} universities rated 4.7+ stars`);
-    
+
     // Category distribution
     const categories = {};
-    unis.forEach(uni => {
+    unis.forEach((uni) => {
       categories[uni.category] = (categories[uni.category] || 0) + 1;
     });
-    
-    const topCategory = Object.keys(categories).reduce((a, b) => 
+
+    const topCategory = Object.keys(categories).reduce((a, b) =>
       categories[a] > categories[b] ? a : b
     );
-    insights.push(`🎯 Most common: ${topCategory} (${categories[topCategory]} options)`);
-    
+    insights.push(
+      `🎯 Most common: ${topCategory} (${categories[topCategory]} options)`
+    );
+
     // Level distribution
     const levels = {};
-    unis.forEach(uni => {
+    unis.forEach((uni) => {
       levels[uni.level] = (levels[uni.level] || 0) + 1;
     });
-    const topLevel = Object.keys(levels).reduce((a, b) => 
+    const topLevel = Object.keys(levels).reduce((a, b) =>
       levels[a] > levels[b] ? a : b
     );
-    insights.push(`📊 Mostly ${topLevel.toLowerCase()} level courses available`);
+    insights.push(
+      `📊 Mostly ${topLevel.toLowerCase()} level courses available`
+    );
 
     return insights;
   };
@@ -660,7 +803,10 @@ const AISmartFilters = ({ universities, filters, setFilters }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {aiInsights.map((insight, index) => (
-          <div key={index} className="flex items-center gap-2 text-sm text-blue-800">
+          <div
+            key={index}
+            className="flex items-center gap-2 text-sm text-blue-800"
+          >
             <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
             {insight}
           </div>
@@ -679,16 +825,16 @@ export default function EnhancedUniversityDashboard() {
   });
 
   const [userProfile, setUserProfile] = useState({
-    preferredLocation: 'California',
-    fieldOfInterest: 'Technology',
+    preferredLocation: "California",
+    fieldOfInterest: "Technology",
     maxBudget: 150,
-    experienceLevel: 'All Levels'
+    experienceLevel: "All Levels",
   });
 
   const [userBehavior, setUserBehavior] = useState({
-    searches: ['engineering', 'technology', 'stanford'],
+    searches: ["engineering", "technology", "stanford"],
     viewedUniversities: [1, 2, 3],
-    savedUniversities: [1]
+    savedUniversities: [1],
   });
 
   const filteredUniversities = useMemo(() => {
@@ -732,10 +878,13 @@ export default function EnhancedUniversityDashboard() {
 
   // Update user behavior when search is performed
   useEffect(() => {
-    if (searchQuery.trim() && !userBehavior.searches.includes(searchQuery.toLowerCase())) {
-      setUserBehavior(prev => ({
+    if (
+      searchQuery.trim() &&
+      !userBehavior.searches.includes(searchQuery.toLowerCase())
+    ) {
+      setUserBehavior((prev) => ({
         ...prev,
-        searches: [...prev.searches, searchQuery.toLowerCase()].slice(-10) // Keep last 10 searches
+        searches: [...prev.searches, searchQuery.toLowerCase()].slice(-10), // Keep last 10 searches
       }));
     }
   }, [searchQuery]);
@@ -754,20 +903,21 @@ export default function EnhancedUniversityDashboard() {
             AI-Powered University Discovery
           </h1>
           <p className="text-slate-600 text-lg">
-            Smart recommendations and insights powered by artificial intelligence
+            Smart recommendations and insights powered by artificial
+            intelligence
           </p>
         </div>
 
         {/* AI Search */}
-        <AISearch 
-          searchQuery={searchQuery} 
+        <AISearch
+          searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSuggestionClick={handleSuggestionClick}
         />
 
         {/* AI Recommendations - Show when no active search */}
         {!showSearchResults && (
-          <AIRecommendations 
+          <AIRecommendations
             universities={mockUniversities}
             userBehavior={userBehavior}
             userProfile={userProfile}
@@ -846,8 +996,8 @@ export default function EnhancedUniversityDashboard() {
             </div>
 
             {/* AI Smart Filters */}
-            <AISmartFilters 
-              universities={filteredUniversities} 
+            <AISmartFilters
+              universities={filteredUniversities}
               filters={filters}
               setFilters={setFilters}
             />
@@ -873,9 +1023,9 @@ export default function EnhancedUniversityDashboard() {
             {filteredUniversities.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredUniversities.map((uni) => (
-                  <EnhancedUniversityCard 
-                    key={uni.id} 
-                    uni={uni} 
+                  <EnhancedUniversityCard
+                    key={uni.id}
+                    uni={uni}
                     userProfile={userProfile}
                   />
                 ))}

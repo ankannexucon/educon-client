@@ -1,6 +1,14 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { Search, Filter, Sparkles, Brain, Lightbulb, TrendingUp, Award } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Sparkles,
+  Brain,
+  Lightbulb,
+  TrendingUp,
+  Award,
+} from "lucide-react";
 import CourseCardComponent from "../../components/course/CourseCardComponent";
 
 // Dummy Course Data
@@ -15,7 +23,8 @@ const mockCourseData = [
     image: "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
     category: "Technology",
     level: "Beginner",
-    description: "Learn the fundamentals of computer science, programming, and problem-solving skills.",
+    description:
+      "Learn the fundamentals of computer science, programming, and problem-solving skills.",
     rating: 4.8,
     reviews: 1245,
     featured: true,
@@ -31,7 +40,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1012/400/250",
     category: "Technology",
     level: "Intermediate",
-    description: "Gain expertise in data analysis, machine learning, and predictive modeling techniques.",
+    description:
+      "Gain expertise in data analysis, machine learning, and predictive modeling techniques.",
     rating: 4.7,
     reviews: 890,
     featured: true,
@@ -46,7 +56,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1013/400/250",
     category: "Business",
     level: "Intermediate",
-    description: "Develop strategic marketing skills and learn how to grow businesses effectively.",
+    description:
+      "Develop strategic marketing skills and learn how to grow businesses effectively.",
     rating: 4.6,
     reviews: 1120,
     top: true,
@@ -61,7 +72,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1014/400/250",
     category: "Business",
     level: "Beginner",
-    description: "Understand the basics of business management, leadership, and organizational skills.",
+    description:
+      "Understand the basics of business management, leadership, and organizational skills.",
     rating: 4.5,
     reviews: 760,
   },
@@ -75,7 +87,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1015/400/250",
     category: "Technology",
     level: "Advanced",
-    description: "Master advanced React concepts, state management, hooks, and component optimization.",
+    description:
+      "Master advanced React concepts, state management, hooks, and component optimization.",
     rating: 4.9,
     reviews: 340,
     trending: true,
@@ -90,7 +103,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1016/400/250",
     category: "Design",
     level: "Intermediate",
-    description: "Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.",
+    description:
+      "Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.",
     rating: 4.7,
     reviews: 210,
   },
@@ -104,7 +118,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1018/400/250",
     category: "Technology",
     level: "Intermediate",
-    description: "Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib.",
+    description:
+      "Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib.",
     rating: 4.8,
     reviews: 430,
   },
@@ -118,7 +133,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1019/400/250",
     category: "Technology",
     level: "Advanced",
-    description: "Learn front-end and back-end development with React, Node.js, and databases to build full web applications.",
+    description:
+      "Learn front-end and back-end development with React, Node.js, and databases to build full web applications.",
     rating: 4.9,
     reviews: 560,
     top: true,
@@ -133,7 +149,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1020/400/250",
     category: "Business",
     level: "Beginner",
-    description: "Understand SEO, social media marketing, content strategies, and analytics to grow a brand online.",
+    description:
+      "Understand SEO, social media marketing, content strategies, and analytics to grow a brand online.",
     rating: 4.6,
     reviews: 290,
   },
@@ -147,7 +164,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1021/400/250",
     category: "Design",
     level: "Beginner",
-    description: "Master the principles of user interface and user experience design to create intuitive digital products.",
+    description:
+      "Master the principles of user interface and user experience design to create intuitive digital products.",
     rating: 4.7,
     reviews: 180,
     trending: true,
@@ -162,7 +180,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1022/400/250",
     category: "Technology",
     level: "Intermediate",
-    description: "Apply Python programming to implement machine learning algorithms, models, and data pipelines.",
+    description:
+      "Apply Python programming to implement machine learning algorithms, models, and data pipelines.",
     rating: 4.8,
     reviews: 320,
   },
@@ -176,7 +195,8 @@ const mockCourseData = [
     image: "https://picsum.photos/id/1023/400/250",
     category: "Business",
     level: "Intermediate",
-    description: "Learn to analyze financial statements, build models, and make data-driven investment decisions.",
+    description:
+      "Learn to analyze financial statements, build models, and make data-driven investment decisions.",
     rating: 4.5,
     reviews: 150,
   },
@@ -192,82 +212,142 @@ const aiSearchKnowledge = {
       "Programming courses for beginners",
       "Advanced coding and development programs",
       "Full-stack web development courses",
-      "Python programming courses"
+      "Python programming courses",
     ],
-    keywords: ["programming", "coding", "development", "python", "react", "javascript", "web development"]
+    keywords: [
+      "programming",
+      "coding",
+      "development",
+      "python",
+      "react",
+      "javascript",
+      "web development",
+    ],
   },
   data: {
     suggestions: [
       "Data science and analytics courses",
       "Machine learning and AI programs",
       "Data analysis with Python courses",
-      "Big data and analytics programs"
+      "Big data and analytics programs",
     ],
-    keywords: ["data", "analytics", "machine learning", "ai", "data science", "analysis", "python"]
+    keywords: [
+      "data",
+      "analytics",
+      "machine learning",
+      "ai",
+      "data science",
+      "analysis",
+      "python",
+    ],
   },
   business: {
     suggestions: [
       "Business management and MBA programs",
       "Digital marketing courses",
       "Finance and investment programs",
-      "Entrepreneurship and leadership courses"
+      "Entrepreneurship and leadership courses",
     ],
-    keywords: ["business", "management", "mba", "marketing", "finance", "entrepreneurship", "leadership"]
+    keywords: [
+      "business",
+      "management",
+      "mba",
+      "marketing",
+      "finance",
+      "entrepreneurship",
+      "leadership",
+    ],
   },
   design: {
     suggestions: [
       "UI/UX design courses",
       "Web design and development programs",
       "Graphic design courses",
-      "Frontend development with design"
+      "Frontend development with design",
     ],
-    keywords: ["design", "ui", "ux", "frontend", "graphic", "web design", "tailwind"]
+    keywords: [
+      "design",
+      "ui",
+      "ux",
+      "frontend",
+      "graphic",
+      "web design",
+      "tailwind",
+    ],
   },
   affordable: {
     suggestions: [
       "Budget-friendly courses under $500",
       "Affordable certification programs",
       "Cost-effective learning options",
-      "Short courses with great value"
+      "Short courses with great value",
     ],
-    keywords: ["affordable", "cheap", "budget", "low cost", "inexpensive", "value"]
+    keywords: [
+      "affordable",
+      "cheap",
+      "budget",
+      "low cost",
+      "inexpensive",
+      "value",
+    ],
   },
   beginner: {
     suggestions: [
       "Beginner-friendly programming courses",
       "Introductory business programs",
       "Foundation courses for beginners",
-      "No-experience-required courses"
+      "No-experience-required courses",
     ],
-    keywords: ["beginner", "introductory", "foundation", "basic", "entry level", "starter"]
+    keywords: [
+      "beginner",
+      "introductory",
+      "foundation",
+      "basic",
+      "entry level",
+      "starter",
+    ],
   },
   advanced: {
     suggestions: [
       "Advanced technical courses",
       "Professional certification programs",
       "Master-level courses",
-      "Specialized advanced programs"
+      "Specialized advanced programs",
     ],
-    keywords: ["advanced", "professional", "expert", "master", "specialized", "complex"]
+    keywords: [
+      "advanced",
+      "professional",
+      "expert",
+      "master",
+      "specialized",
+      "complex",
+    ],
   },
   short: {
     suggestions: [
       "Short-term certification courses",
       "8-week intensive programs",
       "Quick skill development courses",
-      "Short duration learning programs"
+      "Short duration learning programs",
     ],
-    keywords: ["short", "weeks", "intensive", "quick", "fast", "certification"]
+    keywords: ["short", "weeks", "intensive", "quick", "fast", "certification"],
   },
   degree: {
     suggestions: [
       "Bachelor's degree programs",
       "Master's degree courses",
       "Long-term degree programs",
-      "University degree courses"
+      "University degree courses",
     ],
-    keywords: ["degree", "bachelor", "master", "years", "university", "college"]
-  }
+    keywords: [
+      "degree",
+      "bachelor",
+      "master",
+      "years",
+      "university",
+      "college",
+    ],
+  },
 };
 
 // AI-Powered Smart Search Component
@@ -286,14 +366,16 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
 
     // Find matching categories based on keywords
     Object.entries(aiSearchKnowledge).forEach(([category, data]) => {
-      const hasKeyword = data.keywords.some(keyword => 
+      const hasKeyword = data.keywords.some((keyword) =>
         queryLower.includes(keyword.toLowerCase())
       );
-      
+
       if (hasKeyword) {
         matchedCategories.push(category);
         // Add category-specific suggestions
-        data.suggestions.forEach(suggestion => allSuggestions.add(suggestion));
+        data.suggestions.forEach((suggestion) =>
+          allSuggestions.add(suggestion)
+        );
       }
     });
 
@@ -305,25 +387,41 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
         "Business management courses",
         "UI/UX design fundamentals",
         "Affordable short-term courses",
-        "Advanced technical programs"
+        "Advanced technical programs",
       ];
     }
 
     // Add intelligent cross-category suggestions
-    if (matchedCategories.includes('programming') && matchedCategories.includes('beginner')) {
-      allSuggestions.add("Beginner-friendly programming courses like Python and Web Development");
+    if (
+      matchedCategories.includes("programming") &&
+      matchedCategories.includes("beginner")
+    ) {
+      allSuggestions.add(
+        "Beginner-friendly programming courses like Python and Web Development"
+      );
     }
-    
-    if (matchedCategories.includes('data') && matchedCategories.includes('advanced')) {
+
+    if (
+      matchedCategories.includes("data") &&
+      matchedCategories.includes("advanced")
+    ) {
       allSuggestions.add("Advanced data science and machine learning programs");
     }
-    
-    if (matchedCategories.includes('business') && matchedCategories.includes('short')) {
+
+    if (
+      matchedCategories.includes("business") &&
+      matchedCategories.includes("short")
+    ) {
       allSuggestions.add("Short-term business certification courses");
     }
 
-    if (matchedCategories.includes('affordable') && matchedCategories.includes('programming')) {
-      allSuggestions.add("Budget-friendly programming courses with high ratings");
+    if (
+      matchedCategories.includes("affordable") &&
+      matchedCategories.includes("programming")
+    ) {
+      allSuggestions.add(
+        "Budget-friendly programming courses with high ratings"
+      );
     }
 
     return Array.from(allSuggestions).slice(0, 6);
@@ -331,7 +429,7 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
 
   const handleSearchChange = (value) => {
     setSearchQuery(value);
-    
+
     if (value.length >= 2) {
       const suggestions = generateAISuggestions(value);
       setAiSuggestions(suggestions);
@@ -351,7 +449,7 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && aiSuggestions.length > 0) {
+    if (e.key === "Enter" && aiSuggestions.length > 0) {
       handleSuggestionClick(aiSuggestions[0]);
     }
   };
@@ -370,11 +468,11 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-purple-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-lg placeholder-purple-300"
         />
-        
+
         {searchQuery && (
           <button
             onClick={() => {
-              setSearchQuery('');
+              setSearchQuery("");
               setShowSuggestions(false);
             }}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -383,12 +481,14 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
           </button>
         )}
       </div>
-      
+
       {showSuggestions && aiSuggestions.length > 0 && (
         <div className="mt-2 bg-white rounded-lg border border-purple-100 shadow-lg p-4 z-50">
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-purple-500" />
-            <p className="text-sm text-purple-600 font-semibold">AI Search Suggestions:</p>
+            <p className="text-sm text-purple-600 font-semibold">
+              AI Search Suggestions:
+            </p>
           </div>
           <div className="space-y-2">
             {aiSuggestions.map((suggestion, index) => (
@@ -419,68 +519,87 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
 const AIMatchScore = ({ course, userProfile }) => {
   const calculateMatchScore = (course, profile) => {
     let score = 0;
-    
+
     // Field of interest match (40 points max)
     if (profile.fieldOfInterest) {
-      const fieldMatch = course.category.toLowerCase().includes(profile.fieldOfInterest.toLowerCase()) ||
-                        course.description.toLowerCase().includes(profile.fieldOfInterest.toLowerCase()) ||
-                        course.title.toLowerCase().includes(profile.fieldOfInterest.toLowerCase());
+      const fieldMatch =
+        course.category
+          .toLowerCase()
+          .includes(profile.fieldOfInterest.toLowerCase()) ||
+        course.description
+          .toLowerCase()
+          .includes(profile.fieldOfInterest.toLowerCase()) ||
+        course.title
+          .toLowerCase()
+          .includes(profile.fieldOfInterest.toLowerCase());
       if (fieldMatch) score += 40;
     }
-    
+
     // Experience level match (30 points max)
-    if (profile.experienceLevel && profile.experienceLevel !== 'All Levels') {
+    if (profile.experienceLevel && profile.experienceLevel !== "All Levels") {
       if (course.level === profile.experienceLevel) score += 30;
     }
-    
+
     // Budget match (20 points max)
     if (profile.maxBudget) {
-      const coursePrice = parseInt(course.price.replace(/[$,]/g, ''));
+      const coursePrice = parseInt(course.price.replace(/[$,]/g, ""));
       if (coursePrice <= profile.maxBudget) {
         const budgetRatio = coursePrice / profile.maxBudget;
         score += 20 * (1 - budgetRatio);
       }
     }
-    
+
     // Duration preference (10 points max)
     if (profile.preferredDuration) {
-      if (course.duration.includes('Weeks') && profile.preferredDuration === 'short') score += 10;
-      if (course.duration.includes('Years') && profile.preferredDuration === 'long') score += 10;
+      if (
+        course.duration.includes("Weeks") &&
+        profile.preferredDuration === "short"
+      )
+        score += 10;
+      if (
+        course.duration.includes("Years") &&
+        profile.preferredDuration === "long"
+      )
+        score += 10;
     }
-    
+
     // Rating boost
     if (course.rating) {
       score += (course.rating - 4) * 5;
     }
-    
+
     return Math.min(100, Math.max(0, Math.round(score)));
   };
 
   const matchScore = calculateMatchScore(course, userProfile);
 
   const getMatchColor = (score) => {
-    if (score >= 80) return 'bg-green-500';
-    if (score >= 60) return 'bg-blue-500';
-    if (score >= 40) return 'bg-yellow-500';
-    return 'bg-red-500';
+    if (score >= 80) return "bg-green-500";
+    if (score >= 60) return "bg-blue-500";
+    if (score >= 40) return "bg-yellow-500";
+    return "bg-red-500";
   };
 
   const getMatchText = (score) => {
-    if (score >= 80) return 'Perfect Match';
-    if (score >= 60) return 'Great Match';
-    if (score >= 40) return 'Good Match';
-    return 'Fair Match';
+    if (score >= 80) return "Perfect Match";
+    if (score >= 60) return "Great Match";
+    if (score >= 40) return "Good Match";
+    return "Fair Match";
   };
 
   return (
     <div className="mt-2">
       <div className="flex items-center justify-between mb-1">
         <span className="text-xs font-medium text-gray-600">AI Match</span>
-        <span className="text-xs font-semibold text-gray-700">{matchScore}% - {getMatchText(matchScore)}</span>
+        <span className="text-xs font-semibold text-gray-700">
+          {matchScore}% - {getMatchText(matchScore)}
+        </span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2">
-        <div 
-          className={`h-2 rounded-full transition-all duration-500 ${getMatchColor(matchScore)}`}
+        <div
+          className={`h-2 rounded-full transition-all duration-500 ${getMatchColor(
+            matchScore
+          )}`}
           style={{ width: `${matchScore}%` }}
         ></div>
       </div>
@@ -492,49 +611,71 @@ const AIMatchScore = ({ course, userProfile }) => {
 const AIRecommendations = ({ courses, userBehavior, userProfile }) => {
   const generateRecommendations = useMemo(() => {
     return courses
-      .map(course => {
+      .map((course) => {
         let relevanceScore = 0;
-        
+
         // Based on user search history (40 points max)
-        if (userBehavior.searches && userBehavior.searches.some(search => 
-          course.title.toLowerCase().includes(search.toLowerCase()) ||
-          course.description.toLowerCase().includes(search.toLowerCase()) ||
-          course.category.toLowerCase().includes(search.toLowerCase())
-        )) {
+        if (
+          userBehavior.searches &&
+          userBehavior.searches.some(
+            (search) =>
+              course.title.toLowerCase().includes(search.toLowerCase()) ||
+              course.description.toLowerCase().includes(search.toLowerCase()) ||
+              course.category.toLowerCase().includes(search.toLowerCase())
+          )
+        ) {
           relevanceScore += 40;
         }
-        
+
         // Based on user profile preferences (35 points)
-        if (userProfile.fieldOfInterest && 
-            (course.category.toLowerCase().includes(userProfile.fieldOfInterest.toLowerCase()) ||
-             course.description.toLowerCase().includes(userProfile.fieldOfInterest.toLowerCase()))) {
+        if (
+          userProfile.fieldOfInterest &&
+          (course.category
+            .toLowerCase()
+            .includes(userProfile.fieldOfInterest.toLowerCase()) ||
+            course.description
+              .toLowerCase()
+              .includes(userProfile.fieldOfInterest.toLowerCase()))
+        ) {
           relevanceScore += 35;
         }
-        
+
         // Based on course popularity and ratings (25 points)
         if (course.rating >= 4.7) relevanceScore += 15;
         if (course.trending || course.featured) relevanceScore += 10;
-        
+
         return { ...course, relevanceScore };
       })
       .sort((a, b) => b.relevanceScore - a.relevanceScore)
       .slice(0, 4);
   }, [courses, userBehavior, userProfile]);
 
-  if (generateRecommendations.length === 0 || generateRecommendations[0].relevanceScore === 0) {
+  if (
+    generateRecommendations.length === 0 ||
+    generateRecommendations[0].relevanceScore === 0
+  ) {
     return null;
   }
 
   return (
     <Box sx={{ mb: 6 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-        <Brain style={{ width: 28, height: 28, color: '#2563eb' }} />
-        <Typography variant="h4" fontWeight="bold" sx={{ color: '#1e1b4b' }}>
+      <Box
+        sx={{
+          display: "flex",
+          width: 1250,
+          mx: "auto",
+          alignItems: "center",
+          gap: 2,
+          mb: 4,
+        }}
+      >
+        <Brain style={{ width: 28, height: 28, color: "#2563eb" }} />
+        <Typography variant="h5" fontWeight="bold" sx={{ color: "#1e1b4b" }}>
           Recommended For You
         </Typography>
       </Box>
-      <CourseCardComponent 
-        courses={generateRecommendations} 
+      <CourseCardComponent
+        courses={generateRecommendations}
         showAIFeatures={true}
         userProfile={userProfile}
       />
@@ -546,13 +687,14 @@ const AIRecommendations = ({ courses, userBehavior, userProfile }) => {
 const EnhancedCourseCard = ({ course, userProfile, badge }) => {
   const getAITags = (course) => {
     const tags = [];
-    
-    if (course.rating >= 4.8) tags.push('🏆 Top Rated');
-    if (parseInt(course.enrolled) > 200) tags.push('👥 Popular');
-    if (parseInt(course.price.replace(/[$,]/g, '')) < 1000) tags.push('💰 Great Value');
-    if (course.featured) tags.push('⭐ Featured');
-    if (course.trending) tags.push('🚀 Trending');
-    
+
+    if (course.rating >= 4.8) tags.push("🏆 Top Rated");
+    if (parseInt(course.enrolled) > 200) tags.push("👥 Popular");
+    if (parseInt(course.price.replace(/[$,]/g, "")) < 1000)
+      tags.push("💰 Great Value");
+    if (course.featured) tags.push("⭐ Featured");
+    if (course.trending) tags.push("🚀 Trending");
+
     return tags.slice(0, 2);
   };
 
@@ -561,7 +703,11 @@ const EnhancedCourseCard = ({ course, userProfile, badge }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-300">
       <div className="relative">
-        <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
+        <img
+          src={course.image}
+          alt={course.title}
+          className="w-full h-48 object-cover"
+        />
         {badge && (
           <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
             {badge.icon}
@@ -570,35 +716,44 @@ const EnhancedCourseCard = ({ course, userProfile, badge }) => {
         )}
       </div>
       <div className="p-4">
-        <h3 className="font-bold text-lg mb-2 text-slate-900">{course.title}</h3>
+        <h3 className="font-bold text-lg mb-2 text-slate-900">
+          {course.title}
+        </h3>
         <p className="text-slate-600 text-sm mb-2">{course.institute}</p>
-        
-        <p className="text-slate-700 text-sm mb-3 line-clamp-2">{course.description}</p>
-        
+
+        <p className="text-slate-700 text-sm mb-3 line-clamp-2">
+          {course.description}
+        </p>
+
         {/* AI Tags */}
         {aiTags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {aiTags.map((tag, index) => (
-              <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+              <span
+                key={index}
+                className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
+              >
                 {tag}
               </span>
             ))}
           </div>
         )}
-        
+
         {/* AI Match Score */}
         <AIMatchScore course={course} userProfile={userProfile} />
-        
+
         <div className="mt-3 flex justify-between items-center text-sm text-slate-600">
           <span>{course.duration}</span>
           <span>{course.enrolled}</span>
         </div>
-        
+
         <div className="mt-3 flex justify-between items-center">
           <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
             {course.level}
           </span>
-          <span className="text-lg font-bold text-green-600">{course.price}</span>
+          <span className="text-lg font-bold text-green-600">
+            {course.price}
+          </span>
         </div>
       </div>
     </div>
@@ -611,42 +766,57 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
 
   const generateInsights = (courses) => {
     const insights = [];
-    
+
     if (courses.length === 0) return insights;
 
     // Price insights
-    const prices = courses.map(course => parseInt(course.price.replace(/[$,]/g, '')));
-    const avgPrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+    const prices = courses.map((course) =>
+      parseInt(course.price.replace(/[$,]/g, ""))
+    );
+    const avgPrice =
+      prices.reduce((sum, price) => sum + price, 0) / prices.length;
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
-    
-    insights.push(`💰 Average price: $${avgPrice.toFixed(0)} (range: $${minPrice}-$${maxPrice})`);
-    
+
+    insights.push(
+      `💰 Average price: $${avgPrice.toFixed(
+        0
+      )} (range: $${minPrice}-$${maxPrice})`
+    );
+
     // Category distribution
     const categories = {};
-    courses.forEach(course => {
+    courses.forEach((course) => {
       categories[course.category] = (categories[course.category] || 0) + 1;
     });
-    
-    const topCategory = Object.keys(categories).reduce((a, b) => 
+
+    const topCategory = Object.keys(categories).reduce((a, b) =>
       categories[a] > categories[b] ? a : b
     );
-    insights.push(`🎯 Most common: ${topCategory} (${categories[topCategory]} courses)`);
-    
+    insights.push(
+      `🎯 Most common: ${topCategory} (${categories[topCategory]} courses)`
+    );
+
     // Level distribution
     const levels = {};
-    courses.forEach(course => {
+    courses.forEach((course) => {
       levels[course.level] = (levels[course.level] || 0) + 1;
     });
-    const topLevel = Object.keys(levels).reduce((a, b) => 
+    const topLevel = Object.keys(levels).reduce((a, b) =>
       levels[a] > levels[b] ? a : b
     );
     insights.push(`📊 Mostly ${topLevel.toLowerCase()} level courses`);
 
     // Duration insights
-    const shortCourses = courses.filter(course => course.duration.includes('Weeks')).length;
-    const longCourses = courses.filter(course => course.duration.includes('Years')).length;
-    insights.push(`⏱️ ${shortCourses} short courses, ${longCourses} degree programs`);
+    const shortCourses = courses.filter((course) =>
+      course.duration.includes("Weeks")
+    ).length;
+    const longCourses = courses.filter((course) =>
+      course.duration.includes("Years")
+    ).length;
+    insights.push(
+      `⏱️ ${shortCourses} short courses, ${longCourses} degree programs`
+    );
 
     return insights;
   };
@@ -658,26 +828,44 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
   if (aiInsights.length === 0) return null;
 
   return (
-    <Box sx={{ 
-      mb: 3, 
-      bgcolor: 'background.paper', 
-      borderRadius: 2, 
-      p: 3, 
-      border: '1px solid',
-      borderColor: 'primary.light',
-      background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)'
-    }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <Lightbulb style={{ width: 20, height: 20, color: '#0284c7' }} />
-        <Typography variant="h6" sx={{ color: '#075985', fontWeight: 600 }}>
+    <Box
+      sx={{
+        mb: 3,
+        bgcolor: "background.paper",
+        borderRadius: 2,
+        p: 3,
+        border: "1px solid",
+        borderColor: "primary.light",
+        background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+        <Lightbulb style={{ width: 20, height: 20, color: "#0284c7" }} />
+        <Typography variant="h6" sx={{ color: "#075985", fontWeight: 600 }}>
           AI Insights
         </Typography>
       </Box>
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+          gap: 1,
+        }}
+      >
         {aiInsights.map((insight, index) => (
-          <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: '#0284c7' }} />
-            <Typography variant="body2" sx={{ color: '#0c4a6e' }}>
+          <Box
+            key={index}
+            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+          >
+            <Box
+              sx={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                bgcolor: "#0284c7",
+              }}
+            />
+            <Typography variant="body2" sx={{ color: "#0c4a6e" }}>
               {insight}
             </Typography>
           </Box>
@@ -696,16 +884,16 @@ export default function CoursesPage() {
   });
 
   const [userProfile, setUserProfile] = useState({
-    fieldOfInterest: 'Technology',
-    experienceLevel: 'Beginner',
+    fieldOfInterest: "Technology",
+    experienceLevel: "Beginner",
     maxBudget: 1000,
-    preferredDuration: 'short'
+    preferredDuration: "short",
   });
 
   const [userBehavior, setUserBehavior] = useState({
-    searches: ['programming', 'python', 'web development'],
+    searches: ["programming", "python", "web development"],
     viewedCourses: [1, 2, 5],
-    savedCourses: [1]
+    savedCourses: [1],
   });
 
   const filteredCourses = useMemo(() => {
@@ -721,8 +909,7 @@ export default function CoursesPage() {
         course.category === filters.category;
 
       const matchesLevel =
-        filters.level === "All Levels" ||
-        course.level === filters.level;
+        filters.level === "All Levels" || course.level === filters.level;
 
       return matchesSearch && matchesCategory && matchesLevel;
     });
@@ -739,10 +926,13 @@ export default function CoursesPage() {
 
   // Update user behavior when search is performed
   useEffect(() => {
-    if (searchQuery.trim() && !userBehavior.searches.includes(searchQuery.toLowerCase())) {
-      setUserBehavior(prev => ({
+    if (
+      searchQuery.trim() &&
+      !userBehavior.searches.includes(searchQuery.toLowerCase())
+    ) {
+      setUserBehavior((prev) => ({
         ...prev,
-        searches: [...prev.searches, searchQuery.toLowerCase()].slice(-10)
+        searches: [...prev.searches, searchQuery.toLowerCase()].slice(-10),
       }));
     }
   }, [searchQuery]);
@@ -800,22 +990,25 @@ export default function CoursesPage() {
           >
             AI-powered course discovery
           </Box>{" "}
-          — find the perfect learning path with intelligent recommendations and smart search.
+          — find the perfect learning path with intelligent recommendations and
+          smart search.
         </Typography>
       </Box>
-
-      {/* Search & Filter */}
-      <Box sx={{ mb: 6, maxWidth: 800, mx: "auto" }}>
-        {/* AI Search */}
-        <AISearch 
-          searchQuery={searchQuery} 
+      <Box sx={{ width: 1000, mb: 6, mx: "auto" }}>
+        <AISearch
+          searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSuggestionClick={handleSuggestionClick}
         />
+      </Box>
+
+      {/* Search & Filter */}
+      <Box sx={{ mb: 6, mx: "auto" }}>
+        {/* AI Search */}
 
         {/* AI Recommendations - Show when no active search */}
         {!showSearchResults && (
-          <AIRecommendations 
+          <AIRecommendations
             courses={courseData}
             userBehavior={userBehavior}
             userProfile={userProfile}
@@ -877,8 +1070,8 @@ export default function CoursesPage() {
 
         {/* AI Smart Filters */}
         {showSearchResults && filteredCourses.length > 0 && (
-          <AISmartFilters 
-            courses={filteredCourses} 
+          <AISmartFilters
+            courses={filteredCourses}
             filters={filters}
             setFilters={setFilters}
           />
@@ -888,8 +1081,8 @@ export default function CoursesPage() {
       {/* Courses Grid */}
       {showSearchResults ? (
         filteredCourses.length > 0 ? (
-          <CourseCardComponent 
-            courses={filteredCourses} 
+          <CourseCardComponent
+            courses={filteredCourses}
             showAIFeatures={true}
             userProfile={userProfile}
           />
@@ -910,9 +1103,22 @@ export default function CoursesPage() {
         <>
           {/* Featured Courses */}
           <Box sx={{ mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-              <Award style={{ width: 28, height: 28, color: '#7c3aed' }} />
-              <Typography variant="h4" fontWeight="bold" sx={{ color: '#1e1b4b' }}>
+            <Box
+              sx={{
+                display: "flex",
+                width: 1250,
+                mx: "auto",
+                alignItems: "center",
+                gap: 2,
+                mb: 4,
+              }}
+            >
+              <Award style={{ width: 28, height: 28, color: "#7c3aed" }} />
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                sx={{ color: "#1e1b4b" }}
+              >
                 Featured Courses
               </Typography>
             </Box>
@@ -921,9 +1127,22 @@ export default function CoursesPage() {
 
           {/* Top Courses */}
           <Box sx={{ mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-              <TrendingUp style={{ width: 28, height: 28, color: '#059669' }} />
-              <Typography variant="h4" fontWeight="bold" sx={{ color: '#1e1b4b' }}>
+            <Box
+              sx={{
+                display: "flex",
+                width: 1250,
+                mx: "auto",
+                alignItems: "center",
+                gap: 2,
+                mb: 4,
+              }}
+            >
+              <TrendingUp style={{ width: 28, height: 28, color: "#059669" }} />
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                sx={{ color: "#1e1b4b" }}
+              >
                 Trending Now
               </Typography>
             </Box>
@@ -932,9 +1151,26 @@ export default function CoursesPage() {
 
           {/* All Courses */}
           <Box>
-            <Typography variant="h4" fontWeight="bold" sx={{ color: '#1e1b4b', mb: 4 }}>
-              All Courses
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                width: 1250,
+                mx: "auto",
+                alignItems: "center",
+                gap: 2,
+                mb: 4,
+              }}
+            >
+              {" "}
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                sx={{ color: "#1e1b4b", mb: 4 }}
+              >
+                All Courses
+              </Typography>
+            </Box>
+
             <CourseCardComponent courses={courseData} />
           </Box>
         </>
