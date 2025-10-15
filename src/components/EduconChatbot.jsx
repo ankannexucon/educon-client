@@ -40,47 +40,437 @@ const EduconChatbot = () => {
   const faqDatabase = {
     // Product Features Category
     'features': {
-      type: 'category',
-      title: 'Product Features',
-      description: 'Explore all the amazing features our platform offers',
-      subtypes: {
-        'virtual classroom': {
-          title: 'Virtual Classroom',
-          questions: {
-            'basic features': "Virtual Classroom Basic Features: • Real-time video conferencing • Interactive whiteboard • Screen sharing • Breakout rooms • Polls and quizzes • Chat functionality • Recording capabilities • Up to 100 participants simultaneously",
-            'advanced tools': "Advanced Virtual Classroom Tools: • Collaborative document editing • Hand raising feature • Attendance tracking • Session analytics • Custom backgrounds • Multi-language support • Accessibility features • Mobile app integration",
-            'setup guide': "Virtual Classroom Setup: 1. Schedule class from dashboard 2. Configure session settings 3. Invite participants via email/link 4. Test audio/video equipment 5. Prepare teaching materials 6. Start session 5 mins early for testing",
-            'troubleshooting': "Virtual Classroom Issues: • Check internet speed (min 5Mbps) • Update browser to latest version • Grant camera/microphone permissions • Use Chrome/Firefox for best performance • Test equipment before session • Clear browser cache regularly"
-          }
-        },
-        'assessments': {
-          title: 'Assessments & Grading',
-          questions: {
-            'create assessment': "Creating Assessments: • Multiple choice questions • Essay type questions • File upload submissions • Coding exercises • Audio/video responses • Peer review assignments • Timed exams • Randomized questions",
-            'grading system': "Grading System: • Automatic scoring for MCQs • Rubric-based grading • Weighted assignments • Curve grading options • Bulk grading tools • Feedback comments • Grade override capability • Export grades to CSV",
-            'analytics': "Assessment Analytics: • Class performance overview • Question-wise analysis • Learning gap identification • Progress tracking • Comparative reports • Skill mastery indicators • Custom report generation",
-            'ai features': "AI-Powered Features: • Smart question generation • Plagiarism detection • Automated feedback suggestions • Adaptive testing • Learning path recommendations • Performance predictions • Personalized question banks"
-          }
-        },
-        'progress tracking': {
-          title: 'Progress Tracking',
-          questions: {
-            'student dashboard': "Student Progress Dashboard: • Overall performance score • Subject-wise breakdown • Assignment completion rate • Skill mastery levels • Attendance percentage • Peer comparison • Goal tracking • Improvement trends",
-            'teacher analytics': "Teacher Analytics: • Class performance overview • Individual student insights • Assignment completion rates • Learning gap analysis • Intervention recommendations • Parent communication history • Custom report builder",
-            'reports': "Reporting Features: • Weekly progress reports • Custom date range reports • Export to PDF/Excel • Share with parents/students • Automated report scheduling • Comparative analysis • Standards alignment tracking",
-            'parent portal': "Parent Portal Features: • Real-time grade updates • Attendance monitoring • Teacher communication • Assignment deadlines • Performance alerts • Progress trends • School announcements • Meeting scheduling"
-          }
-        },
-        'collaboration': {
-          title: 'Collaboration Tools',
-          questions: {
-            'discussion forums': "Discussion Forums: • Class-specific forums • Topic-based threads • File sharing capability • Moderation tools • Announcement pins • Private messaging • Email notifications • Mobile access",
-            'group projects': "Group Project Tools: • Team workspace creation • Shared document editing • Task assignment • Progress tracking • Peer evaluation • File sharing • Deadline management • Teacher oversight",
-            'parent teacher': "Parent-Teacher Communication: • Direct messaging • Scheduled meetings • Progress updates • Behavior notes • Announcement broadcast • Language translation • Read receipts • Emergency alerts"
-          }
-        }
+  type: 'category',
+  title: 'Admissions & Enrollment',
+  description: 'Streamline your student recruitment and admission process',
+  subtypes: {
+    'enquiry management': {
+      title: 'Enquiry Management',
+      questions: {
+        'lead capture': "Lead Capture Features: • Multi-channel enquiry forms (website, social media, email) • Automatic lead scoring and prioritization • CRM integration • Follow-up automation • Source tracking (campaigns, referrals) • Duplicate detection • Bulk import from spreadsheets • Real-time notification system",
+        'enquiry tracking': "Enquiry Tracking System: • Complete enquiry lifecycle tracking • Communication history log • Task and reminder system • Performance analytics • Conversion rate tracking • Staff assignment and workload management • Automated response templates • Mobile app for on-the-go management",
+        'communication tools': "Communication Tools: • Bulk SMS and email campaigns • Personalized email templates • WhatsApp Business integration • Automated follow-up sequences • Meeting scheduler integration • Voice broadcast capabilities • Document attachment tracking • Read receipt monitoring"
       }
     },
+    'application process': {
+      title: 'Application Process',
+      questions: {
+        'online application': "Online Application System: • Customizable application forms • Progress saving functionality • Document upload portal • Application fee payment integration • Multi-language support • Mobile-responsive design • Auto-save feature • Application status tracking portal",
+        'document management': "Document Management: • Digital document submission • File type validation • Automatic document categorization • Missing document alerts • Bulk document processing • OCR text extraction • Secure document storage • Version control and audit trails",
+        'application tracking': "Application Tracking: • Real-time application status • Stage-wise progression tracking • Automated status updates • Waitlist management • Application analytics dashboard • Deadline management • Priority application handling • Transfer application support"
+      }
+    },
+    'admission workflow': {
+      title: 'Admission Workflow',
+      questions: {
+        'approval process': "Approval Workflow: • Multi-level approval system • Role-based permissions • Electronic signatures • Approval chain customization • SLA monitoring • Escalation procedures • Conditional approval paths • Audit trail for all decisions",
+        'interview scheduling': "Interview Management: • Automated interview scheduling • Panel management • Video interview integration • Interview feedback forms • Scoring rubrics • Calendar synchronization • Reminder notifications • Interview analytics and reports",
+        'decision management': "Decision Management: • Batch decision processing • Acceptance/waitlist/rejection letters • Conditional offer management • Scholarship award integration • Decision appeal process • Enrollment deadline tracking • Deposit payment processing • Welcome package automation"
+      }
+    },
+    'student onboarding': {
+      title: 'Student Onboarding',
+      questions: {
+        'enrollment process': "Enrollment Process: • Online enrollment forms • Course selection wizard • Fee structure display • Payment plan setup • Document verification • Medical form submission • Emergency contact collection • Orientation scheduling",
+        'welcome portal': "Welcome Portal Features: • Personalized student dashboard • Orientation materials • Campus virtual tour • Faculty introductions • Academic calendar • Resource library • Student handbook • FAQ section for new students",
+        'parent integration': "Parent Onboarding: • Separate parent portal access • Fee payment dashboard • Communication channel with administration • Event calendar • Progress monitoring • Document submission • Emergency contact updates • Transportation preferences"
+      }
+    },
+    'analytics reporting': {
+      title: 'Analytics & Reporting',
+      questions: {
+        'admission analytics': "Admission Analytics: • Enquiry-to-application conversion rates • Application source analysis • Demographic reporting • Time-to-decision metrics • Staff performance tracking • Seasonal trend analysis • Competitive intelligence • ROI on marketing campaigns",
+        'forecasting tools': "Forecasting Tools: • Enrollment prediction models • Capacity planning • Waitlist probability analysis • Scholarship budget forecasting • Staff requirement planning • Resource allocation optimization • Trend analysis reports • Custom KPI dashboard",
+        'compliance reports': "Compliance Reporting: • Regulatory compliance tracking • Accreditation documentation • Diversity and inclusion reports • Financial aid reporting • Government submission ready reports • Audit trail documentation • Data privacy compliance • Export functionality for authorities"
+      }
+    },
+    'integration capabilities': {
+      title: 'Integration & API',
+      questions: {
+        'crm integration': "CRM Integration: • Salesforce integration • HubSpot connectivity • Microsoft Dynamics sync • Custom API endpoints • Real-time data sync • Bidirectional communication • Lead scoring synchronization • Campaign performance tracking",
+        'student information': "SIS Integration: • Seamless student data transfer • Automatic class roster creation • Grade book integration • Attendance system sync • Timetable management • Student record updating • Parent portal activation • Billing system connection",
+        'payment gateways': "Payment Integration: • Multiple payment gateway support • International payment processing • Refund management • Installment plan tracking • Receipt generation • Tax calculation • Scholarship deduction handling • Financial aid integration"
+      }
+    }
+  }
+},
+
+    'features': {
+  type: 'category',
+  title: 'Courses & Programs',
+  description: 'Explore and manage academic programs, courses, and curriculum',
+  subtypes: {
+    'course_catalogue': {
+      title: 'Course Catalogue & Browse',
+      questions: {
+        'browse_courses': `Available Courses in Our Catalogue:
+
+🎓 **B.Sc. in Computer Science**
+🏫 University of NY
+⏱️ 3 Years • 📊 320 Students • 💰 $12,000
+📚 Technology • 🎯 Beginner
+Learn the fundamentals of computer science, programming, and problem-solving skills.
+
+🎓 **M.Sc. in Data Science**
+🏫 Tech University
+⏱️ 2 Years • 📊 150 Students • 💰 $15,000
+📚 Technology • 🎯 Intermediate
+Gain expertise in data analysis, machine learning, and predictive modeling techniques.
+
+🎓 **MBA in Marketing**
+🏫 Global Business School
+⏱️ 2 Years • 📊 200 Students • 💰 $18,000
+📚 Business • 🎯 Intermediate
+Develop strategic marketing skills and learn how to grow businesses effectively.
+
+🎓 **BBA in Management**
+🏫 City College
+⏱️ 3 Years • 📊 180 Students • 💰 $10,500
+📚 Business • 🎯 Beginner
+Understand the basics of business management, leadership, and organizational skills.
+
+🎓 **React Advanced**
+🏫 Code Academy
+⏱️ 8 Weeks • 📊 120 Students • 💰 $500
+📚 Technology • 🎯 Advanced
+Master advanced React concepts, state management, hooks, and component optimization.
+
+🎓 **Tailwind CSS Mastery**
+🏫 Design School
+⏱️ 6 Weeks • 📊 95 Students • 💰 $400
+📚 Design • 🎯 Intermediate
+Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.
+
+🎓 **Python for Data Analysis**
+🏫 Data School
+⏱️ 12 Weeks • 📊 140 Students • 💰 $700
+📚 Technology • 🎯 Intermediate
+Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib.
+
+🎓 **Fullstack Web Development**
+🏫 Tech Hub
+⏱️ 16 Weeks • 📊 250 Students • 💰 $1,200
+📚 Technology • 🎯 Advanced
+Learn front-end and back-end development with React, Node.js, and databases to build full web applications.
+
+🎓 **Digital Marketing Essentials**
+🏫 Marketing Academy
+⏱️ 8 Weeks • 📊 130 Students • 💰 $450
+📚 Business • 🎯 Beginner
+Understand SEO, social media marketing, content strategies, and analytics to grow a brand online.
+
+🎓 **UI/UX Design Fundamentals**
+🏫 Creative Institute
+⏱️ 10 Weeks • 📊 100 Students • 💰 $600
+📚 Design • 🎯 Beginner
+Master the principles of user interface and user experience design to create intuitive digital products.
+
+🎓 **Python for Machine Learning**
+🏫 AI Academy
+⏱️ 12 Weeks • 📊 90 Students • 💰 $800
+📚 Technology • 🎯 Intermediate
+Apply Python programming to implement machine learning algorithms, models, and data pipelines.
+
+🎓 **Financial Analysis & Modeling**
+🏫 Finance School
+⏱️ 6 Weeks • 📊 75 Students • 💰 $500
+📚 Business • 🎯 Intermediate
+Learn to analyze financial statements, build models, and make data-driven investment decisions.
+
+Total: 12 courses across 3 categories (Technology, Business, Design)`,
+
+        'course_details': "Detailed Course Information: • Comprehensive course descriptions and learning outcomes • Syllabus and curriculum overview • Required textbooks and materials • Assessment methods and grading criteria • Class schedule and meeting times • Campus location or online access details • Faculty credentials and teaching style • Career outcomes and skill development",
+
+        'program_pathways': "Program Pathways: • Degree and certificate program overviews • Major and minor combinations • Credit requirements and course sequences • Transfer credit evaluation • Academic planning tools • Graduation requirement tracking • Specialization options • Co-op and internship integration"
+      }
+    },
+    'course_enquiry': {
+      title: 'Course Enquiry & Information',
+      questions: {
+        'enquiry_submission': `Course Enquiry System:
+
+You can enquire about any of our 12 courses including:
+
+**Technology Courses (6 courses):**
+• B.Sc. in Computer Science - Beginner level
+• M.Sc. in Data Science - Intermediate level
+• React Advanced - Advanced level
+• Python for Data Analysis - Intermediate level
+• Fullstack Web Development - Advanced level
+• Python for Machine Learning - Intermediate level
+
+**Business Courses (4 courses):**
+• MBA in Marketing - Intermediate level
+• BBA in Management - Beginner level
+• Digital Marketing Essentials - Beginner level
+• Financial Analysis & Modeling - Intermediate level
+
+**Design Courses (2 courses):**
+• Tailwind CSS Mastery - Intermediate level
+• UI/UX Design Fundamentals - Beginner level
+
+To enquire about a specific course, please provide:
+• Course name you're interested in
+• Your educational background
+• Preferred start date
+• Any specific questions about the curriculum`,
+
+        'enquiry_tracking': "Enquiry Management: • Automated enquiry acknowledgment • Priority-based routing to advisors • Response time tracking • Follow-up reminder system • Conversion rate monitoring • Enquiry source tracking • Performance analytics dashboard • Integration with CRM systems",
+
+        'advisor_connect': "Advisor Connection: • Direct messaging with course advisors • Video consultation scheduling • Department-specific expert routing • Multi-language support • Document sharing for eligibility checks • Personalized recommendation engine • Group information sessions • Campus tour scheduling"
+      }
+    },
+    'technology_courses': {
+      title: 'Technology Courses',
+      questions: {
+        'all_tech_courses': `Technology Courses Available (6 courses):
+
+💻 **B.Sc. in Computer Science**
+🏫 University of NY
+⏱️ 3 Years • 👥 320 Students • 💵 $12,000
+🎯 Beginner
+Learn the fundamentals of computer science, programming, and problem-solving skills.
+
+💻 **M.Sc. in Data Science**
+🏫 Tech University
+⏱️ 2 Years • 👥 150 Students • 💵 $15,000
+🎯 Intermediate
+Gain expertise in data analysis, machine learning, and predictive modeling techniques.
+
+💻 **React Advanced**
+🏫 Code Academy
+⏱️ 8 Weeks • 👥 120 Students • 💵 $500
+🎯 Advanced
+Master advanced React concepts, state management, hooks, and component optimization.
+
+💻 **Python for Data Analysis**
+🏫 Data School
+⏱️ 12 Weeks • 👥 140 Students • 💵 $700
+🎯 Intermediate
+Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib.
+
+💻 **Fullstack Web Development**
+🏫 Tech Hub
+⏱️ 16 Weeks • 👥 250 Students • 💵 $1,200
+🎯 Advanced
+Learn front-end and back-end development with React, Node.js, and databases to build full web applications.
+
+💻 **Python for Machine Learning**
+🏫 AI Academy
+⏱️ 12 Weeks • 👥 90 Students • 💵 $800
+🎯 Intermediate
+Apply Python programming to implement machine learning algorithms, models, and data pipelines.`,
+
+        'computer_science': `B.Sc. in Computer Science Details:
+• Institute: University of NY
+• Duration: 3 Years
+• Level: Beginner
+• Price: $12,000
+• Currently Enrolled: 320 Students
+
+Course Description:
+Learn the fundamentals of computer science, programming, and problem-solving skills.
+
+Curriculum Includes:
+• Programming Fundamentals
+• Data Structures & Algorithms
+• Computer Systems
+• Software Engineering
+• Database Management
+• Web Development
+• Artificial Intelligence Basics`,
+
+        'data_science': `Data Science Programs:
+
+📊 **M.Sc. in Data Science**
+🏫 Tech University
+⏱️ 2 Years • 👥 150 Students • 💵 $15,000
+🎯 Intermediate
+Gain expertise in data analysis, machine learning, and predictive modeling techniques.
+
+📊 **Python for Data Analysis**
+🏫 Data School
+⏱️ 12 Weeks • 👥 140 Students • 💵 $700
+🎯 Intermediate
+Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib.
+
+📊 **Python for Machine Learning**
+🏫 AI Academy
+⏱️ 12 Weeks • 👥 90 Students • 💵 $800
+🎯 Intermediate
+Apply Python programming to implement machine learning algorithms, models, and data pipelines.`
+      }
+    },
+    'business_courses': {
+      title: 'Business Courses',
+      questions: {
+        'all_business_courses': `Business & Management Courses (4 courses):
+
+📈 **MBA in Marketing**
+🏫 Global Business School
+⏱️ 2 Years • 👥 200 Students • 💵 $18,000
+🎯 Intermediate
+Develop strategic marketing skills and learn how to grow businesses effectively.
+
+📈 **BBA in Management**
+🏫 City College
+⏱️ 3 Years • 👥 180 Students • 💵 $10,500
+🎯 Beginner
+Understand the basics of business management, leadership, and organizational skills.
+
+📈 **Digital Marketing Essentials**
+🏫 Marketing Academy
+⏱️ 8 Weeks • 👥 130 Students • 💵 $450
+🎯 Beginner
+Understand SEO, social media marketing, content strategies, and analytics to grow a brand online.
+
+📈 **Financial Analysis & Modeling**
+🏫 Finance School
+⏱️ 6 Weeks • 👥 75 Students • 💵 $500
+🎯 Intermediate
+Learn to analyze financial statements, build models, and make data-driven investment decisions.`,
+
+        'mba_programs': `MBA in Marketing Details:
+• Institute: Global Business School
+• Duration: 2 Years
+• Level: Intermediate
+• Price: $18,000
+• Currently Enrolled: 200 Students
+
+Course Description:
+Develop strategic marketing skills and learn how to grow businesses effectively.
+
+Curriculum Includes:
+• Strategic Marketing Management
+• Consumer Behavior Analysis
+• Digital Marketing Strategies
+• Brand Management
+• Market Research & Analytics
+• Sales & Distribution Management
+• International Marketing`,
+
+        'bba_programs': `BBA in Management Details:
+• Institute: City College
+• Duration: 3 Years
+• Level: Beginner
+• Price: $10,500
+• Currently Enrolled: 180 Students
+
+Course Description:
+Understand the basics of business management, leadership, and organizational skills.`
+      }
+    },
+    'design_courses': {
+      title: 'Design Courses',
+      questions: {
+        'all_design_courses': `Design & Creative Courses (2 courses):
+
+🎨 **Tailwind CSS Mastery**
+🏫 Design School
+⏱️ 6 Weeks • 👥 95 Students • 💵 $400
+🎯 Intermediate
+Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.
+
+🎨 **UI/UX Design Fundamentals**
+🏫 Creative Institute
+⏱️ 10 Weeks • 👥 100 Students • 💵 $600
+🎯 Beginner
+Master the principles of user interface and user experience design to create intuitive digital products.`,
+
+        'ui_ux_design': `UI/UX Design Fundamentals Details:
+• Institute: Creative Institute
+• Duration: 10 Weeks
+• Level: Beginner
+• Price: $600
+• Currently Enrolled: 100 Students
+
+Course Description:
+Master the principles of user interface and user experience design to create intuitive digital products.
+
+Curriculum Includes:
+• Design Thinking Process
+• User Research Methods
+• Wireframing & Prototyping
+• Visual Design Principles
+• Interaction Design
+• Usability Testing
+• Design Tools (Figma, Adobe XD)`,
+
+        'tailwind_css': `Tailwind CSS Mastery Details:
+• Institute: Design School
+• Duration: 6 Weeks
+• Level: Intermediate
+• Price: $400
+• Currently Enrolled: 95 Students
+
+Course Description:
+Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.`
+      }
+    },
+    'enrollment_management': {
+      title: 'Enrollment & Registration',
+      questions: {
+        'registration_process': `Registration Process for Courses:
+
+**Step-by-Step Enrollment:**
+1. Browse available courses from our catalogue of 12 courses
+2. Select your preferred course and check prerequisites
+3. Submit application with required documents
+4. Complete payment process
+5. Receive confirmation and access course materials
+
+**Popular Courses by Enrollment:**
+• Fullstack Web Development: 250 enrolled
+• B.Sc. in Computer Science: 320 enrolled
+• MBA in Marketing: 200 enrolled`,
+
+        'pricing_information': `Course Pricing Information:
+
+**Degree Programs (Years):**
+• B.Sc. in Computer Science: $12,000
+• M.Sc. in Data Science: $15,000
+• MBA in Marketing: $18,000
+• BBA in Management: $10,500
+
+**Short Courses & Certifications (Weeks):**
+• React Advanced: $500
+• Tailwind CSS Mastery: $400
+• Python for Data Analysis: $700
+• Fullstack Web Development: $1,200
+• Digital Marketing Essentials: $450
+• UI/UX Design Fundamentals: $600
+• Python for Machine Learning: $800
+• Financial Analysis & Modeling: $500
+
+**Financial Aid Available:**
+• Scholarships for eligible students
+• Installment payment plans
+• Corporate sponsorship options
+• Early bird discounts`,
+
+        'duration_options': `Course Duration Options:
+
+**Long-term Programs (1+ Years):**
+• B.Sc. in Computer Science: 3 Years
+• M.Sc. in Data Science: 2 Years
+• MBA in Marketing: 2 Years
+• BBA in Management: 3 Years
+
+**Short-term Courses (Weeks):**
+• React Advanced: 8 Weeks
+• Tailwind CSS Mastery: 6 Weeks
+• Python for Data Analysis: 12 Weeks
+• Fullstack Web Development: 16 Weeks
+• Digital Marketing Essentials: 8 Weeks
+• UI/UX Design Fundamentals: 10 Weeks
+• Python for Machine Learning: 12 Weeks
+• Financial Analysis & Modeling: 6 Weeks
+
+Flexible learning options including full-time, part-time, and online formats available.`
+      }
+    }
+  }
+},
 
     // Technical Issues Category
     'technical': {
@@ -124,6 +514,419 @@ const EduconChatbot = () => {
         }
       }
     },
+
+    'universities': {
+  type: 'category',
+  title: 'Universities & Institutions',
+  description: 'Explore top universities and educational institutions',
+  subtypes: {
+    'university_catalogue': {
+      title: 'University Catalogue',
+      questions: {
+        'browse_universities': `Available Universities in Our Network:
+
+🏛️ **Stanford University**
+📍 Stanford, CA
+⭐ 4.8/5 • 📝 12,450 Reviews • 👥 17,000 Students • 📚 200 Courses
+🎓 Technology & Engineering • 🎯 All Levels
+A private research university known for entrepreneurship and innovation in Silicon Valley.
+
+🏛️ **MIT - Massachusetts Institute of Technology**
+📍 Cambridge, MA
+⭐ 4.9/5 • 📝 8,950 Reviews • 👥 12,000 Students • 📚 150 Courses
+🎓 Science & Technology • 🎯 Intermediate
+World-renowned for STEM education, research, and technological innovation.
+
+🏛️ **Harvard University**
+📍 Cambridge, MA
+⭐ 4.7/5 • 📝 15,600 Reviews • 👥 21,000 Students • 📚 180 Courses
+🎓 Business & Arts • 🎯 Beginner
+Ivy League university with comprehensive programs in business, law, and arts.
+
+🏛️ **Berkeley University**
+📍 Berkeley, CA
+⭐ 4.6/5 • 📝 7,800 Reviews • 👥 14,000 Students • 📚 120 Courses
+🎓 Social Sciences • 🎯 All Levels
+Public research university known for entrepreneurship and social impact.
+
+🏛️ **Yale University**
+📍 New Haven, CT
+⭐ 4.8/5 • 📝 11,200 Reviews • 👥 13,500 Students • 📚 165 Courses
+🎓 Business & Arts • 🎯 All Levels
+Historic Ivy League institution with strong liberal arts and professional programs.
+
+🏛️ **Princeton University**
+📍 Princeton, NJ
+⭐ 4.9/5 • 📝 9,800 Reviews • 👥 8,500 Students • 📚 140 Courses
+🎓 Science & Technology • 🎯 Advanced
+Elite research university with exceptional undergraduate education.
+
+🏛️ **Columbia University**
+📍 New York, NY
+⭐ 4.7/5 • 📝 13,400 Reviews • 👥 31,000 Students • 📚 195 Courses
+🎓 Business & Arts • 🎯 Intermediate
+Ivy League university in the heart of Manhattan with diverse academic offerings.
+
+🏛️ **Caltech**
+📍 Pasadena, CA
+⭐ 4.9/5 • 📝 5,600 Reviews • 👥 2,400 Students • 📚 85 Courses
+🎓 Technology & Engineering • 🎯 Advanced
+Small but mighty institution focused on science and engineering excellence.
+
+Total: 8 universities across 4 categories`,
+
+        'university_details': "University Details Include: • Comprehensive institution profiles • Campus facilities and infrastructure • Faculty qualifications and research • Student life and campus culture • Admission requirements and deadlines • Scholarship and financial aid options • Career services and placement • Alumni network and success stories",
+
+        'location_info': "Location Information: • Campus locations and satellite campuses • Transportation and accessibility • Local community and amenities • Housing and accommodation options • Climate and living conditions • Safety and security measures • Cultural and recreational opportunities • International student support"
+      }
+    },
+    'university_enquiry': {
+      title: 'University Enquiry',
+      questions: {
+        'enquiry_submission': `University Enquiry System:
+
+You can enquire about any of our 8 partner universities including:
+
+**Technology & Engineering Universities:**
+• Stanford University - All Levels
+• Caltech - Advanced Level
+
+**Science & Technology Universities:**
+• MIT - Massachusetts Institute of Technology - Intermediate Level
+• Princeton University - Advanced Level
+
+**Business & Arts Universities:**
+• Harvard University - Beginner Level
+• Yale University - All Levels
+• Columbia University - Intermediate Level
+
+**Social Sciences Universities:**
+• Berkeley University - All Levels
+
+To enquire about a specific university, please provide:
+• University name you're interested in
+• Your academic background and interests
+• Preferred study level (Beginner/Intermediate/Advanced)
+• Any specific programs or departments`,
+
+        'admission_process': "Admission Process: • Application requirements and deadlines • Document submission guidelines • Entrance exam requirements • Interview process details • Portfolio or work sample requirements • Recommendation letter guidelines • Visa and immigration support • Conditional offer information",
+
+        'campus_tours': "Campus Tours & Visits: • Virtual campus tour availability • On-campus visit scheduling • Open house events calendar • Department-specific information sessions • Student ambassador meetings • Faculty interaction opportunities • Accommodation viewing • Local area exploration"
+      }
+    },
+    'technology_engineering': {
+      title: 'Technology & Engineering',
+      questions: {
+        'tech_universities': `Technology & Engineering Universities:
+
+🔧 **Stanford University**
+📍 Stanford, CA
+⭐ 4.8/5 • 👥 17,000 Students • 📚 200 Courses
+💰 $199 ($89 discount)
+⏱️ 12 weeks • 🎯 All Levels
+A private research university known for entrepreneurship and innovation in Silicon Valley.
+
+🔧 **Caltech**
+📍 Pasadena, CA
+⭐ 4.9/5 • 👥 2,400 Students • 📚 85 Courses
+💰 $229 ($99 discount)
+⏱️ 9 weeks • 🎯 Advanced
+Small but mighty institution focused on science and engineering excellence.
+
+**Features:**
+• State-of-the-art research facilities
+• Industry partnerships with tech companies
+• Entrepreneurship and innovation programs
+• Cutting-edge laboratories and equipment
+• Strong alumni network in Silicon Valley`,
+
+        'stanford_details': `Stanford University Details:
+• Location: Stanford, California
+• Rating: 4.8/5 (12,450 reviews)
+• Student Population: 17,000
+• Courses Offered: 200
+• Category: Technology & Engineering
+• Level: All Levels
+• Duration: 12 weeks
+• Price: $199 (Discounted: $89)
+
+**Key Features:**
+• Silicon Valley location with industry connections
+• Strong entrepreneurship ecosystem
+• World-class engineering programs
+• Extensive research opportunities
+• Beautiful 8,180-acre campus
+• Notable alumni include Google and Yahoo founders
+
+**Popular Programs:**
+• Computer Science
+• Electrical Engineering
+• Mechanical Engineering
+• Bioengineering
+• Management Science & Engineering`,
+
+        'caltech_details': `Caltech Details:
+• Location: Pasadena, California
+• Rating: 4.9/5 (5,600 reviews)
+• Student Population: 2,400
+• Courses Offered: 85
+• Category: Technology & Engineering
+• Level: Advanced
+• Duration: 9 weeks
+• Price: $229 (Discounted: $99)
+
+**Key Features:**
+• Small student-to-faculty ratio (3:1)
+• Intensive research-focused education
+• NASA's Jet Propulsion Laboratory partnership
+• Nobel Prize-winning faculty
+• Highly selective admission process
+• Strong focus on pure and applied sciences
+
+**Popular Programs:**
+• Physics
+• Chemical Engineering
+• Computer Science
+• Aerospace Engineering
+• Biological Sciences`
+      }
+    },
+    'science_technology': {
+      title: 'Science & Technology',
+      questions: {
+        'science_universities': `Science & Technology Universities:
+
+🔬 **MIT - Massachusetts Institute of Technology**
+📍 Cambridge, MA
+⭐ 4.9/5 • 👥 12,000 Students • 📚 150 Courses
+💰 $249 ($99 discount)
+⏱️ 10 weeks • 🎯 Intermediate
+World-renowned for STEM education, research, and technological innovation.
+
+🔬 **Princeton University**
+📍 Princeton, NJ
+⭐ 4.9/5 • 👥 8,500 Students • 📚 140 Courses
+💰 $209 ($95 discount)
+⏱️ 11 weeks • 🎯 Advanced
+Elite research university with exceptional undergraduate education.
+
+**Features:**
+• Cutting-edge research facilities
+• Interdisciplinary science programs
+• Strong industry-academia collaboration
+• Innovation and technology transfer offices
+• Global research partnerships`,
+
+        'mit_details': `MIT Details:
+• Location: Cambridge, Massachusetts
+• Rating: 4.9/5 (8,950 reviews)
+• Student Population: 12,000
+• Courses Offered: 150
+• Category: Science & Technology
+• Level: Intermediate
+• Duration: 10 weeks
+• Price: $249 (Discounted: $99)
+
+**Key Features:**
+• "Mens et Manus" (Mind and Hand) philosophy
+• Strong emphasis on practical application
+• MIT Media Lab and Lincoln Laboratory
+• Extensive undergraduate research opportunities
+• Global leadership in technology innovation
+• Collaborative and hands-on learning environment
+
+**Popular Programs:**
+• Computer Science and Engineering
+• Physics
+• Mathematics
+• Mechanical Engineering
+• Biological Engineering`,
+
+        'princeton_details': `Princeton University Details:
+• Location: Princeton, New Jersey
+• Rating: 4.9/5 (9,800 reviews)
+• Student Population: 8,500
+• Courses Offered: 140
+• Category: Science & Technology
+• Level: Advanced
+• Duration: 11 weeks
+• Price: $209 (Discounted: $95)
+
+**Key Features:**
+• Strong emphasis on undergraduate teaching
+• Residential college system
+• Beautiful Gothic-style campus
+• Extensive library collections
+• Close faculty-student relationships
+• Strong focus on independent research
+
+**Popular Programs:**
+• Physics
+• Mathematics
+• Computer Science
+• Molecular Biology
+• Operations Research and Financial Engineering`
+      }
+    },
+    'business_arts': {
+      title: 'Business & Arts',
+      questions: {
+        'business_universities': `Business & Arts Universities:
+
+💼 **Harvard University**
+📍 Cambridge, MA
+⭐ 4.7/5 • 👥 21,000 Students • 📚 180 Courses
+💰 $179 ($79 discount)
+⏱️ 15 weeks • 🎯 Beginner
+Ivy League university with comprehensive programs in business, law, and arts.
+
+💼 **Yale University**
+📍 New Haven, CT
+⭐ 4.8/5 • 👥 13,500 Students • 📚 165 Courses
+💰 $189 ($85 discount)
+⏱️ 14 weeks • 🎯 All Levels
+Historic Ivy League institution with strong liberal arts and professional programs.
+
+💼 **Columbia University**
+📍 New York, NY
+⭐ 4.7/5 • 👥 31,000 Students • 📚 195 Courses
+💰 $199 ($89 discount)
+⏱️ 13 weeks • 🎯 Intermediate
+Ivy League university in the heart of Manhattan with diverse academic offerings.
+
+**Features:**
+• Professional networking opportunities
+• Strong career services and placement
+• Diverse cultural and artistic programs
+• Global business connections
+• Leadership and management development`,
+
+        'harvard_details': `Harvard University Details:
+• Location: Cambridge, Massachusetts
+• Rating: 4.7/5 (15,600 reviews)
+• Student Population: 21,000
+• Courses Offered: 180
+• Category: Business & Arts
+• Level: Beginner
+• Duration: 15 weeks
+• Price: $179 (Discounted: $79)
+
+**Key Features:**
+• Harvard Business School excellence
+• Extensive alumni network (Harvard Alumni Association)
+• Case method teaching approach
+• Global recognition and prestige
+• Diverse student body from 150+ countries
+• Strong emphasis on leadership development
+
+**Popular Programs:**
+• Business Administration
+• Law
+• Government
+• Economics
+• Fine Arts`,
+
+        'yale_details': `Yale University Details:
+• Location: New Haven, Connecticut
+• Rating: 4.8/5 (11,200 reviews)
+• Student Population: 13,500
+• Courses Offered: 165
+• Category: Business & Arts
+• Level: All Levels
+• Duration: 14 weeks
+• Price: $189 (Discounted: $85)
+
+**Key Features:**
+• Residential college system fostering community
+• Yale School of Management excellence
+• World-renowned Yale School of Drama
+• Extensive arts and cultural programs
+• Strong emphasis on undergraduate education
+• Beautiful Gothic architecture campus
+
+**Popular Programs:**
+• Business Administration
+• Drama and Theater Arts
+• Political Science
+• History
+• Psychology`
+      }
+    },
+    'admission_requirements': {
+      title: 'Admission Requirements',
+      questions: {
+        'general_requirements': `General Admission Requirements:
+
+**Academic Requirements:**
+• Completed application form
+• Academic transcripts and records
+• Standardized test scores (if required)
+• Proof of English language proficiency
+• Letters of recommendation
+• Personal statement or essay
+
+**Documentation Needed:**
+• Passport-sized photographs
+• Identification documents
+• Financial capability proof
+• Health insurance documentation
+• Visa and immigration documents
+• Previous qualification certificates
+
+**Application Timeline:**
+• Early decision deadlines
+• Regular decision deadlines
+• Rolling admissions information
+• Scholarship application deadlines
+• Visa processing timelines
+• Orientation and enrollment dates`,
+
+        'financial_info': `Financial Information:
+
+**Pricing Structure:**
+• Stanford University: $199 ($89 discount)
+• MIT: $249 ($99 discount)
+• Harvard University: $179 ($79 discount)
+• Berkeley University: $169 ($69 discount)
+• Yale University: $189 ($85 discount)
+• Princeton University: $209 ($95 discount)
+• Columbia University: $199 ($89 discount)
+• Caltech: $229 ($99 discount)
+
+**Financial Aid Options:**
+• Merit-based scholarships
+• Need-based financial aid
+• Work-study programs
+• Research assistantships
+• Teaching assistantships
+• External scholarship opportunities
+• Payment plan options
+• Corporate sponsorship programs`,
+
+        'scholarship_opportunities': `Scholarship Opportunities:
+
+**Available Scholarships:**
+• Academic Excellence Scholarships
+• Leadership and Community Service Awards
+• Diversity and Inclusion Scholarships
+• International Student Scholarships
+• Research and Innovation Grants
+• Athletic Scholarships
+• Arts and Talent Scholarships
+• Need-Based Financial Aid
+
+**Application Process:**
+• Separate scholarship application forms
+• Essay or personal statement requirements
+• Interview process for major awards
+• Documentation of achievements
+• Recommendation letters for scholarships
+• Deadline adherence importance
+• Renewal criteria and requirements`
+      }
+    }
+  }
+},
 
     // Billing & Account Category
     'billing': {
@@ -209,10 +1012,12 @@ const EduconChatbot = () => {
 
   // Main categories for initial selection
   const mainCategories = [
-    { key: 'features', title: '📊 Product Features', description: 'Explore platform capabilities' },
-    { key: 'technical', title: '🔧 Technical Support', description: 'Troubleshoot issues' },
-    { key: 'billing', title: '💳 Billing & Account', description: 'Manage subscription & payments' },
-    { key: 'setup', title: '⚙️ Setup & Configuration', description: 'Get started & customize' }
+    { key: 'features', title: 'Admissions & Enrollment', description: 'Explore platform capabilities' },
+    { key: 'features', title: 'Courses & Programs', description: 'Explore courses and academic programs' },
+    { key: 'universities', title: 'Universities', description: 'Get started & customize' },
+    { key: 'technical', title: 'Technical Support', description: 'Troubleshoot issues' },
+    { key: 'billing', title: 'Billing & Account', description: 'Manage subscription & payments' },
+    { key: 'setup', title: 'Setup & Configuration', description: 'Get started & customize' }
   ];
 
   const scrollToBottom = () => {
