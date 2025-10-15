@@ -13,6 +13,8 @@ import UniversityApplicationView from "../pages/application/UniversityApplicatio
 import EduconChatbot from "../components/EduconChatbot";
 import { useAuth } from "../contexts/authContext";
 import CourseApplicationPage from "../pages/application/CourseApplicationPage";
+import ScholarshipApplicationPage from "../pages/application/ScholarshipApplicationPage";
+import ScholarshipPage from "../pages/Admission/ScholarshipPage";
 import { Toaster } from "react-hot-toast";
 
 // Lazy imports
@@ -53,6 +55,7 @@ function LayoutWrapper() {
             element={<DocumentVerification />}
           />
           <Route path="/admissions" element={<AdmissionPage />} />
+          <Route path="/scholarships" element={<ScholarshipPage />} />
           <Route path="/university" element={<UniversityDashboardPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/about" element={<AboutUsPage />} />
@@ -70,6 +73,7 @@ function LayoutWrapper() {
           />
           <Route path="/subscriptions" element={<SubscriptionPage />} />
           <Route path="/your-application" element={<CourseApplicationPage />} />
+          <Route path="/track-scholarship" element={<ScholarshipApplicationPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
