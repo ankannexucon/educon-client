@@ -10,7 +10,7 @@ const EduconChatbot = () => {
     helpdesk: [
       {
         id: 1,
-        text: "Hello! I'm your EduTech SaaS Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?",
+        text: "Hello! I'm your Educon Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?",
         sender: 'bot',
         timestamp: new Date(),
         mode: 'helpdesk'
@@ -965,7 +965,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
           title: 'Support & Training',
           questions: {
             'training resources': "Training Resources: • Weekly live webinars • Video tutorial library • Interactive product tours • Certification programs • Documentation portal • Community forums • Onboarding specialists",
-            'support channels': "Support Channels: • Email: support@edutech.com • Phone: 1-800-EDUTECH • Live Chat: In-app support • Help Center: 24/7 knowledge base • Emergency Hotline: Critical issues • Social Media support",
+            'support channels': "Support Channels: • Email: support@educon.com • Phone: 1-800-EDUCON • Live Chat: In-app support • Help Center: 24/7 knowledge base • Emergency Hotline: Critical issues • Social Media support",
             'service status': "Service Status: • Real-time status page • Scheduled maintenance notices • Performance metrics • Incident reports • System health monitoring • Uptime history • SMS/email alerts"
           }
         }
@@ -1007,7 +1007,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
     },
 
     // Default fallback
-    'default': "I understand you're asking about our EduTech platform. For specific technical issues, please contact our support team at support@edutech.com or call 1-800-EDUTECH. For product features, check our documentation at docs.edutech.com."
+    'default': "I understand you're asking about our Educon platform. For specific technical issues, please contact our support team at support@educon.com or call 1-800-EDUCON. For product features, check our documentation at docs.educon.com."
   };
 
   // Main categories for initial selection
@@ -1372,7 +1372,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
       [activeMode]: [{
         id: 1,
         text: activeMode === 'helpdesk' 
-          ? "Hello! I'm your EduTech SaaS Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?"
+          ? "Hello! I'm your Educon Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?"
           : "Hello! I'm your Global AI Assistant. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
         sender: 'bot',
         timestamp: new Date(),
@@ -1837,7 +1837,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
               </div>
               <div style={styles.titleText}>
                 <h3 style={styles.titleH3}>
-                  {activeMode === 'helpdesk' ? 'EduTech SaaS Helpdesk' : 'Global AI Assistant'}
+                  {activeMode === 'helpdesk' ? 'Educon Helpdesk' : 'Global AI Assistant'}
                 </h3>
                 <span style={styles.status}>
                   {isLoading 
