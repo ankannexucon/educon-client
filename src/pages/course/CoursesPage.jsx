@@ -1,15 +1,26 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
 import {
   Search,
+  Star,
+  TrendingUp,
+  Award,
   Filter,
   Sparkles,
   Brain,
   Lightbulb,
-  TrendingUp,
-  Award,
+  Users,
+  Clock,
+  BookOpen,
+  Tag,
+  Layers,
+  PlayCircle,
+  CheckCircle,
+  User,
+  X,
+  CreditCard,
+  Shield,
+  Calendar,
 } from "lucide-react";
-import CourseCardComponent from "../../components/course/CourseCardComponent";
 
 // Dummy Course Data
 const mockCourseData = [
@@ -20,6 +31,7 @@ const mockCourseData = [
     duration: "3 Years",
     enrolled: "320 Students",
     price: "€9,000 / year",
+    discountPrice: "€8,100 / year",
     image: "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
     category: "Technology",
     level: "Beginner",
@@ -29,6 +41,9 @@ const mockCourseData = [
     reviews: 1245,
     featured: true,
     trending: true,
+    modules: 12,
+    language: "English",
+    certificate: true,
   },
   {
     id: 2,
@@ -37,6 +52,7 @@ const mockCourseData = [
     duration: "2 Years",
     enrolled: "150 Students",
     price: "€12,000 / year",
+    discountPrice: "€10,800 / year",
     image: "https://picsum.photos/id/1012/400/250",
     category: "Technology",
     level: "Intermediate",
@@ -45,6 +61,9 @@ const mockCourseData = [
     rating: 4.7,
     reviews: 890,
     featured: true,
+    modules: 8,
+    language: "English",
+    certificate: true,
   },
   {
     id: 3,
@@ -53,6 +72,7 @@ const mockCourseData = [
     duration: "2 Years",
     enrolled: "200 Students",
     price: "€14,500 / year",
+    discountPrice: "€13,050 / year",
     image: "https://picsum.photos/id/1013/400/250",
     category: "Business",
     level: "Intermediate",
@@ -61,6 +81,9 @@ const mockCourseData = [
     rating: 4.6,
     reviews: 1120,
     top: true,
+    modules: 10,
+    language: "English",
+    certificate: true,
   },
   {
     id: 4,
@@ -69,6 +92,7 @@ const mockCourseData = [
     duration: "3 Years",
     enrolled: "180 Students",
     price: "€7,500 / year",
+    discountPrice: "€6,750 / year",
     image: "https://picsum.photos/id/1014/400/250",
     category: "Business",
     level: "Beginner",
@@ -76,6 +100,9 @@ const mockCourseData = [
       "Understand the basics of business management, leadership, and organizational skills.",
     rating: 4.5,
     reviews: 760,
+    modules: 14,
+    language: "English",
+    certificate: true,
   },
   {
     id: 5,
@@ -84,6 +111,7 @@ const mockCourseData = [
     duration: "8 Weeks",
     enrolled: "120 Students",
     price: "€450",
+    discountPrice: "€405",
     image: "https://picsum.photos/id/1015/400/250",
     category: "Technology",
     level: "Advanced",
@@ -92,6 +120,9 @@ const mockCourseData = [
     rating: 4.9,
     reviews: 340,
     trending: true,
+    modules: 6,
+    language: "English",
+    certificate: true,
   },
   {
     id: 6,
@@ -100,6 +131,7 @@ const mockCourseData = [
     duration: "6 Weeks",
     enrolled: "95 Students",
     price: "€350",
+    discountPrice: "€315",
     image: "https://picsum.photos/id/1016/400/250",
     category: "Design",
     level: "Intermediate",
@@ -107,6 +139,9 @@ const mockCourseData = [
       "Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.",
     rating: 4.7,
     reviews: 210,
+    modules: 5,
+    language: "English",
+    certificate: true,
   },
   {
     id: 7,
@@ -115,6 +150,7 @@ const mockCourseData = [
     duration: "12 Weeks",
     enrolled: "140 Students",
     price: "€600",
+    discountPrice: "€540",
     image: "https://picsum.photos/id/1018/400/250",
     category: "Technology",
     level: "Intermediate",
@@ -122,6 +158,9 @@ const mockCourseData = [
       "Analyze data efficiently with Python using libraries like Pandas, NumPy, and Matplotlib.",
     rating: 4.8,
     reviews: 430,
+    modules: 8,
+    language: "English",
+    certificate: true,
   },
   {
     id: 8,
@@ -130,6 +169,7 @@ const mockCourseData = [
     duration: "16 Weeks",
     enrolled: "250 Students",
     price: "€1,000",
+    discountPrice: "€900",
     image: "https://picsum.photos/id/1019/400/250",
     category: "Technology",
     level: "Advanced",
@@ -138,67 +178,9 @@ const mockCourseData = [
     rating: 4.9,
     reviews: 560,
     top: true,
-  },
-  {
-    id: 9,
-    title: "Digital Marketing Essentials",
-    institute: "Marketing Academy Europe",
-    duration: "8 Weeks",
-    enrolled: "130 Students",
-    price: "€400",
-    image: "https://picsum.photos/id/1020/400/250",
-    category: "Business",
-    level: "Beginner",
-    description:
-      "Understand SEO, social media marketing, content strategies, and analytics to grow a brand online.",
-    rating: 4.6,
-    reviews: 290,
-  },
-  {
-    id: 10,
-    title: "UI/UX Design Fundamentals",
-    institute: "Creative Institute EU",
-    duration: "10 Weeks",
-    enrolled: "100 Students",
-    price: "€500",
-    image: "https://picsum.photos/id/1021/400/250",
-    category: "Design",
-    level: "Beginner",
-    description:
-      "Master the principles of user interface and user experience design to create intuitive digital products.",
-    rating: 4.7,
-    reviews: 180,
-    trending: true,
-  },
-  {
-    id: 11,
-    title: "Python for Machine Learning",
-    institute: "AI Academy Europe",
-    duration: "12 Weeks",
-    enrolled: "90 Students",
-    price: "€700",
-    image: "https://picsum.photos/id/1022/400/250",
-    category: "Technology",
-    level: "Intermediate",
-    description:
-      "Apply Python programming to implement machine learning algorithms, models, and data pipelines.",
-    rating: 4.8,
-    reviews: 320,
-  },
-  {
-    id: 12,
-    title: "Financial Analysis & Modeling",
-    institute: "Finance School EU",
-    duration: "6 Weeks",
-    enrolled: "75 Students",
-    price: "€450",
-    image: "https://picsum.photos/id/1023/400/250",
-    category: "Business",
-    level: "Intermediate",
-    description:
-      "Learn to analyze financial statements, build models, and make data-driven investment decisions.",
-    rating: 4.5,
-    reviews: 150,
+    modules: 12,
+    language: "English",
+    certificate: true,
   },
 ];
 
@@ -277,7 +259,7 @@ const aiSearchKnowledge = {
   },
   affordable: {
     suggestions: [
-      "Budget-friendly courses under $500",
+      "Budget-friendly courses under €500",
       "Affordable certification programs",
       "Cost-effective learning options",
       "Short courses with great value",
@@ -348,6 +330,123 @@ const aiSearchKnowledge = {
       "college",
     ],
   },
+};
+
+// Enrollment Modal Component
+const EnrollmentModal = ({ isOpen, onClose, course, onEnroll }) => {
+  const [isEnrolling, setIsEnrolling] = useState(false);
+
+  const handleEnroll = async () => {
+    setIsEnrolling(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      onEnroll(course);
+      onClose();
+    } catch (error) {
+      console.error('Enrollment failed:', error);
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+          <h3 className="text-xl font-bold text-slate-900">Enroll in Course</h3>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5 text-slate-500" />
+          </button>
+        </div>
+
+        {/* Course Info */}
+        <div className="p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <img
+              src={course.image}
+              alt={course.title}
+              className="w-16 h-16 rounded-lg object-cover"
+            />
+            <div>
+              <h4 className="font-semibold text-slate-900">{course.title}</h4>
+              <p className="text-sm text-slate-600">{course.institute}</p>
+              <p className="text-lg font-bold text-green-600 mt-1">
+                {course.discountPrice}
+              </p>
+            </div>
+          </div>
+
+          {/* Features */}
+          <div className="space-y-3 mb-6">
+            <div className="flex items-center gap-3 text-sm text-slate-600">
+              <CheckCircle className="w-4 h-4 text-green-500" />
+              <span>Certificate of Completion</span>
+            </div>
+            <div className="flex items-center gap-3 text-sm text-slate-600">
+              <Calendar className="w-4 h-4 text-blue-500" />
+              <span>Lifetime access</span>
+            </div>
+            <div className="flex items-center gap-3 text-sm text-slate-600">
+              <Shield className="w-4 h-4 text-purple-500" />
+              <span>30-day money-back guarantee</span>
+            </div>
+          </div>
+
+          {/* Payment Info */}
+          <div className="bg-slate-50 rounded-lg p-4 mb-6">
+            <h5 className="font-semibold text-slate-900 mb-2">Payment Summary</h5>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-slate-600">Course Price</span>
+                <span className="font-medium">{course.discountPrice}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-600">Platform Fee</span>
+                <span className="font-medium">€0</span>
+              </div>
+              <div className="border-t border-slate-200 pt-2 flex justify-between">
+                <span className="font-semibold">Total</span>
+                <span className="font-bold text-green-600">{course.discountPrice}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="space-y-3">
+            <button
+              onClick={handleEnroll}
+              disabled={isEnrolling}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isEnrolling ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Processing Enrollment...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="w-4 h-4" />
+                  Complete Enrollment
+                </>
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              className="w-full border border-slate-300 text-slate-700 font-semibold py-3 px-4 rounded-lg transition-colors hover:bg-slate-50"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 // AI-Powered Smart Search Component
@@ -455,12 +554,12 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
   };
 
   return (
-    <div className="mb-6">
+    <div className="mb-8">
       <div className="relative">
         <Sparkles className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-500 w-5 h-5" />
         <input
           type="text"
-          placeholder="Ask AI: 'Find beginner programming courses under $500...'"
+          placeholder="Ask AI: 'Find beginner programming courses under €500...'"
           value={searchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
           onKeyPress={handleKeyPress}
@@ -542,7 +641,7 @@ const AIMatchScore = ({ course, userProfile }) => {
 
     // Budget match (20 points max)
     if (profile.maxBudget) {
-      const coursePrice = parseInt(course.price.replace(/[$,]/g, ""));
+      const coursePrice = parseInt(course.discountPrice.replace(/[^\d]/g, "")) || 0;
       if (coursePrice <= profile.maxBudget) {
         const budgetRatio = coursePrice / profile.maxBudget;
         score += 20 * (1 - budgetRatio);
@@ -581,16 +680,18 @@ const AIMatchScore = ({ course, userProfile }) => {
   };
 
   const getMatchText = (score) => {
-    if (score >= 80) return "Perfect Match";
-    if (score >= 60) return "Great Match";
-    if (score >= 40) return "Good Match";
-    return "Fair Match";
+    if (score >= 80) return "Excellent Match";
+    if (score >= 60) return "Good Match";
+    if (score >= 40) return "Fair Match";
+    return "Low Match";
   };
 
   return (
-    <div className="mt-2">
+    <div className="mt-3">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-xs font-medium text-gray-600">AI Match</span>
+        <span className="text-xs font-medium text-gray-600">
+          AI Match Score
+        </span>
         <span className="text-xs font-semibold text-gray-700">
           {matchScore}% - {getMatchText(matchScore)}
         </span>
@@ -658,105 +759,149 @@ const AIRecommendations = ({ courses, userBehavior, userProfile }) => {
   }
 
   return (
-    <Box sx={{ mb: 6 }}>
-      <Box
-        sx={{
-          display: "flex",
-          width: 1250,
-          mx: "auto",
-          alignItems: "center",
-          gap: 2,
-          mb: 4,
-        }}
-      >
-        <Brain style={{ width: 28, height: 28, color: "#2563eb" }} />
-        <Typography variant="h5" fontWeight="bold" sx={{ color: "#1e1b4b" }}>
+    <div className="mb-12">
+      <div className="flex items-center gap-3 mb-6">
+        <Brain className="w-7 h-7 text-blue-600" />
+        <h2 className="text-2xl font-bold text-slate-900">
           Recommended For You
-        </Typography>
-      </Box>
-      <CourseCardComponent
-        courses={generateRecommendations}
-        showAIFeatures={true}
-        userProfile={userProfile}
-      />
-    </Box>
+        </h2>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {generateRecommendations.map((course) => (
+          <CourseCard
+            key={course.id}
+            course={course}
+            userProfile={userProfile}
+            badge={{
+              icon: <Brain className="w-3 h-3" />,
+              text: "AI Recommended",
+            }}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 
-// Enhanced Course Card with AI Features
-const EnhancedCourseCard = ({ course, userProfile, badge }) => {
-  const getAITags = (course) => {
-    const tags = [];
+// Course Card Component with Enrollment Modal
+const CourseCard = ({ course, userProfile, badge }) => {
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    if (course.rating >= 4.8) tags.push("🏆 Top Rated");
-    if (parseInt(course.enrolled) > 200) tags.push("👥 Popular");
-    if (parseInt(course.price.replace(/[$,]/g, "")) < 1000)
-      tags.push("💰 Great Value");
-    if (course.featured) tags.push("⭐ Featured");
-    if (course.trending) tags.push("🚀 Trending");
-
-    return tags.slice(0, 2);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
   };
 
-  const aiTags = getAITags(course);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleEnroll = (courseData) => {
+    setIsEnrolled(true);
+    console.log(`Successfully enrolled in: ${courseData.title}`);
+    // Here you would typically make an API call to enroll the user
+  };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-300">
-      <div className="relative">
-        <img
-          src={course.image}
-          alt={course.title}
-          className="w-full h-48 object-cover"
-        />
-        {badge && (
-          <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
-            {badge.icon}
-            <span>{badge.text}</span>
+    <>
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-all group flex flex-col w-full min-h-[450px]">
+        {/* Image */}
+        <div className="relative h-40 overflow-hidden">
+          <img
+            src={course.image}
+            alt={course.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full shadow-sm">
+            <span className="text-sm font-semibold text-slate-700">
+              {course.price}
+            </span>
           </div>
-        )}
-      </div>
-      <div className="p-4">
-        <h3 className="font-bold text-lg mb-2 text-slate-900">
-          {course.title}
-        </h3>
-        <p className="text-slate-600 text-sm mb-2">{course.institute}</p>
+          {badge && (
+            <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
+              {badge.icon}
+              <span>{badge.text}</span>
+            </div>
+          )}
+        </div>
 
-        <p className="text-slate-700 text-sm mb-3 line-clamp-2">
-          {course.description}
-        </p>
+        {/* Content */}
+        <div className="p-5 flex flex-col flex-grow">
+          <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-1">
+            {course.title}
+          </h3>
+          <p className="text-sm text-slate-600 mb-2">
+            {course.institute}
+          </p>
 
-        {/* AI Tags */}
-        {aiTags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-3">
-            {aiTags.map((tag, index) => (
-              <span
-                key={index}
-                className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
-              >
-                {tag}
+          <p className="text-sm text-slate-500 mb-3 line-clamp-3">
+            {course.description}
+          </p>
+
+          {/* AI Match Score */}
+          <AIMatchScore course={course} userProfile={userProfile} />
+
+          <div className="flex items-center justify-between text-sm text-slate-600 mb-3">
+            <div className="flex items-center gap-1">
+              <BookOpen className="w-4 h-4 text-blue-600" />
+              <span>{course.duration}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <User className="w-4 h-4 text-emerald-600" />
+              <span>{course.enrolled}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-sm text-slate-600 mb-3">
+            <div className="flex items-center gap-1">
+              <Tag className="w-4 h-4 text-purple-600" />
+              <span className="font-medium">{course.category}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Layers className="w-4 h-4 text-indigo-600" />
+              <span className="font-medium">{course.level}</span>
+            </div>
+          </div>
+
+          {/* Rating and Price */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-1">
+              <Star className="w-4 h-4 text-yellow-500 fill-current" />
+              <span className="font-semibold text-slate-900">{course.rating}</span>
+              <span className="text-slate-500 text-sm">
+                ({course.reviews})
               </span>
-            ))}
+            </div>
+            <div className="text-right">
+              <span className="text-lg font-bold text-green-600">
+                {course.discountPrice}
+              </span>
+            </div>
           </div>
-        )}
 
-        {/* AI Match Score */}
-        <AIMatchScore course={course} userProfile={userProfile} />
-
-        <div className="mt-3 flex justify-between items-center text-sm text-slate-600">
-          <span>{course.duration}</span>
-          <span>{course.enrolled}</span>
-        </div>
-
-        <div className="mt-3 flex justify-between items-center">
-          <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
-            {course.level}
-          </span>
-          <span className="text-lg font-bold text-green-600">
-            {course.price}
-          </span>
+          {/* Enroll / Pending Button */}
+          <button
+            onClick={() => !isEnrolled && handleOpenModal(course)}
+            disabled={isEnrolled}
+            className={`mt-auto w-full font-medium py-3 rounded-lg transition-colors ${
+              isEnrolled
+                ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700 text-white"
+            }`}
+          >
+            {isEnrolled ? "Pending" : "Enroll Now"}
+          </button>
         </div>
       </div>
-    </div>
+
+      {/* Enrollment Modal */}
+      <EnrollmentModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        course={course}
+        onEnroll={handleEnroll}
+      />
+    </>
   );
 };
 
@@ -771,7 +916,7 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
 
     // Price insights
     const prices = courses.map((course) =>
-      parseInt(course.price.replace(/[$,]/g, ""))
+      parseInt(course.discountPrice.replace(/[^\d]/g, "")) || 0
     );
     const avgPrice =
       prices.reduce((sum, price) => sum + price, 0) / prices.length;
@@ -779,10 +924,15 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
     const maxPrice = Math.max(...prices);
 
     insights.push(
-      `💰 Average price: $${avgPrice.toFixed(
+      `💰 Average price: €${avgPrice.toFixed(
         0
-      )} (range: $${minPrice}-$${maxPrice})`
+      )} (range: €${minPrice}-€${maxPrice})`
     );
+
+    // Rating insights
+    const highRated = courses.filter((course) => course.rating >= 4.7).length;
+    const total = courses.length;
+    insights.push(`⭐ ${highRated} of ${total} courses rated 4.7+ stars`);
 
     // Category distribution
     const categories = {};
@@ -794,7 +944,7 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
       categories[a] > categories[b] ? a : b
     );
     insights.push(
-      `🎯 Most common: ${topCategory} (${categories[topCategory]} courses)`
+      `🎯 Most common: ${topCategory} (${categories[topCategory]} options)`
     );
 
     // Level distribution
@@ -805,17 +955,8 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
     const topLevel = Object.keys(levels).reduce((a, b) =>
       levels[a] > levels[b] ? a : b
     );
-    insights.push(`📊 Mostly ${topLevel.toLowerCase()} level courses`);
-
-    // Duration insights
-    const shortCourses = courses.filter((course) =>
-      course.duration.includes("Weeks")
-    ).length;
-    const longCourses = courses.filter((course) =>
-      course.duration.includes("Years")
-    ).length;
     insights.push(
-      `⏱️ ${shortCourses} short courses, ${longCourses} degree programs`
+      `📊 Mostly ${topLevel.toLowerCase()} level courses available`
     );
 
     return insights;
@@ -828,59 +969,32 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
   if (aiInsights.length === 0) return null;
 
   return (
-    <Box
-      sx={{
-        mb: 3,
-        bgcolor: "background.paper",
-        borderRadius: 2,
-        p: 3,
-        border: "1px solid",
-        borderColor: "primary.light",
-        background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
-      }}
-    >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-        <Lightbulb style={{ width: 20, height: 20, color: "#0284c7" }} />
-        <Typography variant="h6" sx={{ color: "#075985", fontWeight: 600 }}>
-          AI Insights
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-          gap: 1,
-        }}
-      >
+    <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200 p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Lightbulb className="w-5 h-5 text-blue-600" />
+        <h4 className="font-semibold text-blue-900">AI Insights</h4>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {aiInsights.map((insight, index) => (
-          <Box
+          <div
             key={index}
-            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            className="flex items-center gap-2 text-sm text-blue-800"
           >
-            <Box
-              sx={{
-                width: 4,
-                height: 4,
-                borderRadius: "50%",
-                bgcolor: "#0284c7",
-              }}
-            />
-            <Typography variant="body2" sx={{ color: "#0c4a6e" }}>
-              {insight}
-            </Typography>
-          </Box>
+            <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
+            {insight}
+          </div>
         ))}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
-export default function CoursesPage() {
-  const [courseData, setCourseData] = useState(mockCourseData);
+export default function EnhancedCoursesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     category: "All Categories",
     level: "All Levels",
+    minRating: 0,
   });
 
   const [userProfile, setUserProfile] = useState({
@@ -896,33 +1010,46 @@ export default function CoursesPage() {
     savedCourses: [1],
   });
 
+  const [enrolledCourses, setEnrolledCourses] = useState(new Set());
+
   const filteredCourses = useMemo(() => {
-    return courseData.filter((course) => {
+    if (
+      !searchQuery &&
+      filters.category === "All Categories" &&
+      filters.level === "All Levels" &&
+      filters.minRating === 0
+    ) {
+      return [];
+    }
+
+    return mockCourseData.filter((course) => {
       const matchesSearch =
         searchQuery === "" ||
         course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         course.institute.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchQuery.toLowerCase());
+        course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        course.category.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesCategory =
         filters.category === "All Categories" ||
         course.category === filters.category;
-
       const matchesLevel =
         filters.level === "All Levels" || course.level === filters.level;
+      const matchesRating = course.rating >= filters.minRating;
 
-      return matchesSearch && matchesCategory && matchesLevel;
+      return matchesSearch && matchesCategory && matchesLevel && matchesRating;
     });
   }, [searchQuery, filters]);
 
-  const featuredCourses = courseData.filter((course) => course.featured);
-  const topCourses = courseData.filter((course) => course.top);
-  const trendingCourses = courseData.filter((course) => course.trending);
+  const featuredCourses = mockCourseData.filter((course) => course.featured);
+  const topCourses = mockCourseData.filter((course) => course.top);
+  const trendingCourses = mockCourseData.filter((course) => course.trending);
 
   const showSearchResults =
     searchQuery ||
     filters.category !== "All Categories" ||
-    filters.level !== "All Levels";
+    filters.level !== "All Levels" ||
+    filters.minRating > 0;
 
   // Update user behavior when search is performed
   useEffect(() => {
@@ -941,240 +1068,301 @@ export default function CoursesPage() {
     console.log("AI Suggestion selected:", suggestion);
   };
 
-  return (
-    <Box
-      sx={{
-        py: 6,
-        px: 3,
-        background: "linear-gradient(to bottom right, #f9fafb, #f3f4f6)",
-      }}
-    >
-      {/* Heading Section */}
-      <Box sx={{ textAlign: "center", mb: 6 }}>
-        <Typography
-          variant="h3"
-          fontWeight="bold"
-          sx={{ color: "#1e1b4b", mb: 1.5, letterSpacing: "0.5px" }}
-        >
-          Explore Our Courses
-        </Typography>
-        <Box
-          sx={{
-            width: 100,
-            height: 5,
-            borderRadius: 3,
-            mx: "auto",
-            mb: 3,
-            background: "linear-gradient(90deg, #4f46e5, #2563eb)",
-          }}
-        />
-        <Typography
-          variant="h6"
-          sx={{
-            color: "#4b5563",
-            maxWidth: 700,
-            mx: "auto",
-            lineHeight: 1.7,
-            fontWeight: 400,
-          }}
-        >
-          Unlock your potential with our{" "}
-          <Box
-            component="span"
-            sx={{
-              background: "linear-gradient(90deg, #6366f1, #3b82f6)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontWeight: 600,
-            }}
-          >
-            AI-powered course discovery
-          </Box>{" "}
-          — find the perfect learning path with intelligent recommendations and
-          smart search.
-        </Typography>
-      </Box>
-      <Box sx={{ width: 1000, mb: 6, mx: "auto" }}>
-        <AISearch
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          onSuggestionClick={handleSuggestionClick}
-        />
-      </Box>
+  const handleEnrollCourse = (course) => {
+    setEnrolledCourses(prev => new Set([...prev, course.title]));
+  };
 
-      {/* Search & Filter */}
-      <Box sx={{ mb: 6, mx: "auto" }}>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">
+            AI-Powered Course Discovery
+          </h1>
+          <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+            Smart recommendations and insights powered by artificial intelligence
+          </p>
+        </div>
+
         {/* AI Search */}
+        <div className="max-w-4xl mx-auto">
+          <AISearch
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onSuggestionClick={handleSuggestionClick}
+          />
+        </div>
 
         {/* AI Recommendations - Show when no active search */}
         {!showSearchResults && (
           <AIRecommendations
-            courses={courseData}
+            courses={mockCourseData}
             userBehavior={userBehavior}
             userProfile={userProfile}
           />
         )}
 
+        {/* Filter Box - Show when searching */}
         {showSearchResults && (
-          <Box className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
-            <Box>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Category
-              </label>
-              <select
-                value={filters.category}
-                onChange={(e) =>
-                  setFilters({ ...filters, category: e.target.value })
-                }
-                className="px-4 py-2 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </Box>
-
-            <Box>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Level
-              </label>
-              <select
-                value={filters.level}
-                onChange={(e) =>
-                  setFilters({ ...filters, level: e.target.value })
-                }
-                className="px-4 py-2 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                {levels.map((lvl) => (
-                  <option key={lvl} value={lvl}>
-                    {lvl}
-                  </option>
-                ))}
-              </select>
-            </Box>
-
-            <Box className="flex items-center gap-2 text-slate-600 mt-2 md:mt-0">
+          <div className="mb-8 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div className="flex items-center gap-2 mb-6">
               <Filter className="w-5 h-5 text-indigo-600" />
-              <span>
+              <h3 className="text-lg font-semibold text-slate-900">
+                Filter Results
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Category
+                </label>
+                <select
+                  value={filters.category}
+                  onChange={(e) =>
+                    setFilters({ ...filters, category: e.target.value })
+                  }
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Level
+                </label>
+                <select
+                  value={filters.level}
+                  onChange={(e) =>
+                    setFilters({ ...filters, level: e.target.value })
+                  }
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  {levels.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Minimum Rating
+                </label>
+                <select
+                  value={filters.minRating}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      minRating: Number(e.target.value),
+                    })
+                  }
+                  className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value={0}>Any Rating</option>
+                  <option value={4}>4+ Stars</option>
+                  <option value={4.5}>4.5+ Stars</option>
+                  <option value={4.7}>4.7+ Stars</option>
+                </select>
+              </div>
+            </div>
+
+            {/* AI Smart Filters */}
+            <AISmartFilters
+              courses={filteredCourses}
+              filters={filters}
+              setFilters={setFilters}
+            />
+
+            <div className="mt-6">
+              <p className="text-slate-600">
                 Showing{" "}
                 <span className="font-semibold text-slate-900">
                   {filteredCourses.length}
                 </span>{" "}
-                {filteredCourses.length === 1 ? "course" : "courses"}
-              </span>
-            </Box>
-          </Box>
-        )}
-
-        {/* AI Smart Filters */}
-        {showSearchResults && filteredCourses.length > 0 && (
-          <AISmartFilters
-            courses={filteredCourses}
-            filters={filters}
-            setFilters={setFilters}
-          />
-        )}
-      </Box>
-
-      {/* Courses Grid */}
-      {showSearchResults ? (
-        filteredCourses.length > 0 ? (
-          <CourseCardComponent
-            courses={filteredCourses}
-            showAIFeatures={true}
-            userProfile={userProfile}
-          />
-        ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-slate-400" />
+                {filteredCourses.length === 1 ? "result" : "results"}
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-slate-900 mb-2">
-              No courses found
-            </h3>
-            <p className="text-slate-600">
-              Try adjusting your search or using AI suggestions above
-            </p>
           </div>
-        )
-      ) : (
-        <>
-          {/* Featured Courses */}
-          <Box sx={{ mb: 6 }}>
-            <Box
-              sx={{
-                display: "flex",
-                width: 1250,
-                mx: "auto",
-                alignItems: "center",
-                gap: 2,
-                mb: 4,
-              }}
-            >
-              <Award style={{ width: 28, height: 28, color: "#7c3aed" }} />
-              <Typography
-                variant="h5"
-                fontWeight="bold"
-                sx={{ color: "#1e1b4b" }}
-              >
-                Featured Courses
-              </Typography>
-            </Box>
-            <CourseCardComponent courses={featuredCourses} />
-          </Box>
+        )}
 
-          {/* Top Courses */}
-          <Box sx={{ mb: 6 }}>
-            <Box
-              sx={{
-                display: "flex",
-                width: 1250,
-                mx: "auto",
-                alignItems: "center",
-                gap: 2,
-                mb: 4,
-              }}
-            >
-              <TrendingUp style={{ width: 28, height: 28, color: "#059669" }} />
-              <Typography
-                variant="h5"
-                fontWeight="bold"
-                sx={{ color: "#1e1b4b" }}
-              >
-                Trending Now
-              </Typography>
-            </Box>
-            <CourseCardComponent courses={trendingCourses} />
-          </Box>
+        {/* Search Results */}
+        {showSearchResults && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              Search Results
+            </h2>
+            {filteredCourses.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredCourses.map((course) => {
+                  const isEnrolled = enrolledCourses.has(course.title);
+                  return (
+                    <div
+                      key={course.id}
+                      className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-all group flex flex-col w-full min-h-[450px]"
+                    >
+                      {/* Image */}
+                      <div className="relative h-40 overflow-hidden">
+                        <img
+                          src={course.image}
+                          alt={course.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full shadow-sm">
+                          <span className="text-sm font-semibold text-slate-700">
+                            {course.price}
+                          </span>
+                        </div>
+                      </div>
 
-          {/* All Courses */}
-          <Box>
-            <Box
-              sx={{
-                display: "flex",
-                width: 1250,
-                mx: "auto",
-                alignItems: "center",
-                gap: 2,
-                mb: 4,
-              }}
-            >
-              {" "}
-              <Typography
-                variant="h5"
-                fontWeight="bold"
-                sx={{ color: "#1e1b4b", mb: 4 }}
-              >
-                All Courses
-              </Typography>
-            </Box>
+                      {/* Content */}
+                      <div className="p-5 flex flex-col flex-grow">
+                        <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-1">
+                          {course.title}
+                        </h3>
+                        <p className="text-sm text-slate-600 mb-2">
+                          {course.institute}
+                        </p>
 
-            <CourseCardComponent courses={courseData} />
-          </Box>
-        </>
-      )}
-    </Box>
+                        <p className="text-sm text-slate-500 mb-3 line-clamp-3">
+                          {course.description}
+                        </p>
+
+                        <div className="flex items-center justify-between text-sm text-slate-600 mb-3">
+                          <div className="flex items-center gap-1">
+                            <BookOpen className="w-4 h-4 text-blue-600" />
+                            <span>{course.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <User className="w-4 h-4 text-emerald-600" />
+                            <span>{course.enrolled}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-sm text-slate-600 mb-3">
+                          <div className="flex items-center gap-1">
+                            <Tag className="w-4 h-4 text-purple-600" />
+                            <span className="font-medium">{course.category}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Layers className="w-4 h-4 text-indigo-600" />
+                            <span className="font-medium">{course.level}</span>
+                          </div>
+                        </div>
+
+                        {/* Enroll / Pending Button */}
+                        <button
+                          onClick={() => !isEnrolled && handleEnrollCourse(course)}
+                          disabled={isEnrolled}
+                          className={`mt-auto w-full font-medium py-3 rounded-lg transition-colors ${
+                            isEnrolled
+                              ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+                              : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                          }`}
+                        >
+                          {isEnrolled ? "Pending" : "Enroll Now"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-slate-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                  No courses found
+                </h3>
+                <p className="text-slate-600">
+                  Try adjusting your search or using AI suggestions above
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Featured Section */}
+        {!showSearchResults && (
+          <>
+            <div className="mb-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Award className="w-7 h-7 text-indigo-600" />
+                <h2 className="text-2xl font-bold text-slate-900">
+                  Featured Courses
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {featuredCourses.map((course) => (
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    userProfile={userProfile}
+                    badge={{
+                      icon: <Award className="w-3 h-3" />,
+                      text: "Featured",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Top Rated Section */}
+            <div className="mb-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Star className="w-7 h-7 text-yellow-500" />
+                <h2 className="text-2xl font-bold text-slate-900">
+                  Top Rated Courses
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {topCourses.map((course) => (
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    userProfile={userProfile}
+                    badge={{
+                      icon: <Star className="w-3 h-3" />,
+                      text: "Top Rated",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Trending Section */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <TrendingUp className="w-7 h-7 text-emerald-600" />
+                <h2 className="text-2xl font-bold text-slate-900">
+                  Trending Now
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {trendingCourses.map((course) => (
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    userProfile={userProfile}
+                    badge={{
+                      icon: <TrendingUp className="w-3 h-3" />,
+                      text: "Trending",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 }

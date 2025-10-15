@@ -15,7 +15,8 @@ export default function CourseCardComponent({ courses = [] }) {
 
     toast.success(
       <span>
-        Application successful! <br />
+        Application successful! 
+
         To check status, go to{" "}
         <Link
           to="/your-application"

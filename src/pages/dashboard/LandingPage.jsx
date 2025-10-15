@@ -69,7 +69,7 @@ export default function LandingPage() {
   const features = [
     {
       icon: <Award className="w-10 h-10" />,
-      title: "University Certified",
+      title: "Certified Universities",
       description:
         "Earn recognized certificates from top universities worldwide",
     },
