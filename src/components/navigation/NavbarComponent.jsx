@@ -70,7 +70,6 @@ export default function NavbarComponent() {
     { name: "Courses", path: "/courses", icon: <GraduationCap size={18} /> },
     { name: "University", path: "/university", icon: <Building2 size={18} /> },
     { name: "Admissions", path: "/admissions", icon: <FileText size={18} /> },
-    { name: "Scholarships", path: "/scholarships", icon: <FileText size={18} /> },
     { name: "About Us", path: "/about", icon: <Info size={18} /> },
   ];
 
@@ -110,6 +109,11 @@ export default function NavbarComponent() {
         name: "Your Scholarships",
         path: "/track-scholarship",
         icon: <ArrowUpRight size={18} />,
+      },
+      {
+        name: "Scholarships",
+        path: "/scholarships",
+        icon: <FileText size={18} />,
       },
     ],
   };
