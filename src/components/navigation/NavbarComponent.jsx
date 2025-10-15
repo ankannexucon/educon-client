@@ -141,16 +141,19 @@ export default function NavbarComponent() {
           }}
         >
           {/* Logo */}
-          <Box
-            component="img"
-            src="/Logo.png"
-            alt="Educon Logo"
-            sx={{
-              width: 60,
-              height: 60,
-              objectFit: "cover",
-            }}
-          />
+          <Box component={Link} to="/">
+            <Box
+              component="img"
+              src="/Logo.png"
+              alt="Educon Logo"
+              sx={{
+                width: 60,
+                height: 60,
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+
           {/* <Typography
             variant="h5"
             fontWeight={700}

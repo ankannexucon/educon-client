@@ -15,11 +15,11 @@ import {
 const mockApplications = [
   {
     id: "APP001",
-    courseName: "Advanced Web Development",
+    courseName: "B.Sc. in Computer Science",
     instructor: "Dr. Sarah Johnson",
     appliedDate: "2024-01-15",
     duration: "12 weeks",
-    fees: 299,
+    fees: 9000,
     status: "approved",
     progress: [
       { stage: "applied", status: "completed", date: "2024-01-15" },
@@ -31,11 +31,11 @@ const mockApplications = [
   },
   {
     id: "APP002",
-    courseName: "Data Science Fundamentals",
+    courseName: "M.Sc. in Data Science",
     instructor: "Prof. Michael Chen",
     appliedDate: "2024-01-10",
     duration: "10 weeks",
-    fees: 349,
+    fees: 12000,
     status: "pending",
     progress: [
       { stage: "applied", status: "completed", date: "2024-01-10" },
@@ -47,11 +47,11 @@ const mockApplications = [
   },
   {
     id: "APP003",
-    courseName: "Machine Learning Advanced",
+    courseName: "BBA in Management",
     instructor: "Dr. Emily Rodriguez",
     appliedDate: "2024-01-05",
     duration: "16 weeks",
-    fees: 499,
+    fees: 7500,
     status: "paid",
     progress: [
       { stage: "applied", status: "completed", date: "2024-01-05" },
@@ -63,11 +63,11 @@ const mockApplications = [
   },
   {
     id: "APP004",
-    courseName: "UI/UX Design Principles",
+    courseName: "React Advanced",
     instructor: "Ms. Jessica Williams",
     appliedDate: "2024-01-20",
     duration: "8 weeks",
-    fees: 249,
+    fees: 450,
     status: "rejected",
     progress: [
       { stage: "applied", status: "completed", date: "2024-01-20" },
@@ -210,7 +210,7 @@ const CourseApplicationCard = ({ application }) => {
           </div>
           <div className="flex items-center text-gray-600">
             {/* <DollarSign className="w-4 h-4 mr-2" /> */}
-            <span>${application.fees}</span>
+            <span>€{application.fees}</span>
           </div>
         </div>
 

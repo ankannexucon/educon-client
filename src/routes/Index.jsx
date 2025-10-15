@@ -14,6 +14,7 @@ import EduconChatbot from "../components/EduconChatbot";
 import { useAuth } from "../contexts/authContext";
 import CourseApplicationPage from "../pages/application/CourseApplicationPage";
 import { Toaster } from "react-hot-toast";
+import DevMode from "../utils/DevMode";
 
 // Lazy imports
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
@@ -41,6 +42,7 @@ function LayoutWrapper() {
     <>
       {!hideLayout && <NavbarComponent />}
       {isAuthenticated && <EduconChatbot />}
+      {/* <DevMode /> */}
       <ScrollToTop />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
