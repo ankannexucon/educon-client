@@ -118,8 +118,6 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50/30 via-white to-indigo-50/30">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-800 to-indigo-900">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5"></div>
-
         {/* Animated Book Elements */}
         <div
           className={`absolute top-20 left-10 opacity-20 ${styles.animateFloat}`}

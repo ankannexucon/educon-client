@@ -141,7 +141,17 @@ export default function NavbarComponent() {
           }}
         >
           {/* Logo */}
-          <Typography
+          <Box
+            component="img"
+            src="/Logo.png"
+            alt="Educon Logo"
+            sx={{
+              width: 60,
+              height: 60,
+              objectFit: "cover",
+            }}
+          />
+          {/* <Typography
             variant="h5"
             fontWeight={700}
             component={Link}
@@ -152,7 +162,7 @@ export default function NavbarComponent() {
             }}
           >
             {APP_NAME}
-          </Typography>
+          </Typography> */}
 
           {/* Desktop Navigation */}
           <Box
@@ -484,6 +494,111 @@ export default function NavbarComponent() {
           </IconButton>
         </Toolbar>
       </AppBar>
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{
+          sx: { width: 280, borderLeft: "1px solid #e5e7eb" },
+        }}
+      >
+        <Box sx={{ p: 2 }}>
+          {navItems.map((item) => (
+            <ListItemButton
+              key={item.name}
+              component={NavLink}
+              to={item.path}
+              onClick={() => setMobileOpen(false)}
+              sx={{
+                borderRadius: 2,
+                color: "#374151",
+                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          ))}
+
+          <Divider sx={{ my: 2 }} />
+
+          {moreOptions[user?.role].map((item) => (
+            <ListItemButton
+              key={item.name}
+              component={NavLink}
+              to={item.path}
+              onClick={() => setMobileOpen(false)}
+              sx={{
+                borderRadius: 2,
+                color: "#374151",
+                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          ))}
+
+          <Divider sx={{ my: 2 }} />
+
+          {user ? (
+            <>
+              <ListItemButton component={Link} to="/profile">
+                <ListItemIcon>
+                  <User size={18} />
+                </ListItemIcon>
+                <ListItemText primary="My Profile" />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Bell size={18} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Notifications"
+                  secondary={`${unreadCount} unread`}
+                />
+              </ListItemButton>
+            </>
+          ) : (
+            <Box
+              sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}
+            >
+              <Button
+                startIcon={<LogIn size={18} />}
+                variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  color: "#6b21a8",
+                  borderColor: "#6b21a8",
+                  fontWeight: 600,
+                  "&:hover": { backgroundColor: "#faf5ff" },
+                }}
+              >
+                Login
+              </Button>
+              <Button
+                startIcon={<UserPlus size={18} />}
+                variant="contained"
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 600,
+                  background: "linear-gradient(to right, #6b21a8, #312e81)",
+                  "&:hover": {
+                    boxShadow: "0 4px 14px rgba(107,33,168,0.3)",
+                  },
+                }}
+              >
+                Sign Up
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Drawer>
     </>
   );
 }
