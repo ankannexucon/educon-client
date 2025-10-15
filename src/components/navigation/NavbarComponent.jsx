@@ -141,7 +141,17 @@ export default function NavbarComponent() {
           }}
         >
           {/* Logo */}
-          <Typography
+          <Box
+            component="img"
+            src="/Logo.png"
+            alt="Educon Logo"
+            sx={{
+              width: 60,
+              height: 60,
+              objectFit: "cover",
+            }}
+          />
+          {/* <Typography
             variant="h5"
             fontWeight={700}
             component={Link}
@@ -152,7 +162,7 @@ export default function NavbarComponent() {
             }}
           >
             {APP_NAME}
-          </Typography>
+          </Typography> */}
 
           {/* Desktop Navigation */}
           <Box

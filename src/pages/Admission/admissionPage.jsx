@@ -328,10 +328,9 @@ const AdmissionPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50/30 via-white to-indigo-50/20">
       {/* Enhanced Header */}
       <header className="relative overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-800 to-indigo-900">
-        <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <div className="text-center">
             <div className="flex justify-center mb-6">
