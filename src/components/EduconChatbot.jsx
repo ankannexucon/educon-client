@@ -5,7 +5,7 @@ const EduconChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [activeMode, setActiveMode] = useState('helpdesk'); // 'helpdesk' or 'global'
+  const [activeMode, setActiveMode] = useState('helpdesk');
   const [messages, setMessages] = useState({
     helpdesk: [
       {
@@ -19,7 +19,7 @@ const EduconChatbot = () => {
     global: [
       {
         id: 1,
-        text: "Hello! I'm your Global AI Assistant powered by Gemini. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
+        text: "Hello! I'm your Global AI Assistant powered by Educon. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
         sender: 'bot',
         timestamp: new Date(),
         mode: 'global'
@@ -30,66 +30,189 @@ const EduconChatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messageAnimations, setMessageAnimations] = useState({});
   const [suggestedQuestions, setSuggestedQuestions] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [currentSubcategory, setCurrentSubcategory] = useState(null);
   const messagesEndRef = useRef(null);
 
-  // Initialize Google GenAI with your API key
   const ai = new GoogleGenAI({ apiKey: "AIzaSyDXLHQx0mVDaXYVzDF7klzYpF2qdmlOcAE" });
 
-  // Hardcoded FAQ database for EduTech SaaS product
+  // Enhanced FAQ database with categories and subcategories
   const faqDatabase = {
-    // Product Features
-    'features': "Our EduTech SaaS platform includes: • Interactive virtual classrooms • AI-powered assessments • Student progress tracking • Parent-teacher communication portal • Lesson planning tools • Grade management system • Attendance tracking • Resource library",
+    // Product Features Category
+    'features': {
+      type: 'category',
+      title: 'Product Features',
+      description: 'Explore all the amazing features our platform offers',
+      subtypes: {
+        'virtual classroom': {
+          title: 'Virtual Classroom',
+          questions: {
+            'basic features': "Virtual Classroom Basic Features: • Real-time video conferencing • Interactive whiteboard • Screen sharing • Breakout rooms • Polls and quizzes • Chat functionality • Recording capabilities • Up to 100 participants simultaneously",
+            'advanced tools': "Advanced Virtual Classroom Tools: • Collaborative document editing • Hand raising feature • Attendance tracking • Session analytics • Custom backgrounds • Multi-language support • Accessibility features • Mobile app integration",
+            'setup guide': "Virtual Classroom Setup: 1. Schedule class from dashboard 2. Configure session settings 3. Invite participants via email/link 4. Test audio/video equipment 5. Prepare teaching materials 6. Start session 5 mins early for testing",
+            'troubleshooting': "Virtual Classroom Issues: • Check internet speed (min 5Mbps) • Update browser to latest version • Grant camera/microphone permissions • Use Chrome/Firefox for best performance • Test equipment before session • Clear browser cache regularly"
+          }
+        },
+        'assessments': {
+          title: 'Assessments & Grading',
+          questions: {
+            'create assessment': "Creating Assessments: • Multiple choice questions • Essay type questions • File upload submissions • Coding exercises • Audio/video responses • Peer review assignments • Timed exams • Randomized questions",
+            'grading system': "Grading System: • Automatic scoring for MCQs • Rubric-based grading • Weighted assignments • Curve grading options • Bulk grading tools • Feedback comments • Grade override capability • Export grades to CSV",
+            'analytics': "Assessment Analytics: • Class performance overview • Question-wise analysis • Learning gap identification • Progress tracking • Comparative reports • Skill mastery indicators • Custom report generation",
+            'ai features': "AI-Powered Features: • Smart question generation • Plagiarism detection • Automated feedback suggestions • Adaptive testing • Learning path recommendations • Performance predictions • Personalized question banks"
+          }
+        },
+        'progress tracking': {
+          title: 'Progress Tracking',
+          questions: {
+            'student dashboard': "Student Progress Dashboard: • Overall performance score • Subject-wise breakdown • Assignment completion rate • Skill mastery levels • Attendance percentage • Peer comparison • Goal tracking • Improvement trends",
+            'teacher analytics': "Teacher Analytics: • Class performance overview • Individual student insights • Assignment completion rates • Learning gap analysis • Intervention recommendations • Parent communication history • Custom report builder",
+            'reports': "Reporting Features: • Weekly progress reports • Custom date range reports • Export to PDF/Excel • Share with parents/students • Automated report scheduling • Comparative analysis • Standards alignment tracking",
+            'parent portal': "Parent Portal Features: • Real-time grade updates • Attendance monitoring • Teacher communication • Assignment deadlines • Performance alerts • Progress trends • School announcements • Meeting scheduling"
+          }
+        },
+        'collaboration': {
+          title: 'Collaboration Tools',
+          questions: {
+            'discussion forums': "Discussion Forums: • Class-specific forums • Topic-based threads • File sharing capability • Moderation tools • Announcement pins • Private messaging • Email notifications • Mobile access",
+            'group projects': "Group Project Tools: • Team workspace creation • Shared document editing • Task assignment • Progress tracking • Peer evaluation • File sharing • Deadline management • Teacher oversight",
+            'parent teacher': "Parent-Teacher Communication: • Direct messaging • Scheduled meetings • Progress updates • Behavior notes • Announcement broadcast • Language translation • Read receipts • Emergency alerts"
+          }
+        }
+      }
+    },
 
-    'virtual classroom': "Virtual Classroom Features: • Real-time video conferencing • Interactive whiteboard • Screen sharing • Breakout rooms • Polls and quizzes • Chat functionality • Recording capabilities • Up to 100 participants simultaneously",
+    // Technical Issues Category
+    'technical': {
+      type: 'category',
+      title: 'Technical Support',
+      description: 'Get help with technical problems and troubleshooting',
+      subtypes: {
+        'login issues': {
+          title: 'Login & Access',
+          questions: {
+            'forgot password': "Password Recovery: 1. Click 'Forgot Password' on login page 2. Enter registered email 3. Check email for reset link 4. Create new password (min 8 characters) 5. Login with new credentials 6. Contact support if email not received",
+            'account locked': "Account Locked: • Too many failed login attempts • Wait 15 minutes or contact support • Verify email address • Check spam folder for verification emails • Ensure correct username/email format",
+            'two factor': "Two-Factor Authentication: • Setup via security settings • Use authenticator app or SMS • Backup codes provided • Recovery email required • Can disable if needed • Enhanced security recommended",
+            'browser issues': "Browser Compatibility: • Chrome 90+ (recommended) • Firefox 85+ • Safari 14+ • Edge 90+ • Enable JavaScript • Allow cookies • Clear cache regularly • Disable conflicting extensions"
+          }
+        },
+        'audio video': {
+          title: 'Audio & Video',
+          questions: {
+            'camera not working': "Camera Issues: • Check browser permissions • Ensure no other app using camera • Test on other websites • Update camera drivers • Try different browser • Check hardware connections • Restart device • Contact IT support",
+            'microphone problems': "Microphone Problems: • Grant microphone permissions • Test microphone in system settings • Check input device selection • Update audio drivers • Use external microphone • Check volume levels • Disable echo cancellation if needed",
+            'screen sharing': "Screen Sharing: • Click share screen button • Choose entire screen/window/tab • Grant permissions when prompted • Optimize for video if sharing video • Stop sharing when done • Participants see shared content in main window",
+            'quality issues': "Quality Optimization: • Use wired internet connection • Close unnecessary applications • Reduce video resolution if needed • Use headset for better audio • Ensure good lighting for video • Test speed at speedtest.net"
+          }
+        },
+        'performance': {
+          title: 'Performance Issues',
+          questions: {
+            'slow loading': "Performance Optimization: • Clear browser cache and cookies • Close unused browser tabs • Use incognito/private mode • Update browser to latest version • Disable browser extensions • Check internet connection speed • Restart router if needed",
+            'mobile app': "Mobile App Performance: • Update to latest app version • Clear app cache and data • Ensure sufficient storage space • Restart mobile device • Use stable WiFi connection • Enable app notifications • Check device compatibility",
+            'offline access': "Offline Features: • Download materials for offline use • Sync when back online • Limited functionality offline • Available on mobile app • Maximum 7 days offline • Automatic background sync"
+          }
+        },
+        'integration': {
+          title: 'Integrations',
+          questions: {
+            'google classroom': "Google Classroom Integration: • Connect via Google Workspace • Sync classes and assignments • Import student roster • Share grades automatically • Single sign-on capability • Real-time data sync • Setup takes 5-10 minutes",
+            'microsoft teams': "Microsoft Teams Integration: • Install Educon app in Teams • Schedule and join meetings • Share files and assignments • Grade synchronization • Calendar integration • Co-teaching support",
+            'sis integration': "SIS Integration: • Compatible with major SIS platforms • Automated student data sync • Grade passback • Attendance synchronization • Custom field mapping • API documentation available • Technical support provided"
+          }
+        }
+      }
+    },
 
-    'assessments': "Assessment Tools: • Create custom quizzes and tests • AI-powered question generation • Automatic grading • Performance analytics • Rubric-based scoring • Peer assessment • Timed exams • Plagiarism detection",
+    // Billing & Account Category
+    'billing': {
+      type: 'category',
+      title: 'Billing & Account',
+      description: 'Manage your subscription, payments, and account settings',
+      subtypes: {
+        'pricing plans': {
+          title: 'Pricing & Plans',
+          questions: {
+            'current plans': "Current Pricing Plans: • BASIC: $29/month - 50 students, core features • PRO: $79/month - 200 students, advanced analytics • ENTERPRISE: $199/month - Unlimited students, all features + premium support • Annual billing saves 20% • Custom enterprise quotes available",
+            'feature comparison': "Plan Comparison: • BASIC: Virtual classes, assessments, basic reports • PRO: All Basic + Advanced analytics, custom branding, API access • ENTERPRISE: All Pro + SSO, custom development, dedicated support • 30-day free trial on all plans",
+            'educational discount': "Educational Discounts: • K-12 Schools: 40% discount • Higher Education: 30% discount • Non-profits: 25% discount • Volume discounts available • Government rates • Contact sales for custom pricing",
+            'free trial': "Free Trial: • 30-day full feature access • No credit card required • Setup assistance available • Convert to paid anytime • Data preserved after conversion • Cancel anytime during trial"
+          }
+        },
+        'payment': {
+          title: 'Payment & Invoicing',
+          questions: {
+            'payment methods': "Accepted Payment Methods: • Credit Cards (Visa, MasterCard, Amex) • PayPal • Bank transfers (Enterprise) • Purchase orders • Digital wallets • Recurring billing available • Secure payment processing",
+            'invoice access': "Invoice Management: • Download invoices from billing section • Automatic email delivery • Multiple currency support • Tax receipt generation • Payment history • Export financial reports • Custom billing dates available",
+            'billing cycle': "Billing Cycle: • Monthly or annual billing • Prorated charges for upgrades • Immediate downgrade effect • Automatic renewal • Email reminders before charges • Grace period for failed payments",
+            'tax information': "Tax Documentation: • VAT/GST included where applicable • Tax-exempt organizations can submit forms • Invoice includes tax breakdown • Annual tax statements available • Multiple tax jurisdictions supported"
+          }
+        },
+        'account management': {
+          title: 'Account Management',
+          questions: {
+            'upgrade downgrade': "Plan Changes: • Upgrade: Immediate access, prorated charge • Downgrade: Effective next billing cycle • Compare plans before changing • Data preservation guaranteed • No downtime during changes • Confirmation email sent",
+            'user management': "User Management: • Add/remove teachers and students • Bulk import users • Role-based permissions • Department organization • Access control settings • Activity monitoring • Custom user fields",
+            'data export': "Data Export: • Export student records • Download assignment submissions • Backup grade books • Extract usage analytics • Custom report generation • GDPR compliance tools • Scheduled automated exports",
+            'account closure': "Account Closure: • Contact support to initiate closure • 30-day data retention after closure • Export all data before closure • Final invoice provided • Can reopen within 30 days • Complete data deletion after retention period"
+          }
+        },
+        'support': {
+          title: 'Support & Training',
+          questions: {
+            'training resources': "Training Resources: • Weekly live webinars • Video tutorial library • Interactive product tours • Certification programs • Documentation portal • Community forums • Onboarding specialists",
+            'support channels': "Support Channels: • Email: support@edutech.com • Phone: 1-800-EDUTECH • Live Chat: In-app support • Help Center: 24/7 knowledge base • Emergency Hotline: Critical issues • Social Media support",
+            'service status': "Service Status: • Real-time status page • Scheduled maintenance notices • Performance metrics • Incident reports • System health monitoring • Uptime history • SMS/email alerts"
+          }
+        }
+      }
+    },
 
-    'progress tracking': "Student Progress Tracking: • Real-time performance dashboards • Skill mastery indicators • Learning gap analysis • Customizable reports • Progress comparisons • Goal setting • Intervention recommendations",
-
-    // Technical Issues
-    'login issues': "Login Troubleshooting: 1. Clear browser cache and cookies 2. Try incognito/private mode 3. Reset password using 'Forgot Password' 4. Check internet connection 5. Update browser to latest version 6. Contact support if issue persists",
-
-    'video not working': "Video Issues: • Check camera permissions in browser • Ensure no other app is using camera • Test camera on other websites • Update browser • Try different browser (Chrome recommended) • Check internet speed (min 5 Mbps required)",
-
-    'audio problems': "Audio Troubleshooting: • Check microphone permissions • Ensure correct input device is selected • Test microphone on other apps • Update audio drivers • Use headphones to reduce echo • Check volume levels",
-
-    'performance slow': "Performance Issues: • Close unnecessary browser tabs • Clear browser cache • Use wired internet connection • Update browser • Disable browser extensions • Check system requirements (4GB RAM minimum)",
-
-    // Billing & Account
-    'pricing': "Pricing Plans: • Basic: $29/month - Up to 50 students • Pro: $79/month - Up to 200 students • Enterprise: $199/month - Unlimited students + premium features • Annual plans save 20%. All plans include basic support.",
-
-    'billing': "Billing Information: • Monthly/Annual billing options • Credit card and PayPal accepted • Invoice available upon request • Billing cycle starts on signup date • Cancel anytime with 30-day money back guarantee",
-
-    'account upgrade': "Account Upgrade: • Login to your dashboard • Go to Billing section • Select desired plan • Complete payment • Changes take effect immediately • Prorated charges may apply",
-
-    'cancel subscription': "Cancellation Process: • Login to your account • Navigate to Billing settings • Click 'Cancel Subscription' • Confirm cancellation • Service continues until end of billing period • Data exported upon request",
-
-    // Setup & Configuration
-    'setup': "Quick Setup Guide: 1. Create your institution profile 2. Add teachers and staff 3. Set up classes and subjects 4. Import student data 5. Configure assessment settings 6. Customize communication templates 7. Train team on platform features",
-
-    'integration': "Available Integrations: • Google Classroom • Microsoft Teams • LMS (Canvas, Moodle, Blackboard) • Student Information Systems • Single Sign-On (SSO) • Zoom • Learning Tools Interoperability (LTI)",
-
-    'data import': "Data Import Options: • CSV/Excel file upload • API integration • Manual entry • Bulk import tools • Student photo upload • Curriculum data import • Previous performance data",
-
-    // Support & Training
-    'training': "Training Resources: • Weekly live webinars • Video tutorials library • Documentation portal • Certified trainer program • Onboarding sessions • Best practices guides • Community forums",
-
-    'support': "Support Channels: • Email: support@edutech.com • Phone: 1-800-EDUTECH (Mon-Fri 9AM-6PM EST) • Live Chat: Available in dashboard • Help Center: 24/7 knowledge base • Emergency: Critical issue hotline",
-
-    'mobile app': "Mobile App Features: • iOS and Android available • Real-time notifications • Offline access to materials • Mobile assessments • Parent communication • Grade viewing • Attendance marking",
+    // Setup & Configuration Category
+    'setup': {
+      type: 'category',
+      title: 'Setup & Configuration',
+      description: 'Get started and customize your platform experience',
+      subtypes: {
+        'initial setup': {
+          title: 'Initial Setup',
+          questions: {
+            'getting started': "Getting Started Guide: 1. Verify email address 2. Complete institution profile 3. Set up classes and subjects 4. Import student data 5. Configure assessment settings 6. Invite teachers and staff 7. Customize communication templates 8. Schedule training session",
+            'data migration': "Data Migration: • CSV template provided • Bulk import tools available • Previous system export guidance • Data validation checks • Migration specialist support • Test import capability • Rollback option available",
+            'customization': "Platform Customization: • School branding and colors • Custom domain setup • Communication templates • Assessment rubrics • Grade scales • Attendance codes • Notification preferences",
+            'best practices': "Best Practices: • Start with pilot group • Train super users first • Establish clear usage guidelines • Set up regular check-ins • Use analytics to track adoption • Gather user feedback • Schedule quarterly reviews"
+          }
+        },
+        'administrative': {
+          title: 'Administrative Settings',
+          questions: {
+            'permissions': "Permission Levels: • Super Admin: Full system access • Admin: Limited administrative rights • Teacher: Classroom management • Teaching Assistant: Grading assistance • Student: Learning access • Parent: Monitoring access • Custom roles available",
+            'security settings': "Security Configuration: • Password complexity requirements • Session timeout settings • IP restriction options • Two-factor authentication • Login attempt limits • Data encryption • Compliance certifications",
+            'notification setup': "Notification Management: • Email notification preferences • Push notification settings • SMS alerts for emergencies • Digest frequency options • Custom alert rules • Parent communication settings • Calendar sync options"
+          }
+        },
+        'class management': {
+          title: 'Class Management',
+          questions: {
+            'create class': "Creating Classes: • Basic class information • Subject and grade level • Enrollment capacity • Co-teacher assignment • Schedule setup • Resource folder creation • Parent access configuration • Custom fields available",
+            'student enrollment': "Student Enrollment: • Manual student addition • Bulk CSV import • Self-registration links • Parent invitation emails • Enrollment codes • Waitlist management • Automatic roster sync",
+            'academic calendar': "Academic Calendar: • Term and semester setup • Holiday configuration • Assignment due dates • Exam schedules • Parent-teacher conferences • Progress report periods • Custom calendar events"
+          }
+        }
+      }
+    },
 
     // Default fallback
     'default': "I understand you're asking about our EduTech platform. For specific technical issues, please contact our support team at support@edutech.com or call 1-800-EDUTECH. For product features, check our documentation at docs.edutech.com."
   };
 
-  // Suggested questions for helpdesk mode (EdTech SaaS focused)
-  const helpdeskQuickQuestions = [
-    "What features are included?",
-    "How to setup virtual classroom?",
-    "Pricing plans information",
-    "Login issues troubleshooting",
-    "Mobile app features",
-    "Integration options"
+  // Main categories for initial selection
+  const mainCategories = [
+    { key: 'features', title: '📊 Product Features', description: 'Explore platform capabilities' },
+    { key: 'technical', title: '🔧 Technical Support', description: 'Troubleshoot issues' },
+    { key: 'billing', title: '💳 Billing & Account', description: 'Manage subscription & payments' },
+    { key: 'setup', title: '⚙️ Setup & Configuration', description: 'Get started & customize' }
   ];
 
   const scrollToBottom = () => {
@@ -98,17 +221,14 @@ const EduconChatbot = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages[activeMode]]);
+  }, [messages[activeMode], currentCategory, currentSubcategory]);
 
   useEffect(() => {
     if (isOpen && isInitialLoad) {
       const timer = setTimeout(() => {
         setIsInitialLoad(false);
-        // Only set suggestions for helpdesk mode
         if (activeMode === 'helpdesk') {
-          setSuggestedQuestions(helpdeskQuickQuestions);
-        } else {
-          setSuggestedQuestions([]); // No suggestions for global mode
+          setSuggestedQuestions(mainCategories);
         }
       }, 500);
       return () => clearTimeout(timer);
@@ -116,55 +236,39 @@ const EduconChatbot = () => {
   }, [isOpen, isInitialLoad, activeMode]);
 
   useEffect(() => {
-    // Update suggested questions when mode changes
     if (activeMode === 'helpdesk') {
-      setSuggestedQuestions(helpdeskQuickQuestions);
+      if (!currentCategory && !currentSubcategory) {
+        setSuggestedQuestions(mainCategories);
+      }
     } else {
-      setSuggestedQuestions([]); // No suggestions for global mode
+      setSuggestedQuestions([]);
     }
-  }, [activeMode]);
+  }, [activeMode, currentCategory, currentSubcategory]);
 
-  // Helpdesk mode response handler - only uses hardcoded answers
   const getHelpdeskResponse = (userInput) => {
     const input = userInput.toLowerCase().trim();
     
-    // Exact matches first
-    for (const [key, answer] of Object.entries(faqDatabase)) {
-      if (key !== 'default' && input.includes(key)) {
-        return answer;
-      }
+    // Check for exact category matches
+    if (faqDatabase[input] && faqDatabase[input].type === 'category') {
+      return `I can help you with ${faqDatabase[input].title}. What specific area are you interested in?`;
     }
     
-    // Keyword matching with scoring
-    const keywordMatches = [];
-    for (const [key, answer] of Object.entries(faqDatabase)) {
-      if (key === 'default') continue;
-      
-      const keywords = key.split(' ');
-      let score = 0;
-      
-      keywords.forEach(keyword => {
-        if (input.includes(keyword)) {
-          score += 1;
+    // Deep search in questions
+    for (const [categoryKey, category] of Object.entries(faqDatabase)) {
+      if (category.type === 'category') {
+        for (const [subtypeKey, subtype] of Object.entries(category.subtypes)) {
+          for (const [questionKey, answer] of Object.entries(subtype.questions)) {
+            if (input.includes(questionKey) || input.includes(subtypeKey) || input.includes(categoryKey)) {
+              return answer;
+            }
+          }
         }
-      });
-      
-      if (score > 0) {
-        keywordMatches.push({ key, answer, score });
       }
     }
     
-    // Return best match
-    if (keywordMatches.length > 0) {
-      keywordMatches.sort((a, b) => b.score - a.score);
-      return keywordMatches[0].answer;
-    }
-    
-    // Fallback to default
     return faqDatabase.default;
   };
 
-  // Global mode response handler (Gemini API)
   const getGeminiResponse = async (userMessage) => {
     try {
       const modelsToTry = [
@@ -201,12 +305,140 @@ const EduconChatbot = () => {
     }
   };
 
+  const handleCategorySelect = (categoryKey) => {
+    const category = faqDatabase[categoryKey];
+    if (category && category.type === 'category') {
+      setCurrentCategory(categoryKey);
+      setCurrentSubcategory(null);
+      
+      // Convert subtypes to suggested questions format
+      const subtypeQuestions = Object.entries(category.subtypes).map(([key, subtype]) => ({
+        key: key,
+        title: `📋 ${subtype.title}`,
+        description: `Explore ${subtype.title.toLowerCase()} questions`
+      }));
+      
+      setSuggestedQuestions(subtypeQuestions);
+      
+      // Add bot message about category selection
+      const botMessage = {
+        id: Date.now(),
+        text: `Great! You've selected **${category.title}**. ${category.description}. What specific area would you like help with?`,
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: 'helpdesk'
+      };
+      
+      setMessages(prev => ({
+        ...prev,
+        helpdesk: [...prev.helpdesk, botMessage]
+      }));
+    }
+  };
+
+  const handleSubcategorySelect = (subcategoryKey) => {
+    if (!currentCategory) return;
+    
+    const category = faqDatabase[currentCategory];
+    const subcategory = category.subtypes[subcategoryKey];
+    
+    if (subcategory) {
+      setCurrentSubcategory(subcategoryKey);
+      
+      // Convert questions to suggested questions format
+      const questionList = Object.entries(subcategory.questions).map(([key, answer]) => ({
+        key: key,
+        title: `❓ ${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`,
+        description: `Get details about ${key}`
+      }));
+      
+      setSuggestedQuestions(questionList);
+      
+      // Add bot message about subcategory selection
+      const botMessage = {
+        id: Date.now(),
+        text: `You've selected **${subcategory.title}**. Here are the common questions I can help with:`,
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: 'helpdesk'
+      };
+      
+      setMessages(prev => ({
+        ...prev,
+        helpdesk: [...prev.helpdesk, botMessage]
+      }));
+    }
+  };
+
+  const handleQuestionSelect = (questionKey) => {
+    if (!currentCategory || !currentSubcategory) return;
+    
+    const answer = faqDatabase[currentCategory].subtypes[currentSubcategory].questions[questionKey];
+    
+    if (answer) {
+      // Add user message (simulated question)
+      const userMessage = {
+        id: Date.now(),
+        text: `Tell me about ${questionKey}`,
+        sender: 'user',
+        timestamp: new Date(),
+        mode: 'helpdesk'
+      };
+      
+      // Add bot answer
+      const botMessage = {
+        id: Date.now() + 1,
+        text: answer,
+        sender: 'bot',
+        timestamp: new Date(),
+        mode: 'helpdesk'
+      };
+      
+      setMessages(prev => ({
+        ...prev,
+        helpdesk: [...prev.helpdesk, userMessage, botMessage]
+      }));
+      
+      // Reset to main categories after answering
+      setTimeout(() => {
+        setCurrentCategory(null);
+        setCurrentSubcategory(null);
+        setSuggestedQuestions(mainCategories);
+        
+        const followUpMessage = {
+          id: Date.now() + 2,
+          text: "Is there anything else I can help you with today?",
+          sender: 'bot',
+          timestamp: new Date(),
+          mode: 'helpdesk'
+        };
+        
+        setMessages(prev => ({
+          ...prev,
+          helpdesk: [...prev.helpdesk, followUpMessage]
+        }));
+      }, 2000);
+    }
+  };
+
+  const handleQuickQuestion = (item) => {
+    if (currentCategory && currentSubcategory) {
+      // It's a specific question
+      handleQuestionSelect(item.key);
+    } else if (currentCategory) {
+      // It's a subcategory
+      handleSubcategorySelect(item.key);
+    } else {
+      // It's a main category
+      handleCategorySelect(item.key);
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     
     if (!inputMessage.trim()) return;
 
-    // Add user message with animation
     const userMessage = {
       id: Date.now(),
       text: inputMessage,
@@ -222,7 +454,6 @@ const EduconChatbot = () => {
     setInputMessage('');
     setIsLoading(true);
 
-    // Add typing animation
     setMessageAnimations(prev => ({
       ...prev,
       [userMessage.id]: 'slideInRight'
@@ -232,7 +463,6 @@ const EduconChatbot = () => {
       let response;
       
       if (activeMode === 'helpdesk') {
-        // Helpdesk mode - use hardcoded responses only
         setTimeout(() => {
           response = getHelpdeskResponse(inputMessage);
           
@@ -249,7 +479,6 @@ const EduconChatbot = () => {
             [activeMode]: [...prev[activeMode], botMessage]
           }));
           
-          // Add bot message animation
           setTimeout(() => {
             setMessageAnimations(prev => ({
               ...prev,
@@ -258,10 +487,16 @@ const EduconChatbot = () => {
           }, 100);
           
           setIsLoading(false);
-        }, 800 + Math.random() * 400); // Reduced delay for better UX
+          
+          // Reset navigation after direct question
+          if (!inputMessage.toLowerCase().includes('category') && !inputMessage.toLowerCase().includes('type')) {
+            setCurrentCategory(null);
+            setCurrentSubcategory(null);
+            setSuggestedQuestions(mainCategories);
+          }
+        }, 800 + Math.random() * 400);
         
       } else {
-        // Global mode - use Gemini API
         response = await getGeminiResponse(inputMessage);
         
         const botMessage = {
@@ -277,7 +512,6 @@ const EduconChatbot = () => {
           [activeMode]: [...prev[activeMode], botMessage]
         }));
         
-        // Add bot message animation
         setTimeout(() => {
           setMessageAnimations(prev => ({
             ...prev,
@@ -312,21 +546,14 @@ const EduconChatbot = () => {
     }
   };
 
-  const handleQuickQuestion = (question) => {
-    setInputMessage(question);
-    // Auto-send after a brief delay
-    setTimeout(() => {
-      const fakeEvent = { preventDefault: () => {} };
-      handleSendMessage(fakeEvent);
-    }, 100);
-  };
-
   const handleModeChange = (mode) => {
     setActiveMode(mode);
+    setCurrentCategory(null);
+    setCurrentSubcategory(null);
     if (mode === 'helpdesk') {
-      setSuggestedQuestions(helpdeskQuickQuestions);
+      setSuggestedQuestions(mainCategories);
     } else {
-      setSuggestedQuestions([]); // No suggestions for global mode
+      setSuggestedQuestions([]);
     }
   };
 
@@ -341,15 +568,17 @@ const EduconChatbot = () => {
         id: 1,
         text: activeMode === 'helpdesk' 
           ? "Hello! I'm your EduTech SaaS Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?"
-          : "Hello! I'm your Global AI Assistant powered by Gemini. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
+          : "Hello! I'm your Global AI Assistant. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
         sender: 'bot',
         timestamp: new Date(),
         mode: activeMode
       }]
     }));
     setMessageAnimations({});
+    setCurrentCategory(null);
+    setCurrentSubcategory(null);
     if (activeMode === 'helpdesk') {
-      setSuggestedQuestions(helpdeskQuickQuestions);
+      setSuggestedQuestions(mainCategories);
     } else {
       setSuggestedQuestions([]);
     }
@@ -363,6 +592,8 @@ const EduconChatbot = () => {
     setIsOpen(false);
     setIsMinimized(false);
     setIsInitialLoad(true);
+    setCurrentCategory(null);
+    setCurrentSubcategory(null);
   };
 
   const handleOpen = () => {
@@ -371,6 +602,80 @@ const EduconChatbot = () => {
 
   const getMessageAnimation = (messageId) => {
     return messageAnimations[messageId] || 'messageAppear';
+  };
+
+  // Quick Questions Section Component
+  const QuickQuestionsSection = () => {
+    if (activeMode !== 'helpdesk' || suggestedQuestions.length === 0 || isLoading) {
+      return null;
+    }
+
+    return (
+      <div style={styles.quickQuestions}>
+        <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
+          {!currentCategory ? 'Choose a category:' : 
+           !currentSubcategory ? 'Choose a subcategory:' : 
+           'Select a question:'}
+        </div>
+        {suggestedQuestions.map((item, index) => (
+          <button
+            key={index}
+            style={styles.quickQuestion}
+            onClick={() => handleQuickQuestion(item)}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'rgba(102, 126, 234, 0.1)';
+              e.target.style.transform = 'translateX(5px)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.8)';
+              e.target.style.transform = 'translateX(0)';
+            }}
+          >
+            <div style={{ fontWeight: '600', fontSize: '13px', marginBottom: '2px' }}>
+              {item.title}
+            </div>
+            <div style={{ fontSize: '11px', opacity: 0.7 }}>
+              {item.description}
+            </div>
+          </button>
+        ))}
+        
+        {/* Back button when in subcategory or question view */}
+        {(currentCategory || currentSubcategory) && (
+          <button
+            style={{
+              ...styles.quickQuestion,
+              background: 'rgba(156, 163, 175, 0.1)',
+              border: '1px solid rgba(156, 163, 175, 0.3)'
+            }}
+            onClick={() => {
+              if (currentSubcategory) {
+                setCurrentSubcategory(null);
+                handleCategorySelect(currentCategory);
+              } else {
+                setCurrentCategory(null);
+                setSuggestedQuestions(mainCategories);
+                
+                const botMessage = {
+                  id: Date.now(),
+                  text: "What would you like help with today?",
+                  sender: 'bot',
+                  timestamp: new Date(),
+                  mode: 'helpdesk'
+                };
+                
+                setMessages(prev => ({
+                  ...prev,
+                  helpdesk: [...prev.helpdesk, botMessage]
+                }));
+              }
+            }}
+          >
+            ← Back to {currentSubcategory ? 'Categories' : 'Main Menu'}
+          </button>
+        )}
+      </div>
+    );
   };
 
   // Inline Styles
@@ -847,31 +1152,7 @@ const EduconChatbot = () => {
               </div>
             ))}
             
-            {/* Quick Questions - Only show in helpdesk mode */}
-            {activeMode === 'helpdesk' && suggestedQuestions.length > 0 && !isLoading && (
-              <div style={styles.quickQuestions}>
-                <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                  Common questions:
-                </div>
-                {suggestedQuestions.map((question, index) => (
-                  <button
-                    key={index}
-                    style={styles.quickQuestion}
-                    onClick={() => handleQuickQuestion(question)}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = 'rgba(102, 126, 234, 0.1)';
-                      e.target.style.transform = 'translateX(5px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = 'rgba(255, 255, 255, 0.8)';
-                      e.target.style.transform = 'translateX(0)';
-                    }}
-                  >
-                    {question}
-                  </button>
-                ))}
-              </div>
-            )}
+            <QuickQuestionsSection />
             
             {isLoading && (
               <div style={{...styles.message, ...styles.botMessage}}>
@@ -881,7 +1162,7 @@ const EduconChatbot = () => {
                     <span style={{...styles.typingDot, animationDelay: '-0.16s'}}></span>
                     <span style={styles.typingDot}></span>
                     <span style={styles.typingText}>
-                      {activeMode === 'helpdesk' ? 'Searching knowledge base...' : 'Gemini AI is thinking...'}
+                      {activeMode === 'helpdesk' ? 'Searching knowledge base...' : 'Educon AI is thinking...'}
                     </span>
                   </div>
                 </div>
