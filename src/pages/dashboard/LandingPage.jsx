@@ -146,9 +146,13 @@ export default function LandingPage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white mb-6">
-              <Flame className="w-4 h-4 text-yellow-300" />
-              <span className="text-sm font-semibold">
+            <div
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white mb-6 ${styles.animateFloat1}`}
+            >
+              <Flame className="w-4 h-4 text-yellow-300 animate-pulse" />
+              <span
+                className={`text-sm font-semibold ${styles.animateBlinkText}`}
+              >
                 AI University search and CV Builder
               </span>
             </div>
