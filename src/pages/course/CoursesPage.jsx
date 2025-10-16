@@ -339,11 +339,11 @@ const EnrollmentModal = ({ isOpen, onClose, course, onEnroll }) => {
   const handleEnroll = async () => {
     setIsEnrolling(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       onEnroll(course);
       onClose();
     } catch (error) {
-      console.error('Enrollment failed:', error);
+      console.error("Enrollment failed:", error);
     } finally {
       setIsEnrolling(false);
     }
@@ -352,7 +352,7 @@ const EnrollmentModal = ({ isOpen, onClose, course, onEnroll }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-2000">
       <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-200">
@@ -400,7 +400,9 @@ const EnrollmentModal = ({ isOpen, onClose, course, onEnroll }) => {
 
           {/* Payment Info */}
           <div className="bg-slate-50 rounded-lg p-4 mb-6">
-            <h5 className="font-semibold text-slate-900 mb-2">Payment Summary</h5>
+            <h5 className="font-semibold text-slate-900 mb-2">
+              Payment Summary
+            </h5>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-slate-600">Course Price</span>
@@ -412,7 +414,9 @@ const EnrollmentModal = ({ isOpen, onClose, course, onEnroll }) => {
               </div>
               <div className="border-t border-slate-200 pt-2 flex justify-between">
                 <span className="font-semibold">Total</span>
-                <span className="font-bold text-green-600">{course.discountPrice}</span>
+                <span className="font-bold text-green-600">
+                  {course.discountPrice}
+                </span>
               </div>
             </div>
           </div>
@@ -641,7 +645,8 @@ const AIMatchScore = ({ course, userProfile }) => {
 
     // Budget match (20 points max)
     if (profile.maxBudget) {
-      const coursePrice = parseInt(course.discountPrice.replace(/[^\d]/g, "")) || 0;
+      const coursePrice =
+        parseInt(course.discountPrice.replace(/[^\d]/g, "")) || 0;
       if (coursePrice <= profile.maxBudget) {
         const budgetRatio = coursePrice / profile.maxBudget;
         score += 20 * (1 - budgetRatio);
@@ -830,9 +835,7 @@ const CourseCard = ({ course, userProfile, badge }) => {
           <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-1">
             {course.title}
           </h3>
-          <p className="text-sm text-slate-600 mb-2">
-            {course.institute}
-          </p>
+          <p className="text-sm text-slate-600 mb-2">{course.institute}</p>
 
           <p className="text-sm text-slate-500 mb-3 line-clamp-3">
             {course.description}
@@ -867,10 +870,10 @@ const CourseCard = ({ course, userProfile, badge }) => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-500 fill-current" />
-              <span className="font-semibold text-slate-900">{course.rating}</span>
-              <span className="text-slate-500 text-sm">
-                ({course.reviews})
+              <span className="font-semibold text-slate-900">
+                {course.rating}
               </span>
+              <span className="text-slate-500 text-sm">({course.reviews})</span>
             </div>
             <div className="text-right">
               <span className="text-lg font-bold text-green-600">
@@ -915,8 +918,8 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
     if (courses.length === 0) return insights;
 
     // Price insights
-    const prices = courses.map((course) =>
-      parseInt(course.discountPrice.replace(/[^\d]/g, "")) || 0
+    const prices = courses.map(
+      (course) => parseInt(course.discountPrice.replace(/[^\d]/g, "")) || 0
     );
     const avgPrice =
       prices.reduce((sum, price) => sum + price, 0) / prices.length;
@@ -1069,7 +1072,7 @@ export default function EnhancedCoursesPage() {
   };
 
   const handleEnrollCourse = (course) => {
-    setEnrolledCourses(prev => new Set([...prev, course.title]));
+    setEnrolledCourses((prev) => new Set([...prev, course.title]));
   };
 
   return (
@@ -1081,7 +1084,8 @@ export default function EnhancedCoursesPage() {
             AI-Powered Course Discovery
           </h1>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-            Smart recommendations and insights powered by artificial intelligence
+            Smart recommendations and insights powered by artificial
+            intelligence
           </p>
         </div>
 
@@ -1249,7 +1253,9 @@ export default function EnhancedCoursesPage() {
                         <div className="flex items-center justify-between text-sm text-slate-600 mb-3">
                           <div className="flex items-center gap-1">
                             <Tag className="w-4 h-4 text-purple-600" />
-                            <span className="font-medium">{course.category}</span>
+                            <span className="font-medium">
+                              {course.category}
+                            </span>
                           </div>
                           <div className="flex items-center gap-1">
                             <Layers className="w-4 h-4 text-indigo-600" />
@@ -1259,7 +1265,9 @@ export default function EnhancedCoursesPage() {
 
                         {/* Enroll / Pending Button */}
                         <button
-                          onClick={() => !isEnrolled && handleEnrollCourse(course)}
+                          onClick={() =>
+                            !isEnrolled && handleEnrollCourse(course)
+                          }
                           disabled={isEnrolled}
                           className={`mt-auto w-full font-medium py-3 rounded-lg transition-colors ${
                             isEnrolled

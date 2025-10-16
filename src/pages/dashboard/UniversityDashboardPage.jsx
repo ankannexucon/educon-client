@@ -751,9 +751,9 @@ const AISmartFilters = ({ universities, filters, setFilters }) => {
     const maxPrice = Math.max(...prices);
 
     insights.push(
-      `💰 Average price: $${avgPrice.toFixed(
+      `💰 Average price: €${avgPrice.toFixed(
         0
-      )} (range: $${minPrice}-$${maxPrice})`
+      )} (range: €${minPrice} - €${maxPrice})`
     );
 
     // Rating insights
