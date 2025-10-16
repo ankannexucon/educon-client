@@ -70,7 +70,11 @@ export default function NavbarComponent() {
     { name: "Courses", path: "/courses", icon: <GraduationCap size={18} /> },
     { name: "University", path: "/university", icon: <Building2 size={18} /> },
     { name: "Admissions", path: "/admissions", icon: <FileText size={18} /> },
-    { name: "Scholarships", path: "/scholarships", icon: <FileText size={18} /> },
+    {
+      name: "Scholarships",
+      path: "/scholarships",
+      icon: <FileText size={18} />,
+    },
     { name: "About Us", path: "/about", icon: <Info size={18} /> },
   ];
 
@@ -559,6 +563,12 @@ export default function NavbarComponent() {
                   <User size={18} />
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
+              </ListItemButton>
+              <ListItemButton component={Link} to="/subscriptions">
+                <ListItemIcon>
+                  <Crown size={18} />
+                </ListItemIcon>
+                <ListItemText primary="Subscriptions" />
               </ListItemButton>
               <ListItemButton>
                 <ListItemIcon>
