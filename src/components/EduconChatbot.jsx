@@ -36,74 +36,267 @@ const EduconChatbot = () => {
 
   const ai = new GoogleGenAI({ apiKey: "AIzaSyDXLHQx0mVDaXYVzDF7klzYpF2qdmlOcAE" });
 
-  // Enhanced FAQ database with categories and subcategories
+  // Complete FAQ database with all categories and subcategories
   const faqDatabase = {
-    // Product Features Category
-    'features': {
-  type: 'category',
-  title: 'Admissions & Enrollment',
-  description: 'Streamline your student recruitment and admission process',
-  subtypes: {
-    'enquiry management': {
-      title: 'Enquiry Management',
-      questions: {
-        'lead capture': "Lead Capture Features: • Multi-channel enquiry forms (website, social media, email) • Automatic lead scoring and prioritization • CRM integration • Follow-up automation • Source tracking (campaigns, referrals) • Duplicate detection • Bulk import from spreadsheets • Real-time notification system",
-        'enquiry tracking': "Enquiry Tracking System: • Complete enquiry lifecycle tracking • Communication history log • Task and reminder system • Performance analytics • Conversion rate tracking • Staff assignment and workload management • Automated response templates • Mobile app for on-the-go management",
-        'communication tools': "Communication Tools: • Bulk SMS and email campaigns • Personalized email templates • WhatsApp Business integration • Automated follow-up sequences • Meeting scheduler integration • Voice broadcast capabilities • Document attachment tracking • Read receipt monitoring"
-      }
-    },
-    'application process': {
-      title: 'Application Process',
-      questions: {
-        'online application': "Online Application System: • Customizable application forms • Progress saving functionality • Document upload portal • Application fee payment integration • Multi-language support • Mobile-responsive design • Auto-save feature • Application status tracking portal",
-        'document management': "Document Management: • Digital document submission • File type validation • Automatic document categorization • Missing document alerts • Bulk document processing • OCR text extraction • Secure document storage • Version control and audit trails",
-        'application tracking': "Application Tracking: • Real-time application status • Stage-wise progression tracking • Automated status updates • Waitlist management • Application analytics dashboard • Deadline management • Priority application handling • Transfer application support"
-      }
-    },
-    'admission workflow': {
-      title: 'Admission Workflow',
-      questions: {
-        'approval process': "Approval Workflow: • Multi-level approval system • Role-based permissions • Electronic signatures • Approval chain customization • SLA monitoring • Escalation procedures • Conditional approval paths • Audit trail for all decisions",
-        'interview scheduling': "Interview Management: • Automated interview scheduling • Panel management • Video interview integration • Interview feedback forms • Scoring rubrics • Calendar synchronization • Reminder notifications • Interview analytics and reports",
-        'decision management': "Decision Management: • Batch decision processing • Acceptance/waitlist/rejection letters • Conditional offer management • Scholarship award integration • Decision appeal process • Enrollment deadline tracking • Deposit payment processing • Welcome package automation"
-      }
-    },
-    'student onboarding': {
-      title: 'Student Onboarding',
-      questions: {
-        'enrollment process': "Enrollment Process: • Online enrollment forms • Course selection wizard • Fee structure display • Payment plan setup • Document verification • Medical form submission • Emergency contact collection • Orientation scheduling",
-        'welcome portal': "Welcome Portal Features: • Personalized student dashboard • Orientation materials • Campus virtual tour • Faculty introductions • Academic calendar • Resource library • Student handbook • FAQ section for new students",
-        'parent integration': "Parent Onboarding: • Separate parent portal access • Fee payment dashboard • Communication channel with administration • Event calendar • Progress monitoring • Document submission • Emergency contact updates • Transportation preferences"
-      }
-    },
-    'analytics reporting': {
-      title: 'Analytics & Reporting',
-      questions: {
-        'admission analytics': "Admission Analytics: • Enquiry-to-application conversion rates • Application source analysis • Demographic reporting • Time-to-decision metrics • Staff performance tracking • Seasonal trend analysis • Competitive intelligence • ROI on marketing campaigns",
-        'forecasting tools': "Forecasting Tools: • Enrollment prediction models • Capacity planning • Waitlist probability analysis • Scholarship budget forecasting • Staff requirement planning • Resource allocation optimization • Trend analysis reports • Custom KPI dashboard",
-        'compliance reports': "Compliance Reporting: • Regulatory compliance tracking • Accreditation documentation • Diversity and inclusion reports • Financial aid reporting • Government submission ready reports • Audit trail documentation • Data privacy compliance • Export functionality for authorities"
-      }
-    },
-    'integration capabilities': {
-      title: 'Integration & API',
-      questions: {
-        'crm integration': "CRM Integration: • Salesforce integration • HubSpot connectivity • Microsoft Dynamics sync • Custom API endpoints • Real-time data sync • Bidirectional communication • Lead scoring synchronization • Campaign performance tracking",
-        'student information': "SIS Integration: • Seamless student data transfer • Automatic class roster creation • Grade book integration • Attendance system sync • Timetable management • Student record updating • Parent portal activation • Billing system connection",
-        'payment gateways': "Payment Integration: • Multiple payment gateway support • International payment processing • Refund management • Installment plan tracking • Receipt generation • Tax calculation • Scholarship deduction handling • Financial aid integration"
-      }
-    }
-  }
-},
+    // Admissions & Enrollment Category
+    'admissions': {
+      type: 'category',
+      title: 'Admissions & Enrollment',
+      description: 'Streamline your student recruitment and admission process',
+      subtypes: {
+        'enquiry_management': {
+          title: 'Enquiry Management',
+          questions: {
+            'lead_capture': `**Lead Capture Features:**
+• Multi-channel enquiry forms (website, social media, email)
+• Automatic lead scoring and prioritization
+• CRM integration with Salesforce and HubSpot
+• Follow-up automation with email sequences
+• Source tracking for marketing campaigns
+• Duplicate detection and merging
+• Bulk import from Excel/CSV files
+• Real-time notification system for new leads
+• Mobile app for field admissions teams
+• Custom form builder with conditional logic`,
 
-    'features': {
-  type: 'category',
-  title: 'Courses & Programs',
-  description: 'Explore and manage academic programs, courses, and curriculum',
-  subtypes: {
-    'course_catalogue': {
-      title: 'Course Catalogue & Browse',
-      questions: {
-        'browse_courses': `Available Courses in Our Catalogue:
+            'enquiry_tracking': `**Enquiry Tracking System:**
+• Complete enquiry lifecycle tracking from first contact to enrollment
+• Communication history log with timestamps
+• Task and reminder system for follow-ups
+• Performance analytics dashboard
+• Conversion rate tracking by source
+• Staff assignment and workload management
+• Automated response templates
+• Lead nurturing workflows
+• Lost lead analysis and reporting
+• Integration with call center systems`,
+
+            'communication_tools': `**Communication Tools:**
+• Bulk SMS and email campaigns
+• Personalized email templates with merge tags
+• WhatsApp Business integration
+• Automated follow-up sequences
+• Meeting scheduler integration (Calendly, Google Calendar)
+• Voice broadcast capabilities
+• Document attachment tracking
+• Read receipt monitoring
+• Multi-language support
+• A/B testing for communication templates`
+          }
+        },
+        'application_process': {
+          title: 'Application Process',
+          questions: {
+            'online_application': `**Online Application System:**
+• Customizable application forms with drag-and-drop builder
+• Progress saving functionality for multi-page forms
+• Document upload portal with file type validation
+• Application fee payment integration
+• Multi-language support (10+ languages)
+• Mobile-responsive design for all devices
+• Auto-save feature every 30 seconds
+• Application status tracking portal
+• Conditional logic for form fields
+• Integration with payment gateways`,
+
+            'document_management': `**Document Management:**
+• Digital document submission portal
+• File type validation (PDF, DOC, JPG, PNG)
+• Automatic document categorization
+• Missing document alerts and reminders
+• Bulk document processing for multiple applications
+• OCR text extraction for uploaded documents
+• Secure document storage with encryption
+• Version control and audit trails
+• Document expiry tracking
+• Integration with verification services`,
+
+            'application_tracking': `**Application Tracking:**
+• Real-time application status updates
+• Stage-wise progression tracking
+• Automated status update emails to applicants
+• Waitlist management with priority ranking
+• Application analytics dashboard
+• Deadline management with automated reminders
+• Priority application handling
+• Transfer application support
+• Bulk status update capabilities
+• Custom workflow configuration`
+          }
+        },
+        'admission_workflow': {
+          title: 'Admission Workflow',
+          questions: {
+            'approval_process': `**Approval Workflow:**
+• Multi-level approval system with configurable chains
+• Role-based permissions for different approvers
+• Electronic signatures with legal compliance
+• Approval chain customization
+• SLA monitoring for approval timelines
+• Escalation procedures for delayed approvals
+• Conditional approval paths based on criteria
+• Audit trail for all decisions and comments
+• Mobile approval capabilities
+• Integration with document management`,
+
+            'interview_scheduling': `**Interview Management:**
+• Automated interview scheduling with calendar integration
+• Panel management for multiple interviewers
+• Video interview integration (Zoom, Teams, Google Meet)
+• Interview feedback forms with scoring rubrics
+• Scoring rubrics for standardized evaluation
+• Calendar synchronization across platforms
+• Reminder notifications for candidates and interviewers
+• Interview analytics and reports
+• Group interview scheduling
+• Candidate self-scheduling options`,
+
+            'decision_management': `**Decision Management:**
+• Batch decision processing for multiple applications
+• Acceptance/waitlist/rejection letter templates
+• Conditional offer management
+• Scholarship award integration
+• Decision appeal process workflow
+• Enrollment deadline tracking
+• Deposit payment processing
+• Welcome package automation
+• Multi-level decision approval
+• Integration with financial aid systems`
+          }
+        },
+        'student_onboarding': {
+          title: 'Student Onboarding',
+          questions: {
+            'enrollment_process': `**Enrollment Process:**
+• Online enrollment forms with pre-filled data
+• Course selection wizard with prerequisites checking
+• Fee structure display with installment options
+• Payment plan setup and management
+• Document verification portal
+• Medical form submission and tracking
+• Emergency contact collection
+• Orientation scheduling and confirmation
+• Housing preference selection
+• Transportation arrangement requests`,
+
+            'welcome_portal': `**Welcome Portal Features:**
+• Personalized student dashboard
+• Orientation materials and schedules
+• Campus virtual tour with 360° views
+• Faculty introductions and profiles
+• Academic calendar integration
+• Resource library and handbooks
+• Student handbook digital access
+• FAQ section for new students
+• Peer mentor matching
+• Campus map with interactive features`,
+
+            'parent_integration': `**Parent Onboarding:**
+• Separate parent portal access with limited permissions
+• Fee payment dashboard with transaction history
+• Communication channel with administration
+• Event calendar for parents
+• Progress monitoring and report cards
+• Document submission for verification
+• Emergency contact updates
+• Transportation preferences and tracking
+• Parent-teacher meeting scheduling
+• Newsletter subscription management`
+          }
+        },
+        'analytics_reporting': {
+          title: 'Analytics & Reporting',
+          questions: {
+            'admission_analytics': `**Admission Analytics:**
+• Enquiry-to-application conversion rates
+• Application source analysis and ROI tracking
+• Demographic reporting and diversity metrics
+• Time-to-decision metrics by department
+• Staff performance tracking and productivity
+• Seasonal trend analysis for admissions
+• Competitive intelligence reporting
+• ROI on marketing campaigns
+• Yield rate analysis
+• Geographic distribution reports`,
+
+            'forecasting_tools': `**Forecasting Tools:**
+• Enrollment prediction models with 95% accuracy
+• Capacity planning and resource allocation
+• Waitlist probability analysis
+• Scholarship budget forecasting
+• Staff requirement planning
+• Resource allocation optimization
+• Trend analysis reports with historical data
+• Custom KPI dashboard creation
+• Real-time enrollment projections
+• Scenario planning and what-if analysis`,
+
+            'compliance_reports': `**Compliance Reporting:**
+• Regulatory compliance tracking for education boards
+• Accreditation documentation management
+• Diversity and inclusion reports
+• Financial aid reporting and auditing
+• Government submission ready reports
+• Audit trail documentation for 7+ years
+• Data privacy compliance (GDPR, FERPA)
+• Export functionality for regulatory authorities
+• Automated compliance checklist
+• Custom report builder for specific requirements`
+          }
+        },
+        'integration_capabilities': {
+          title: 'Integration & API',
+          questions: {
+            'crm_integration': `**CRM Integration:**
+• Salesforce integration with bidirectional sync
+• HubSpot connectivity for marketing automation
+• Microsoft Dynamics sync for enterprise CRM
+• Custom API endpoints for proprietary systems
+• Real-time data synchronization
+• Bidirectional communication between systems
+• Lead scoring synchronization
+• Campaign performance tracking
+• Custom field mapping
+• Webhook support for real-time updates`,
+
+            'student_information': `**SIS Integration:**
+• Seamless student data transfer upon enrollment
+• Automatic class roster creation
+• Grade book integration and sync
+• Attendance system synchronization
+• Timetable management integration
+• Student record updating in real-time
+• Parent portal activation and management
+• Billing system connection
+• Transcript generation
+• Graduation tracking`,
+
+            'payment_gateways': `**Payment Integration:**
+• Multiple payment gateway support (Stripe, PayPal, Square)
+• International payment processing in 50+ currencies
+• Refund management and processing
+• Installment plan tracking and reminders
+• Receipt generation and delivery
+• Tax calculation and compliance
+• Scholarship deduction handling
+• Financial aid integration
+• Payment plan customization
+• Failed payment recovery system`
+          }
+        }
+      }
+    },
+
+    // Courses & Programs Category
+    'courses': {
+      type: 'category',
+      title: 'Courses & Programs',
+      description: 'Explore and manage academic programs, courses, and curriculum',
+      subtypes: {
+        'course_catalogue': {
+          title: 'Course Catalogue',
+          questions: {
+            'browse_courses': `**Available Courses in Our Catalogue:**
 
 🎓 **B.Sc. in Computer Science**
 🏫 University of NY
@@ -177,17 +370,37 @@ Apply Python programming to implement machine learning algorithms, models, and d
 📚 Business • 🎯 Intermediate
 Learn to analyze financial statements, build models, and make data-driven investment decisions.
 
-Total: 12 courses across 3 categories (Technology, Business, Design)`,
+**Total: 12 courses across 3 categories (Technology, Business, Design)**`,
 
-        'course_details': "Detailed Course Information: • Comprehensive course descriptions and learning outcomes • Syllabus and curriculum overview • Required textbooks and materials • Assessment methods and grading criteria • Class schedule and meeting times • Campus location or online access details • Faculty credentials and teaching style • Career outcomes and skill development",
+            'course_details': `**Detailed Course Information:**
+• Comprehensive course descriptions and learning outcomes
+• Syllabus and curriculum overview with weekly breakdown
+• Required textbooks and materials list
+• Assessment methods and grading criteria
+• Class schedule and meeting times
+• Campus location or online access details
+• Faculty credentials and teaching style
+• Career outcomes and skill development
+• Prerequisites and eligibility requirements
+• Student support services available`,
 
-        'program_pathways': "Program Pathways: • Degree and certificate program overviews • Major and minor combinations • Credit requirements and course sequences • Transfer credit evaluation • Academic planning tools • Graduation requirement tracking • Specialization options • Co-op and internship integration"
-      }
-    },
-    'course_enquiry': {
-      title: 'Course Enquiry & Information',
-      questions: {
-        'enquiry_submission': `Course Enquiry System:
+            'program_pathways': `**Program Pathways:**
+• Degree and certificate program overviews
+• Major and minor combinations available
+• Credit requirements and course sequences
+• Transfer credit evaluation process
+• Academic planning tools and advisors
+• Graduation requirement tracking
+• Specialization options and tracks
+• Co-op and internship integration
+• Accelerated program options
+• Dual degree opportunities`
+          }
+        },
+        'course_enquiry': {
+          title: 'Course Enquiry',
+          questions: {
+            'enquiry_submission': `**Course Enquiry System:**
 
 You can enquire about any of our 12 courses including:
 
@@ -209,21 +422,43 @@ You can enquire about any of our 12 courses including:
 • Tailwind CSS Mastery - Intermediate level
 • UI/UX Design Fundamentals - Beginner level
 
-To enquire about a specific course, please provide:
+**To enquire about a specific course, please provide:**
 • Course name you're interested in
 • Your educational background
 • Preferred start date
-• Any specific questions about the curriculum`,
+• Any specific questions about the curriculum
+• Current experience level
+• Career goals and objectives`,
 
-        'enquiry_tracking': "Enquiry Management: • Automated enquiry acknowledgment • Priority-based routing to advisors • Response time tracking • Follow-up reminder system • Conversion rate monitoring • Enquiry source tracking • Performance analytics dashboard • Integration with CRM systems",
+            'enquiry_tracking': `**Enquiry Management:**
+• Automated enquiry acknowledgment within 15 minutes
+• Priority-based routing to specialized advisors
+• Response time tracking and SLA monitoring
+• Follow-up reminder system
+• Conversion rate monitoring by course
+• Enquiry source tracking and attribution
+• Performance analytics dashboard
+• Integration with CRM systems
+• Multi-channel enquiry consolidation
+• Lead scoring and prioritization`,
 
-        'advisor_connect': "Advisor Connection: • Direct messaging with course advisors • Video consultation scheduling • Department-specific expert routing • Multi-language support • Document sharing for eligibility checks • Personalized recommendation engine • Group information sessions • Campus tour scheduling"
-      }
-    },
-    'technology_courses': {
-      title: 'Technology Courses',
-      questions: {
-        'all_tech_courses': `Technology Courses Available (6 courses):
+            'advisor_connect': `**Advisor Connection:**
+• Direct messaging with course advisors
+• Video consultation scheduling
+• Department-specific expert routing
+• Multi-language support for international students
+• Document sharing for eligibility checks
+• Personalized recommendation engine
+• Group information sessions
+• Campus tour scheduling
+• Career counseling sessions
+• Alumni mentorship connections`
+          }
+        },
+        'technology_courses': {
+          title: 'Technology Courses',
+          questions: {
+            'all_tech_courses': `**Technology Courses Available (6 courses):**
 
 💻 **B.Sc. in Computer Science**
 🏫 University of NY
@@ -261,26 +496,38 @@ Learn front-end and back-end development with React, Node.js, and databases to b
 🎯 Intermediate
 Apply Python programming to implement machine learning algorithms, models, and data pipelines.`,
 
-        'computer_science': `B.Sc. in Computer Science Details:
+            'computer_science': `**B.Sc. in Computer Science Details:**
 • Institute: University of NY
 • Duration: 3 Years
 • Level: Beginner
 • Price: $12,000
 • Currently Enrolled: 320 Students
+• Format: On-campus with online options
+• Accreditation: ABET Accredited
 
-Course Description:
-Learn the fundamentals of computer science, programming, and problem-solving skills.
+**Course Description:**
+Learn the fundamentals of computer science, programming, and problem-solving skills in this comprehensive degree program.
 
-Curriculum Includes:
-• Programming Fundamentals
+**Curriculum Includes:**
+• Programming Fundamentals (Python, Java)
 • Data Structures & Algorithms
-• Computer Systems
-• Software Engineering
-• Database Management
-• Web Development
-• Artificial Intelligence Basics`,
+• Computer Systems and Architecture
+• Software Engineering Principles
+• Database Management Systems
+• Web Development Technologies
+• Artificial Intelligence Basics
+• Operating Systems
+• Computer Networks
+• Cybersecurity Fundamentals
 
-        'data_science': `Data Science Programs:
+**Career Outcomes:**
+• Software Developer
+• Systems Analyst
+• Database Administrator
+• Web Developer
+• IT Consultant`,
+
+            'data_science': `**Data Science Programs:**
 
 📊 **M.Sc. in Data Science**
 🏫 Tech University
@@ -298,13 +545,23 @@ Analyze data efficiently with Python using libraries like Pandas, NumPy, and Mat
 🏫 AI Academy
 ⏱️ 12 Weeks • 👥 90 Students • 💵 $800
 🎯 Intermediate
-Apply Python programming to implement machine learning algorithms, models, and data pipelines.`
-      }
-    },
-    'business_courses': {
-      title: 'Business Courses',
-      questions: {
-        'all_business_courses': `Business & Management Courses (4 courses):
+Apply Python programming to implement machine learning algorithms, models, and data pipelines.
+
+**Common Data Science Topics:**
+• Statistical Analysis and Probability
+• Machine Learning Algorithms
+• Data Visualization Techniques
+• Big Data Technologies
+• Database Management
+• Cloud Computing Platforms
+• Business Intelligence Tools
+• Data Ethics and Privacy`
+          }
+        },
+        'business_courses': {
+          title: 'Business Courses',
+          questions: {
+            'all_business_courses': `**Business & Management Courses (4 courses):**
 
 📈 **MBA in Marketing**
 🏫 Global Business School
@@ -330,40 +587,73 @@ Understand SEO, social media marketing, content strategies, and analytics to gro
 🎯 Intermediate
 Learn to analyze financial statements, build models, and make data-driven investment decisions.`,
 
-        'mba_programs': `MBA in Marketing Details:
+            'mba_programs': `**MBA in Marketing Details:**
 • Institute: Global Business School
 • Duration: 2 Years
 • Level: Intermediate
 • Price: $18,000
 • Currently Enrolled: 200 Students
+• Format: Hybrid (Online + On-campus)
+• Accreditation: AACSB Accredited
 
-Course Description:
-Develop strategic marketing skills and learn how to grow businesses effectively.
+**Course Description:**
+Develop strategic marketing skills and learn how to grow businesses effectively in competitive markets.
 
-Curriculum Includes:
+**Curriculum Includes:**
 • Strategic Marketing Management
 • Consumer Behavior Analysis
 • Digital Marketing Strategies
-• Brand Management
+• Brand Management and Development
 • Market Research & Analytics
 • Sales & Distribution Management
-• International Marketing`,
+• International Marketing
+• Marketing Metrics and ROI
+• Product Management
+• Customer Relationship Management
 
-        'bba_programs': `BBA in Management Details:
+**Career Outcomes:**
+• Marketing Manager
+• Brand Strategist
+• Digital Marketing Specialist
+• Market Research Analyst
+• Product Manager`,
+
+            'bba_programs': `**BBA in Management Details:**
 • Institute: City College
 • Duration: 3 Years
 • Level: Beginner
 • Price: $10,500
 • Currently Enrolled: 180 Students
+• Format: Full-time On-campus
+• Accreditation: Regional Accreditation
 
-Course Description:
-Understand the basics of business management, leadership, and organizational skills.`
-      }
-    },
-    'design_courses': {
-      title: 'Design Courses',
-      questions: {
-        'all_design_courses': `Design & Creative Courses (2 courses):
+**Course Description:**
+Understand the basics of business management, leadership, and organizational skills for successful career development.
+
+**Curriculum Includes:**
+• Principles of Management
+• Organizational Behavior
+• Business Communication
+• Financial Accounting
+• Marketing Principles
+• Human Resource Management
+• Operations Management
+• Business Ethics
+• Strategic Planning
+• Entrepreneurship Fundamentals
+
+**Career Outcomes:**
+• Business Manager
+• Operations Supervisor
+• Team Leader
+• Project Coordinator
+• Small Business Owner`
+          }
+        },
+        'design_courses': {
+          title: 'Design Courses',
+          questions: {
+            'all_design_courses': `**Design & Creative Courses (2 courses):**
 
 🎨 **Tailwind CSS Mastery**
 🏫 Design School
@@ -377,54 +667,98 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 🎯 Beginner
 Master the principles of user interface and user experience design to create intuitive digital products.`,
 
-        'ui_ux_design': `UI/UX Design Fundamentals Details:
+            'ui_ux_design': `**UI/UX Design Fundamentals Details:**
 • Institute: Creative Institute
 • Duration: 10 Weeks
 • Level: Beginner
 • Price: $600
 • Currently Enrolled: 100 Students
+• Format: Online with live sessions
+• Certificate: Industry-recognized
 
-Course Description:
-Master the principles of user interface and user experience design to create intuitive digital products.
+**Course Description:**
+Master the principles of user interface and user experience design to create intuitive digital products that users love.
 
-Curriculum Includes:
+**Curriculum Includes:**
 • Design Thinking Process
-• User Research Methods
-• Wireframing & Prototyping
-• Visual Design Principles
-• Interaction Design
-• Usability Testing
-• Design Tools (Figma, Adobe XD)`,
+• User Research Methods and Personas
+• Wireframing & Prototyping Techniques
+• Visual Design Principles and Color Theory
+• Interaction Design Patterns
+• Usability Testing Methods
+• Design Tools (Figma, Adobe XD, Sketch)
+• Mobile-First Design Approach
+• Accessibility Guidelines
+• Portfolio Development
 
-        'tailwind_css': `Tailwind CSS Mastery Details:
+**Career Outcomes:**
+• UI/UX Designer
+• Product Designer
+• Interaction Designer
+• UX Researcher
+• Design Consultant`,
+
+            'tailwind_css': `**Tailwind CSS Mastery Details:**
 • Institute: Design School
 • Duration: 6 Weeks
 • Level: Intermediate
 • Price: $400
 • Currently Enrolled: 95 Students
+• Format: Self-paced with mentor support
+• Prerequisites: Basic HTML/CSS knowledge
 
-Course Description:
-Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS.`
-      }
-    },
-    'enrollment_management': {
-      title: 'Enrollment & Registration',
-      questions: {
-        'registration_process': `Registration Process for Courses:
+**Course Description:**
+Learn how to build responsive, modern, and visually stunning UIs using Tailwind CSS utility-first framework.
+
+**Curriculum Includes:**
+• Tailwind CSS Fundamentals
+• Responsive Design with Breakpoints
+• Component Styling and Customization
+• Dark Mode Implementation
+• Animation and Transition Effects
+• Plugin Development
+• Performance Optimization
+• Integration with React/Vue
+• Best Practices and Workflows
+• Real-world Project Building
+
+**Career Outcomes:**
+• Frontend Developer
+• Web Designer
+• UI Developer
+• CSS Specialist
+• Fullstack Developer`
+          }
+        },
+        'enrollment_management': {
+          title: 'Enrollment & Registration',
+          questions: {
+            'registration_process': `**Registration Process for Courses:**
 
 **Step-by-Step Enrollment:**
 1. Browse available courses from our catalogue of 12 courses
 2. Select your preferred course and check prerequisites
 3. Submit application with required documents
-4. Complete payment process
+4. Complete payment process securely
 5. Receive confirmation and access course materials
+6. Attend orientation session
+7. Access learning platform and resources
 
 **Popular Courses by Enrollment:**
 • Fullstack Web Development: 250 enrolled
 • B.Sc. in Computer Science: 320 enrolled
-• MBA in Marketing: 200 enrolled`,
+• MBA in Marketing: 200 enrolled
+• Python for Data Analysis: 140 enrolled
+• UI/UX Design Fundamentals: 100 enrolled
 
-        'pricing_information': `Course Pricing Information:
+**Registration Requirements:**
+• Valid identification document
+• Educational transcripts
+• Prerequisite verification
+• Payment method setup
+• Agreement to terms and conditions`,
+
+            'pricing_information': `**Course Pricing Information:**
 
 **Degree Programs (Years):**
 • B.Sc. in Computer Science: $12,000
@@ -444,11 +778,14 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 
 **Financial Aid Available:**
 • Scholarships for eligible students
-• Installment payment plans
+• Installment payment plans (3-12 months)
 • Corporate sponsorship options
-• Early bird discounts`,
+• Early bird discounts (up to 15%)
+• Group enrollment discounts
+• Alumni referral discounts
+• Military and veteran benefits`,
 
-        'duration_options': `Course Duration Options:
+            'duration_options': `**Course Duration Options:**
 
 **Long-term Programs (1+ Years):**
 • B.Sc. in Computer Science: 3 Years
@@ -466,64 +803,29 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 • Python for Machine Learning: 12 Weeks
 • Financial Analysis & Modeling: 6 Weeks
 
-Flexible learning options including full-time, part-time, and online formats available.`
-      }
-    }
-  }
-},
-
-    // Technical Issues Category
-    'technical': {
-      type: 'category',
-      title: 'Technical Support',
-      description: 'Get help with technical problems and troubleshooting',
-      subtypes: {
-        'login issues': {
-          title: 'Login & Access',
-          questions: {
-            'forgot password': "Password Recovery: 1. Click 'Forgot Password' on login page 2. Enter registered email 3. Check email for reset link 4. Create new password (min 8 characters) 5. Login with new credentials 6. Contact support if email not received",
-            'account locked': "Account Locked: • Too many failed login attempts • Wait 15 minutes or contact support • Verify email address • Check spam folder for verification emails • Ensure correct username/email format",
-            'two factor': "Two-Factor Authentication: • Setup via security settings • Use authenticator app or SMS • Backup codes provided • Recovery email required • Can disable if needed • Enhanced security recommended",
-            'browser issues': "Browser Compatibility: • Chrome 90+ (recommended) • Firefox 85+ • Safari 14+ • Edge 90+ • Enable JavaScript • Allow cookies • Clear cache regularly • Disable conflicting extensions"
-          }
-        },
-        'audio video': {
-          title: 'Audio & Video',
-          questions: {
-            'camera not working': "Camera Issues: • Check browser permissions • Ensure no other app using camera • Test on other websites • Update camera drivers • Try different browser • Check hardware connections • Restart device • Contact IT support",
-            'microphone problems': "Microphone Problems: • Grant microphone permissions • Test microphone in system settings • Check input device selection • Update audio drivers • Use external microphone • Check volume levels • Disable echo cancellation if needed",
-            'screen sharing': "Screen Sharing: • Click share screen button • Choose entire screen/window/tab • Grant permissions when prompted • Optimize for video if sharing video • Stop sharing when done • Participants see shared content in main window",
-            'quality issues': "Quality Optimization: • Use wired internet connection • Close unnecessary applications • Reduce video resolution if needed • Use headset for better audio • Ensure good lighting for video • Test speed at speedtest.net"
-          }
-        },
-        'performance': {
-          title: 'Performance Issues',
-          questions: {
-            'slow loading': "Performance Optimization: • Clear browser cache and cookies • Close unused browser tabs • Use incognito/private mode • Update browser to latest version • Disable browser extensions • Check internet connection speed • Restart router if needed",
-            'mobile app': "Mobile App Performance: • Update to latest app version • Clear app cache and data • Ensure sufficient storage space • Restart mobile device • Use stable WiFi connection • Enable app notifications • Check device compatibility",
-            'offline access': "Offline Features: • Download materials for offline use • Sync when back online • Limited functionality offline • Available on mobile app • Maximum 7 days offline • Automatic background sync"
-          }
-        },
-        'integration': {
-          title: 'Integrations',
-          questions: {
-            'google classroom': "Google Classroom Integration: • Connect via Google Workspace • Sync classes and assignments • Import student roster • Share grades automatically • Single sign-on capability • Real-time data sync • Setup takes 5-10 minutes",
-            'microsoft teams': "Microsoft Teams Integration: • Install Educon app in Teams • Schedule and join meetings • Share files and assignments • Grade synchronization • Calendar integration • Co-teaching support",
-            'sis integration': "SIS Integration: • Compatible with major SIS platforms • Automated student data sync • Grade passback • Attendance synchronization • Custom field mapping • API documentation available • Technical support provided"
+**Flexible Learning Options:**
+• Full-time intensive programs
+• Part-time evening classes
+• Online self-paced learning
+• Hybrid blended formats
+• Weekend-only schedules
+• Accelerated completion options
+• Extended duration for working professionals`
           }
         }
       }
     },
 
+    // Universities & Institutions Category
     'universities': {
-  type: 'category',
-  title: 'Universities & Institutions',
-  description: 'Explore top universities and educational institutions',
-  subtypes: {
-    'university_catalogue': {
-      title: 'University Catalogue',
-      questions: {
-        'browse_universities': `Available Universities in Our Network:
+      type: 'category',
+      title: 'Universities & Institutions',
+      description: 'Explore top universities and educational institutions',
+      subtypes: {
+        'university_catalogue': {
+          title: 'University Catalogue',
+          questions: {
+            'browse_universities': `**Available Universities in Our Network:**
 
 🏛️ **Stanford University**
 📍 Stanford, CA
@@ -573,17 +875,41 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 🎓 Technology & Engineering • 🎯 Advanced
 Small but mighty institution focused on science and engineering excellence.
 
-Total: 8 universities across 4 categories`,
+**Total: 8 universities across 4 categories**`,
 
-        'university_details': "University Details Include: • Comprehensive institution profiles • Campus facilities and infrastructure • Faculty qualifications and research • Student life and campus culture • Admission requirements and deadlines • Scholarship and financial aid options • Career services and placement • Alumni network and success stories",
+            'university_details': `**University Details Include:**
+• Comprehensive institution profiles and history
+• Campus facilities and infrastructure details
+• Faculty qualifications and research achievements
+• Student life and campus culture descriptions
+• Admission requirements and deadlines
+• Scholarship and financial aid options
+• Career services and placement statistics
+• Alumni network and success stories
+• Research centers and laboratories
+• International student support services
+• Housing and accommodation options
+• Sports and recreational facilities`,
 
-        'location_info': "Location Information: • Campus locations and satellite campuses • Transportation and accessibility • Local community and amenities • Housing and accommodation options • Climate and living conditions • Safety and security measures • Cultural and recreational opportunities • International student support"
-      }
-    },
-    'university_enquiry': {
-      title: 'University Enquiry',
-      questions: {
-        'enquiry_submission': `University Enquiry System:
+            'location_info': `**Location Information:**
+• Campus locations and satellite campuses
+• Transportation and accessibility options
+• Local community and amenities
+• Housing and accommodation options
+• Climate and living conditions
+• Safety and security measures
+• Cultural and recreational opportunities
+• International student support
+• Cost of living estimates
+• Healthcare facilities access
+• Public transportation networks
+• Nearby attractions and landmarks`
+          }
+        },
+        'university_enquiry': {
+          title: 'University Enquiry',
+          questions: {
+            'enquiry_submission': `**University Enquiry System:**
 
 You can enquire about any of our 8 partner universities including:
 
@@ -603,21 +929,49 @@ You can enquire about any of our 8 partner universities including:
 **Social Sciences Universities:**
 • Berkeley University - All Levels
 
-To enquire about a specific university, please provide:
+**To enquire about a specific university, please provide:**
 • University name you're interested in
 • Your academic background and interests
 • Preferred study level (Beginner/Intermediate/Advanced)
-• Any specific programs or departments`,
+• Any specific programs or departments
+• Desired intake period
+• Budget considerations
+• Career goals and objectives
+• Previous educational qualifications`,
 
-        'admission_process': "Admission Process: • Application requirements and deadlines • Document submission guidelines • Entrance exam requirements • Interview process details • Portfolio or work sample requirements • Recommendation letter guidelines • Visa and immigration support • Conditional offer information",
+            'admission_process': `**Admission Process:**
+• Application requirements and deadlines
+• Document submission guidelines and formats
+• Entrance exam requirements (SAT, ACT, GRE, GMAT)
+• Interview process details and preparation
+• Portfolio or work sample requirements
+• Recommendation letter guidelines
+• Visa and immigration support services
+• Conditional offer information
+• English language proficiency requirements
+• Academic transcript evaluation
+• Application fee payment methods
+• Status tracking and updates`,
 
-        'campus_tours': "Campus Tours & Visits: • Virtual campus tour availability • On-campus visit scheduling • Open house events calendar • Department-specific information sessions • Student ambassador meetings • Faculty interaction opportunities • Accommodation viewing • Local area exploration"
-      }
-    },
-    'technology_engineering': {
-      title: 'Technology & Engineering',
-      questions: {
-        'tech_universities': `Technology & Engineering Universities:
+            'campus_tours': `**Campus Tours & Visits:**
+• Virtual campus tour availability 24/7
+• On-campus visit scheduling system
+• Open house events calendar
+• Department-specific information sessions
+• Student ambassador meetings and Q&A
+• Faculty interaction opportunities
+• Accommodation viewing and options
+• Local area exploration guides
+• Transportation arrangements
+• International student orientation
+• Family and guest accommodations
+• Accessibility services information`
+          }
+        },
+        'technology_engineering': {
+          title: 'Technology & Engineering',
+          questions: {
+            'tech_universities': `**Technology & Engineering Universities:**
 
 🔧 **Stanford University**
 📍 Stanford, CA
@@ -638,9 +992,14 @@ Small but mighty institution focused on science and engineering excellence.
 • Industry partnerships with tech companies
 • Entrepreneurship and innovation programs
 • Cutting-edge laboratories and equipment
-• Strong alumni network in Silicon Valley`,
+• Strong alumni network in Silicon Valley
+• Internship opportunities with top firms
+• Research funding and grants
+• Technology transfer offices
+• Startup incubation centers
+• Industry mentorship programs`,
 
-        'stanford_details': `Stanford University Details:
+            'stanford_details': `**Stanford University Details:**
 • Location: Stanford, California
 • Rating: 4.8/5 (12,450 reviews)
 • Student Population: 17,000
@@ -657,15 +1016,24 @@ Small but mighty institution focused on science and engineering excellence.
 • Extensive research opportunities
 • Beautiful 8,180-acre campus
 • Notable alumni include Google and Yahoo founders
+• $1.6 billion annual research budget
+• 2,240 faculty members
+• 20 Nobel laureates affiliated
+• 125+ research centers
 
 **Popular Programs:**
 • Computer Science
 • Electrical Engineering
 • Mechanical Engineering
 • Bioengineering
-• Management Science & Engineering`,
+• Management Science & Engineering
+• Artificial Intelligence
+• Robotics
+• Cybersecurity
+• Data Science
+• Environmental Engineering`,
 
-        'caltech_details': `Caltech Details:
+            'caltech_details': `**Caltech Details:**
 • Location: Pasadena, California
 • Rating: 4.9/5 (5,600 reviews)
 • Student Population: 2,400
@@ -679,22 +1047,31 @@ Small but mighty institution focused on science and engineering excellence.
 • Small student-to-faculty ratio (3:1)
 • Intensive research-focused education
 • NASA's Jet Propulsion Laboratory partnership
-• Nobel Prize-winning faculty
+• Nobel Prize-winning faculty (39 laureates)
 • Highly selective admission process
 • Strong focus on pure and applied sciences
+• $357 million research funding
+• 300+ professorial faculty
+• 50+ research centers
+• 124:1 endowment per student ratio
 
 **Popular Programs:**
 • Physics
 • Chemical Engineering
 • Computer Science
 • Aerospace Engineering
-• Biological Sciences`
-      }
-    },
-    'science_technology': {
-      title: 'Science & Technology',
-      questions: {
-        'science_universities': `Science & Technology Universities:
+• Biological Sciences
+• Mathematics
+• Astronomy
+• Electrical Engineering
+• Environmental Science
+• Materials Science`
+          }
+        },
+        'science_technology': {
+          title: 'Science & Technology',
+          questions: {
+            'science_universities': `**Science & Technology Universities:**
 
 🔬 **MIT - Massachusetts Institute of Technology**
 📍 Cambridge, MA
@@ -715,9 +1092,14 @@ Elite research university with exceptional undergraduate education.
 • Interdisciplinary science programs
 • Strong industry-academia collaboration
 • Innovation and technology transfer offices
-• Global research partnerships`,
+• Global research partnerships
+• State-of-the-art laboratories
+• Cross-disciplinary research centers
+• Industry-sponsored projects
+• International research collaborations
+• Technology commercialization support`,
 
-        'mit_details': `MIT Details:
+            'mit_details': `**MIT Details:**
 • Location: Cambridge, Massachusetts
 • Rating: 4.9/5 (8,950 reviews)
 • Student Population: 12,000
@@ -734,15 +1116,24 @@ Elite research university with exceptional undergraduate education.
 • Extensive undergraduate research opportunities
 • Global leadership in technology innovation
 • Collaborative and hands-on learning environment
+• $3.7 billion annual research budget
+• 1,000+ faculty members
+• 97 Nobel laureates affiliated
+• 500+ research groups
 
 **Popular Programs:**
 • Computer Science and Engineering
 • Physics
 • Mathematics
 • Mechanical Engineering
-• Biological Engineering`,
+• Biological Engineering
+• Aerospace Engineering
+• Electrical Engineering
+• Chemistry
+• Economics
+• Brain and Cognitive Sciences`,
 
-        'princeton_details': `Princeton University Details:
+            'princeton_details': `**Princeton University Details:**
 • Location: Princeton, New Jersey
 • Rating: 4.9/5 (9,800 reviews)
 • Student Population: 8,500
@@ -759,19 +1150,28 @@ Elite research university with exceptional undergraduate education.
 • Extensive library collections
 • Close faculty-student relationships
 • Strong focus on independent research
+• $26 billion endowment
+• 1,290 faculty members
+• 69 Nobel laureates
+• 200+ research centers
 
 **Popular Programs:**
 • Physics
 • Mathematics
 • Computer Science
 • Molecular Biology
-• Operations Research and Financial Engineering`
-      }
-    },
-    'business_arts': {
-      title: 'Business & Arts',
-      questions: {
-        'business_universities': `Business & Arts Universities:
+• Operations Research and Financial Engineering
+• Chemistry
+• Economics
+• Public and International Affairs
+• Psychology
+• Mechanical and Aerospace Engineering`
+          }
+        },
+        'business_arts': {
+          title: 'Business & Arts',
+          questions: {
+            'business_universities': `**Business & Arts Universities:**
 
 💼 **Harvard University**
 📍 Cambridge, MA
@@ -799,9 +1199,14 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Strong career services and placement
 • Diverse cultural and artistic programs
 • Global business connections
-• Leadership and management development`,
+• Leadership and management development
+• Executive education programs
+• Alumni networking events
+• Industry speaker series
+• Career development workshops
+• Professional certification programs`,
 
-        'harvard_details': `Harvard University Details:
+            'harvard_details': `**Harvard University Details:**
 • Location: Cambridge, Massachusetts
 • Rating: 4.7/5 (15,600 reviews)
 • Student Population: 21,000
@@ -818,15 +1223,24 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Global recognition and prestige
 • Diverse student body from 150+ countries
 • Strong emphasis on leadership development
+• $53.2 billion endowment
+• 2,400 faculty members
+• 161 Nobel laureates
+• 400,000+ alumni worldwide
 
 **Popular Programs:**
 • Business Administration
 • Law
 • Government
 • Economics
-• Fine Arts`,
+• Fine Arts
+• Public Health
+• Education
+• Design
+• Divinity
+• Extension Studies`,
 
-        'yale_details': `Yale University Details:
+            'yale_details': `**Yale University Details:**
 • Location: New Haven, Connecticut
 • Rating: 4.8/5 (11,200 reviews)
 • Student Population: 13,500
@@ -843,45 +1257,60 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Extensive arts and cultural programs
 • Strong emphasis on undergraduate education
 • Beautiful Gothic architecture campus
+• $42.3 billion endowment
+• 4,410 faculty members
+• 65 Nobel laureates
+• 140+ countries represented
 
 **Popular Programs:**
 • Business Administration
 • Drama and Theater Arts
 • Political Science
 • History
-• Psychology`
-      }
-    },
-    'admission_requirements': {
-      title: 'Admission Requirements',
-      questions: {
-        'general_requirements': `General Admission Requirements:
+• Psychology
+• Economics
+• English
+• Biology
+• Architecture
+• Music`
+          }
+        },
+        'admission_requirements': {
+          title: 'Admission Requirements',
+          questions: {
+            'general_requirements': `**General Admission Requirements:**
 
 **Academic Requirements:**
-• Completed application form
-• Academic transcripts and records
-• Standardized test scores (if required)
-• Proof of English language proficiency
-• Letters of recommendation
-• Personal statement or essay
+• Completed application form with personal statement
+• Academic transcripts and records (official)
+• Standardized test scores (SAT, ACT, GRE, GMAT as required)
+• Proof of English language proficiency (TOEFL, IELTS)
+• Letters of recommendation (2-3 required)
+• Personal statement or essay (500-1000 words)
+• Resume/CV for graduate programs
+• Portfolio for creative programs
 
 **Documentation Needed:**
 • Passport-sized photographs
-• Identification documents
+• Identification documents (passport copy)
 • Financial capability proof
 • Health insurance documentation
 • Visa and immigration documents
 • Previous qualification certificates
+• Criminal background check (if required)
+• Medical examination reports
 
 **Application Timeline:**
-• Early decision deadlines
-• Regular decision deadlines
+• Early decision deadlines (November 1)
+• Regular decision deadlines (January 1)
 • Rolling admissions information
 • Scholarship application deadlines
-• Visa processing timelines
-• Orientation and enrollment dates`,
+• Visa processing timelines (3-6 months)
+• Orientation and enrollment dates
+• Housing application deadlines
+• Financial aid submission dates`,
 
-        'financial_info': `Financial Information:
+            'financial_info': `**Financial Information:**
 
 **Pricing Structure:**
 • Stanford University: $199 ($89 discount)
@@ -894,39 +1323,248 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Caltech: $229 ($99 discount)
 
 **Financial Aid Options:**
-• Merit-based scholarships
-• Need-based financial aid
-• Work-study programs
-• Research assistantships
-• Teaching assistantships
+• Merit-based scholarships (academic excellence)
+• Need-based financial aid packages
+• Work-study programs on campus
+• Research assistantships for graduates
+• Teaching assistantships with stipends
 • External scholarship opportunities
-• Payment plan options
-• Corporate sponsorship programs`,
+• Payment plan options (monthly installments)
+• Corporate sponsorship programs
+• Military and veteran benefits
+• Alumni sponsorship opportunities`,
 
-        'scholarship_opportunities': `Scholarship Opportunities:
+            'scholarship_opportunities': `**Scholarship Opportunities:**
 
 **Available Scholarships:**
-• Academic Excellence Scholarships
+• Academic Excellence Scholarships (up to full tuition)
 • Leadership and Community Service Awards
 • Diversity and Inclusion Scholarships
 • International Student Scholarships
 • Research and Innovation Grants
-• Athletic Scholarships
+• Athletic Scholarships for varsity sports
 • Arts and Talent Scholarships
-• Need-Based Financial Aid
+• Need-Based Financial Aid packages
+• Department-specific scholarships
+• Alumni-funded scholarships
 
 **Application Process:**
 • Separate scholarship application forms
 • Essay or personal statement requirements
 • Interview process for major awards
-• Documentation of achievements
+• Documentation of achievements and awards
 • Recommendation letters for scholarships
 • Deadline adherence importance
-• Renewal criteria and requirements`
+• Renewal criteria and requirements
+• Academic performance maintenance
+• Community service commitments
+• Leadership role expectations`
+          }
+        }
       }
-    }
-  }
-},
+    },
+
+    // Technical Support Category
+    'technical': {
+      type: 'category',
+      title: 'Technical Support',
+      description: 'Get help with technical problems and troubleshooting',
+      subtypes: {
+        'login_issues': {
+          title: 'Login & Access',
+          questions: {
+            'forgot_password': `**Password Recovery Process:**
+1. Click 'Forgot Password' on login page
+2. Enter registered email address
+3. Check email for reset link (check spam folder)
+4. Create new password (minimum 8 characters, including uppercase, lowercase, number, special character)
+5. Login with new credentials
+6. Contact support if email not received within 15 minutes
+7. Security questions verification option available
+8. Two-factor authentication reset if needed`,
+
+            'account_locked': `**Account Locked Solutions:**
+• Too many failed login attempts (5 attempts limit)
+• Wait 15 minutes for automatic unlock or contact support
+• Verify email address through confirmation link
+• Check spam folder for verification emails
+• Ensure correct username/email format
+• Clear browser cache and cookies
+• Try different browser or incognito mode
+• Contact support for immediate unlock
+• Security verification may be required
+• Check if account is suspended for policy violations`,
+
+            'two_factor': `**Two-Factor Authentication:**
+• Setup via security settings in account dashboard
+• Use authenticator app (Google Authenticator, Authy) or SMS
+• Backup codes provided during setup (save securely)
+• Recovery email required for account recovery
+• Can disable if needed (not recommended)
+• Enhanced security strongly recommended
+• Multiple device support available
+• Time-based one-time passwords (TOTP)
+• Biometric authentication options
+• Emergency access procedures`,
+
+            'browser_issues': `**Browser Compatibility:**
+• Chrome 90+ (recommended for best performance)
+• Firefox 85+ (fully supported)
+• Safari 14+ (macOS and iOS)
+• Edge 90+ (Windows recommended)
+• Enable JavaScript (required for all features)
+• Allow cookies for session management
+• Clear cache regularly for optimal performance
+• Disable conflicting extensions
+• Update browser to latest version
+• Enable pop-ups for certain features
+• Check internet connection stability`
+          }
+        },
+        'audio_video': {
+          title: 'Audio & Video',
+          questions: {
+            'camera_not_working': `**Camera Issues Troubleshooting:**
+• Check browser permissions for camera access
+• Ensure no other app is using camera simultaneously
+• Test camera on other websites to verify functionality
+• Update camera drivers to latest version
+• Try different browser (Chrome recommended)
+• Check hardware connections for external cameras
+• Restart device and try again
+• Contact IT support for hardware issues
+• Check operating system camera permissions
+• Verify camera is not physically blocked
+• Test in incognito/private browsing mode`,
+
+            'microphone_problems': `**Microphone Problems Solutions:**
+• Grant microphone permissions in browser settings
+• Test microphone in system settings/control panel
+• Check input device selection in audio settings
+• Update audio drivers to latest version
+• Use external microphone for better quality
+• Check volume levels and mute status
+• Disable echo cancellation if causing issues
+• Test with different applications
+• Restart audio services
+• Check physical connections for external mics
+• Verify microphone is set as default device`,
+
+            'screen_sharing': `**Screen Sharing Guide:**
+• Click share screen button in meeting interface
+• Choose entire screen/window/tab option
+• Grant permissions when prompted by browser
+• Optimize for video if sharing video content
+• Stop sharing when presentation complete
+• Participants see shared content in main window
+• Annotation tools available during sharing
+• Pause sharing temporarily if needed
+• Share specific applications only
+• Optimize bandwidth for smooth sharing
+• Test sharing before important meetings`,
+
+            'quality_issues': `**Quality Optimization:**
+• Use wired internet connection instead of WiFi
+• Close unnecessary applications and browser tabs
+• Reduce video resolution if experiencing lag
+• Use headset for better audio quality
+• Ensure good lighting for video clarity
+• Test speed at speedtest.net (min 5 Mbps upload)
+• Update graphics drivers for better performance
+• Use Ethernet connection for stability
+• Limit background processes
+• Adjust bandwidth settings in preferences
+• Contact ISP if consistent speed issues`
+          }
+        },
+        'performance': {
+          title: 'Performance Issues',
+          questions: {
+            'slow_loading': `**Performance Optimization:**
+• Clear browser cache and cookies regularly
+• Close unused browser tabs to free memory
+• Use incognito/private mode for testing
+• Update browser to latest version
+• Disable browser extensions one by one to identify conflicts
+• Check internet connection speed and stability
+• Restart router if connection issues persist
+• Use wired connection instead of wireless
+• Check system resources (CPU, RAM usage)
+• Scan for malware or viruses
+• Contact support if issues continue`,
+
+            'mobile_app': `**Mobile App Performance:**
+• Update to latest app version from app store
+• Clear app cache and data in settings
+• Ensure sufficient storage space (min 500MB free)
+• Restart mobile device regularly
+• Use stable WiFi connection instead of cellular data
+• Enable app notifications for important updates
+• Check device compatibility requirements
+• Reinstall app if persistent issues
+• Update device operating system
+• Check battery optimization settings
+• Contact app support for specific issues`,
+
+            'offline_access': `**Offline Features:**
+• Download course materials for offline use
+• Automatic sync when back online
+• Limited functionality available offline
+• Available on mobile app primarily
+• Maximum 7 days offline access
+• Automatic background sync when online
+• Download specific courses or sections
+• Offline quiz and assignment completion
+• Sync progress when reconnected
+• Storage management for offline content
+• Manual sync trigger available`
+          }
+        },
+        'integration': {
+          title: 'Integrations',
+          questions: {
+            'google_classroom': `**Google Classroom Integration:**
+• Connect via Google Workspace for Education
+• Automatic sync of classes and assignments
+• Import student roster from Google Classroom
+• Share grades automatically back to Classroom
+• Single sign-on capability with Google accounts
+• Real-time data sync between platforms
+• Setup takes 5-10 minutes for administrators
+• Support for multiple Google Workspace domains
+• Assignment submission tracking
+• Grade passback functionality
+• Calendar integration for due dates`,
+
+            'microsoft_teams': `**Microsoft Teams Integration:**
+• Install Educon app in Teams app store
+• Schedule and join meetings directly from Teams
+• Share files and assignments within Teams
+• Grade synchronization with Teams assignments
+• Calendar integration for class schedules
+• Co-teaching support with multiple educators
+• Student roster sync from Teams
+• Assignment distribution through Teams
+• Real-time notifications in Teams
+• Single sign-on with Microsoft accounts
+• Teams tab embedding for quick access`,
+
+            'sis_integration': `**SIS Integration:**
+• Compatible with major SIS platforms (PowerSchool, Infinite Campus, etc.)
+• Automated student data sync (enrollment, demographics)
+• Grade passback to SIS gradebooks
+• Attendance synchronization
+• Custom field mapping for specific data
+• API documentation available for developers
+• Technical support provided for setup
+• Real-time or scheduled sync options
+• Data validation and error reporting
+• Historical data migration support
+• Custom integration development available`
+          }
+        }
+      }
+    },
 
     // Billing & Account Category
     'billing': {
@@ -934,39 +1572,207 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
       title: 'Billing & Account',
       description: 'Manage your subscription, payments, and account settings',
       subtypes: {
-        'pricing plans': {
+        'pricing_plans': {
           title: 'Pricing & Plans',
           questions: {
-            'current plans': "Current Pricing Plans: • BASIC: $29/month - 50 students, core features • PRO: $79/month - 200 students, advanced analytics • ENTERPRISE: $199/month - Unlimited students, all features + premium support • Annual billing saves 20% • Custom enterprise quotes available",
-            'feature comparison': "Plan Comparison: • BASIC: Virtual classes, assessments, basic reports • PRO: All Basic + Advanced analytics, custom branding, API access • ENTERPRISE: All Pro + SSO, custom development, dedicated support • 30-day free trial on all plans",
-            'educational discount': "Educational Discounts: • K-12 Schools: 40% discount • Higher Education: 30% discount • Non-profits: 25% discount • Volume discounts available • Government rates • Contact sales for custom pricing",
-            'free trial': "Free Trial: • 30-day full feature access • No credit card required • Setup assistance available • Convert to paid anytime • Data preserved after conversion • Cancel anytime during trial"
+            'current_plans': `**Current Pricing Plans:**
+• BASIC: $29/month - 50 students, core features, basic support
+• PRO: $79/month - 200 students, advanced analytics, custom branding, priority support
+• ENTERPRISE: $199/month - Unlimited students, all features + premium support, SSO, custom development
+• Annual billing saves 20% on all plans
+• Custom enterprise quotes available for large institutions
+• 30-day free trial on all plans
+• Education discounts available for verified institutions
+• Non-profit organization discounts
+• Government and public institution pricing`,
+
+            'feature_comparison': `**Plan Comparison:**
+• BASIC: Virtual classes, basic assessments, standard reports, email support
+• PRO: All Basic features + Advanced analytics, custom branding, API access, priority support, mobile app
+• ENTERPRISE: All Pro features + Single Sign-On (SSO), custom development, dedicated support manager, advanced security, compliance features
+• Additional storage available on all plans
+• Custom domain support on Pro and Enterprise
+• White-label options on Enterprise
+• Advanced reporting on Pro and Enterprise
+• Integration capabilities vary by plan`,
+
+            'educational_discount': `**Educational Discounts:**
+• K-12 Schools: 40% discount on all plans
+• Higher Education Institutions: 30% discount
+• Non-profit Organizations: 25% discount
+• Volume discounts available for multiple campuses
+• Government rates for public institutions
+• Contact sales for custom pricing quotes
+• Discount verification required
+• Annual commitment required for maximum discounts
+• Bundle discounts with other Educon products
+• Early renewal incentives available`,
+
+            'free_trial': `**Free Trial Information:**
+• 30-day full feature access on selected plan
+• No credit card required for sign-up
+• Setup assistance available during trial
+• Convert to paid plan anytime during trial
+• All data preserved after trial conversion
+• Cancel anytime during trial period
+• Extended trials available for institutions
+• Multiple plan trials possible sequentially
+• Trial includes all features except custom development
+• Support included during trial period`
           }
         },
         'payment': {
           title: 'Payment & Invoicing',
           questions: {
-            'payment methods': "Accepted Payment Methods: • Credit Cards (Visa, MasterCard, Amex) • PayPal • Bank transfers (Enterprise) • Purchase orders • Digital wallets • Recurring billing available • Secure payment processing",
-            'invoice access': "Invoice Management: • Download invoices from billing section • Automatic email delivery • Multiple currency support • Tax receipt generation • Payment history • Export financial reports • Custom billing dates available",
-            'billing cycle': "Billing Cycle: • Monthly or annual billing • Prorated charges for upgrades • Immediate downgrade effect • Automatic renewal • Email reminders before charges • Grace period for failed payments",
-            'tax information': "Tax Documentation: • VAT/GST included where applicable • Tax-exempt organizations can submit forms • Invoice includes tax breakdown • Annual tax statements available • Multiple tax jurisdictions supported"
+            'payment_methods': `**Accepted Payment Methods:**
+• Credit Cards (Visa, MasterCard, American Express, Discover)
+• PayPal for individual and small business accounts
+• Bank transfers (Enterprise plans only)
+• Purchase orders (approved institutions)
+• Digital wallets (Apple Pay, Google Pay)
+• Recurring billing available for all methods
+• Secure payment processing with PCI compliance
+• International payments accepted
+• Multiple currency support
+• Automatic receipt generation
+• Payment security guarantees`,
+
+            'invoice_access': `**Invoice Management:**
+• Download invoices from billing section of dashboard
+• Automatic email delivery for all invoices
+• Multiple currency support for international clients
+• Tax receipt generation compliant with local regulations
+• Payment history with search and filter capabilities
+• Export financial reports for accounting purposes
+• Custom billing dates available for Enterprise
+• Proforma invoices for upcoming charges
+• Credit note issuance for adjustments
+• Bulk invoice download for multiple periods
+• Integration with accounting software`,
+
+            'billing_cycle': `**Billing Cycle Information:**
+• Monthly or annual billing options available
+• Prorated charges for plan upgrades during cycle
+• Immediate downgrade effect on features (next billing cycle for charges)
+• Automatic renewal with email reminders
+• Email reminders sent 7 days before charges
+• Grace period of 14 days for failed payments
+• Suspension after grace period for non-payment
+• Reactivation process after suspension
+• Billing date customization for Enterprise
+• Multiple payment method management
+• Automatic retry for failed payments`,
+
+            'tax_information': `**Tax Documentation:**
+• VAT/GST included where applicable based on customer location
+• Tax-exempt organizations can submit tax exemption forms
+• Invoice includes detailed tax breakdown by jurisdiction
+• Annual tax statements available for accounting purposes
+• Multiple tax jurisdictions supported for global operations
+• Tax calculation based on customer billing address
+• Digital tax compliance for various regions
+• Tax certificate storage for business customers
+• Automatic tax rate updates
+• Tax reporting assistance for Enterprise customers`
           }
         },
-        'account management': {
+        'account_management': {
           title: 'Account Management',
           questions: {
-            'upgrade downgrade': "Plan Changes: • Upgrade: Immediate access, prorated charge • Downgrade: Effective next billing cycle • Compare plans before changing • Data preservation guaranteed • No downtime during changes • Confirmation email sent",
-            'user management': "User Management: • Add/remove teachers and students • Bulk import users • Role-based permissions • Department organization • Access control settings • Activity monitoring • Custom user fields",
-            'data export': "Data Export: • Export student records • Download assignment submissions • Backup grade books • Extract usage analytics • Custom report generation • GDPR compliance tools • Scheduled automated exports",
-            'account closure': "Account Closure: • Contact support to initiate closure • 30-day data retention after closure • Export all data before closure • Final invoice provided • Can reopen within 30 days • Complete data deletion after retention period"
+            'upgrade_downgrade': `**Plan Changes:**
+• Upgrade: Immediate access to new features, prorated charge for remaining period
+• Downgrade: Effective at next billing cycle, no refunds for unused time
+• Compare plans before changing to understand feature differences
+• Data preservation guaranteed during plan changes
+• No downtime during plan transitions
+• Confirmation email sent for all plan changes
+• 24-hour cancellation window for upgrades
+• Historical data retention regardless of plan
+• Feature access adjusted immediately for downgrades
+• Support available for plan transition questions`,
+
+            'user_management': `**User Management:**
+• Add/remove teachers and students individually or in bulk
+• Bulk import users via CSV template with validation
+• Role-based permissions (Admin, Teacher, Student, Parent, etc.)
+• Department organization and management
+• Access control settings by role and department
+• Activity monitoring and reporting
+• Custom user fields for additional information
+• User group management for batch operations
+• Permission templates for quick setup
+• User lifecycle management (onboarding/offboarding)
+• Integration with directory services`,
+
+            'data_export': `**Data Export Capabilities:**
+• Export student records in multiple formats (CSV, Excel, PDF)
+• Download assignment submissions with metadata
+• Backup grade books with historical data
+• Extract usage analytics and reports
+• Custom report generation with drag-and-drop builder
+• GDPR compliance tools for data portability
+• Scheduled automated exports to cloud storage
+• API access for custom export requirements
+• Data validation during export process
+• Bulk export for entire institution
+• Historical data archive creation`,
+
+            'account_closure': `**Account Closure Process:**
+• Contact support to initiate account closure process
+• 30-day data retention period after closure request
+• Export all data before closure completion
+• Final invoice provided upon closure
+• Can reopen account within 30 days of closure
+• Complete data deletion after retention period
+• Closure confirmation email sent
+• Data destruction certificate available for compliance
+• Bulk closure for multiple users
+• Archive option instead of complete deletion
+• Reactivation fees may apply after closure`
           }
         },
         'support': {
           title: 'Support & Training',
           questions: {
-            'training resources': "Training Resources: • Weekly live webinars • Video tutorial library • Interactive product tours • Certification programs • Documentation portal • Community forums • Onboarding specialists",
-            'support channels': "Support Channels: • Email: support@educon.com • Phone: 1-800-EDUCON • Live Chat: In-app support • Help Center: 24/7 knowledge base • Emergency Hotline: Critical issues • Social Media support",
-            'service status': "Service Status: • Real-time status page • Scheduled maintenance notices • Performance metrics • Incident reports • System health monitoring • Uptime history • SMS/email alerts"
+            'training_resources': `**Training Resources:**
+• Weekly live webinars with product experts
+• Video tutorial library with 200+ videos
+• Interactive product tours for new features
+• Certification programs for power users
+• Documentation portal with search functionality
+• Community forums for peer support
+• Onboarding specialists for new customers
+• Custom training sessions for teams
+• Training materials download center
+• Best practices guides and checklists
+• Monthly feature update webinars
+• Advanced training for administrators`,
+
+            'support_channels': `**Support Channels:**
+• Email: support@educon.com (response within 4 hours)
+• Phone: 1-800-EDUCON (9 AM - 9 PM EST, Monday-Friday)
+• Live Chat: In-app support (24/7 for urgent issues)
+• Help Center: 24/7 knowledge base with AI search
+• Emergency Hotline: Critical system issues only
+• Social Media support (Twitter, Facebook)
+• Community forums for peer assistance
+• Dedicated account managers for Enterprise
+• On-site training and support available
+• Video call support for complex issues
+• Screen sharing support sessions`,
+
+            'service_status': `**Service Status Information:**
+• Real-time status page at status.educon.com
+• Scheduled maintenance notices 72 hours in advance
+• Performance metrics and uptime statistics
+• Incident reports with root cause analysis
+• System health monitoring 24/7
+• Uptime history with 99.9% SLA
+• SMS/email alerts for service disruptions
+• Maintenance window preferences
+• Historical performance data
+• API status monitoring
+• Third-party integration status`
           }
         }
       }
@@ -978,46 +1784,173 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
       title: 'Setup & Configuration',
       description: 'Get started and customize your platform experience',
       subtypes: {
-        'initial setup': {
+        'initial_setup': {
           title: 'Initial Setup',
           questions: {
-            'getting started': "Getting Started Guide: 1. Verify email address 2. Complete institution profile 3. Set up classes and subjects 4. Import student data 5. Configure assessment settings 6. Invite teachers and staff 7. Customize communication templates 8. Schedule training session",
-            'data migration': "Data Migration: • CSV template provided • Bulk import tools available • Previous system export guidance • Data validation checks • Migration specialist support • Test import capability • Rollback option available",
-            'customization': "Platform Customization: • School branding and colors • Custom domain setup • Communication templates • Assessment rubrics • Grade scales • Attendance codes • Notification preferences",
-            'best practices': "Best Practices: • Start with pilot group • Train super users first • Establish clear usage guidelines • Set up regular check-ins • Use analytics to track adoption • Gather user feedback • Schedule quarterly reviews"
+            'getting_started': `**Getting Started Guide:**
+1. Verify email address through confirmation link
+2. Complete institution profile with basic information
+3. Set up classes and subjects using templates
+4. Import student data via CSV or manual entry
+5. Configure assessment settings and grading scales
+6. Invite teachers and staff to their accounts
+7. Customize communication templates
+8. Schedule training session with onboarding specialist
+9. Set up parent/guardian access if needed
+10. Configure integration with existing systems
+11. Test system with sample data
+12. Go live with actual student data`,
+
+            'data_migration': `**Data Migration Support:**
+• CSV template provided for easy data import
+• Bulk import tools available for large datasets
+• Previous system export guidance and support
+• Data validation checks during import process
+• Migration specialist support for complex transfers
+• Test import capability to verify data integrity
+• Rollback option available if issues arise
+• Data mapping assistance for different systems
+• Historical data transfer options
+• Student photo and document migration
+• Grade history transfer capabilities
+• Custom migration scripts for unique requirements`,
+
+            'customization': `**Platform Customization:**
+• School branding and colors throughout platform
+• Custom domain setup (yourname.educon.com)
+• Communication templates for emails and notifications
+• Assessment rubrics and grading criteria
+• Grade scales and calculation methods
+• Attendance codes and tracking parameters
+• Notification preferences and schedules
+• Dashboard layout and widget customization
+• Report templates and formats
+• User interface theme options
+• Language and localization settings
+• Accessibility features configuration`,
+
+            'best_practices': `**Best Practices:**
+• Start with pilot group of 5-10 users for testing
+• Train super users first to become internal experts
+• Establish clear usage guidelines and policies
+• Set up regular check-ins during first 90 days
+• Use analytics to track adoption and engagement
+• Gather user feedback continuously for improvements
+• Schedule quarterly reviews with Educon success team
+• Create internal support champions program
+• Document processes and procedures
+• Monitor key performance indicators
+• Plan for seasonal usage patterns
+• Establish escalation procedures for issues`
           }
         },
         'administrative': {
           title: 'Administrative Settings',
           questions: {
-            'permissions': "Permission Levels: • Super Admin: Full system access • Admin: Limited administrative rights • Teacher: Classroom management • Teaching Assistant: Grading assistance • Student: Learning access • Parent: Monitoring access • Custom roles available",
-            'security settings': "Security Configuration: • Password complexity requirements • Session timeout settings • IP restriction options • Two-factor authentication • Login attempt limits • Data encryption • Compliance certifications",
-            'notification setup': "Notification Management: • Email notification preferences • Push notification settings • SMS alerts for emergencies • Digest frequency options • Custom alert rules • Parent communication settings • Calendar sync options"
+            'permissions': `**Permission Levels:**
+• Super Admin: Full system access and configuration
+• Admin: Limited administrative rights for daily operations
+• Teacher: Classroom management and student progress tracking
+• Teaching Assistant: Grading assistance with limited access
+• Student: Learning access to assigned courses and materials
+• Parent: Monitoring access to child's progress and communication
+• Custom roles available for specific needs
+• Department-specific permissions
+• Time-based access restrictions
+• Feature-level permission controls
+• Bulk permission management
+• Permission audit trails`,
+
+            'security_settings': `**Security Configuration:**
+• Password complexity requirements (configurable)
+• Session timeout settings for inactivity
+• IP restriction options for specific locations
+• Two-factor authentication enforcement
+• Login attempt limits and lockout periods
+• Data encryption at rest and in transit
+• Compliance certifications (SOC 2, GDPR, FERPA)
+• Audit logging for all system activities
+• Single Sign-On (SSO) configuration
+• Data backup and recovery procedures
+• Security incident response protocols
+• Regular security assessments and updates`,
+
+            'notification_setup': `**Notification Management:**
+• Email notification preferences by user role
+• Push notification settings for mobile app
+• SMS alerts for emergency communications
+• Digest frequency options (immediate, daily, weekly)
+• Custom alert rules for specific events
+• Parent communication settings and restrictions
+• Calendar sync options with external calendars
+• Notification templates customization
+• Do-not-disturb scheduling
+• Escalation rules for urgent matters
+• Multi-language notification support
+• Notification analytics and reporting`
           }
         },
-        'class management': {
+        'class_management': {
           title: 'Class Management',
           questions: {
-            'create class': "Creating Classes: • Basic class information • Subject and grade level • Enrollment capacity • Co-teacher assignment • Schedule setup • Resource folder creation • Parent access configuration • Custom fields available",
-            'student enrollment': "Student Enrollment: • Manual student addition • Bulk CSV import • Self-registration links • Parent invitation emails • Enrollment codes • Waitlist management • Automatic roster sync",
-            'academic calendar': "Academic Calendar: • Term and semester setup • Holiday configuration • Assignment due dates • Exam schedules • Parent-teacher conferences • Progress report periods • Custom calendar events"
+            'create_class': `**Creating Classes:**
+• Basic class information (name, subject, grade level)
+• Enrollment capacity settings and waitlist options
+• Co-teacher assignment and collaboration settings
+• Schedule setup with recurring patterns
+• Resource folder creation and organization
+• Parent access configuration and communication settings
+• Custom fields for additional class information
+• Prerequisite requirements and restrictions
+• Classroom location and meeting details
+• Academic term and session association
+• Grading period alignment
+• Student grouping and section management`,
+
+            'student_enrollment': `**Student Enrollment:**
+• Manual student addition with individual profiles
+• Bulk CSV import with validation and error reporting
+• Self-registration links for student sign-up
+• Parent invitation emails with access instructions
+• Enrollment codes for specific classes or programs
+• Waitlist management with automatic promotion
+• Automatic roster sync from SIS systems
+• Enrollment period restrictions
+• Prerequisite verification during enrollment
+• Capacity monitoring and alerts
+• Transfer student handling
+• Enrollment approval workflows`,
+
+            'academic_calendar': `**Academic Calendar:**
+• Term and semester setup with date ranges
+• Holiday configuration with regional variations
+• Assignment due dates and extension policies
+• Exam schedules and room assignments
+• Parent-teacher conferences scheduling
+• Progress report periods and distribution
+• Custom calendar events for school activities
+• Import/export capabilities with external calendars
+• Recurring event patterns
+• Calendar sharing with students and parents
+• Mobile calendar sync
+• Academic year transition planning`
           }
         }
       }
     },
 
     // Default fallback
-    'default': "I understand you're asking about our Educon platform. For specific technical issues, please contact our support team at support@educon.com or call 1-800-EDUCON. For product features, check our documentation at docs.educon.com."
+    'default': "I understand you're asking about our Educon platform. For specific technical issues, please contact our support team at support@educon.com or call 1-800-EDUCON. For product features, check our documentation at docs.educon.com. You can also browse our help categories above for more specific information."
   };
 
   // Main categories for initial selection
   const mainCategories = [
-    { key: 'features', title: 'Admissions & Enrollment', description: 'Explore platform capabilities' },
-    { key: 'features', title: 'Courses & Programs', description: 'Explore courses and academic programs' },
-    { key: 'universities', title: 'Universities', description: 'Get started & customize' },
-    { key: 'technical', title: 'Technical Support', description: 'Troubleshoot issues' },
+    { key: 'admissions', title: 'Admissions & Enrollment', description: 'Student recruitment and admission process' },
+    { key: 'courses', title: 'Courses & Programs', description: 'Explore courses and academic programs' },
+    { key: 'universities', title: 'Universities', description: 'Partner institutions and universities' },
+    { key: 'technical', title: 'Technical Support', description: 'Troubleshoot technical issues' },
     { key: 'billing', title: 'Billing & Account', description: 'Manage subscription & payments' },
-    { key: 'setup', title: 'Setup & Configuration', description: 'Get started & customize' }
+    { key: 'setup', title: 'Setup & Configuration', description: 'Get started & customize platform' }
   ];
 
   const scrollToBottom = () => {
@@ -1153,8 +2086,8 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
       // Convert questions to suggested questions format
       const questionList = Object.entries(subcategory.questions).map(([key, answer]) => ({
         key: key,
-        title: `❓ ${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`,
-        description: `Get details about ${key}`
+        title: `❓ ${key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`,
+        description: `Get details about ${key.replace(/_/g, ' ')}`
       }));
       
       setSuggestedQuestions(questionList);
@@ -1184,7 +2117,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
       // Add user message (simulated question)
       const userMessage = {
         id: Date.now(),
-        text: `Tell me about ${questionKey}`,
+        text: `Tell me about ${questionKey.replace(/_/g, ' ')}`,
         sender: 'user',
         timestamp: new Date(),
         mode: 'helpdesk'
@@ -1416,8 +2349,8 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
     }
 
     return (
-      <div style={styles.quickQuestions}>
-        <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
+      <div className="flex flex-col gap-2 mt-4 mb-3">
+        <div className="text-xs text-gray-500 mb-2">
           {!currentCategory ? 'Choose a category:' : 
            !currentSubcategory ? 'Choose a subcategory:' : 
            'Select a question:'}
@@ -1425,21 +2358,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
         {suggestedQuestions.map((item, index) => (
           <button
             key={index}
-            style={styles.quickQuestion}
+            className="bg-white/80 border border-indigo-300 rounded-xl p-3 text-sm cursor-pointer transition-all duration-300 text-left text-gray-700 hover:bg-indigo-50 hover:translate-x-1"
             onClick={() => handleQuickQuestion(item)}
-            onMouseEnter={(e) => {
-              e.target.style.background = 'rgba(102, 126, 234, 0.1)';
-              e.target.style.transform = 'translateX(5px)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.8)';
-              e.target.style.transform = 'translateX(0)';
-            }}
           >
-            <div style={{ fontWeight: '600', fontSize: '13px', marginBottom: '2px' }}>
+            <div className="font-semibold text-xs mb-1">
               {item.title}
             </div>
-            <div style={{ fontSize: '11px', opacity: 0.7 }}>
+            <div className="text-xs opacity-70">
               {item.description}
             </div>
           </button>
@@ -1448,11 +2373,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
         {/* Back button when in subcategory or question view */}
         {(currentCategory || currentSubcategory) && (
           <button
-            style={{
-              ...styles.quickQuestion,
-              background: 'rgba(156, 163, 175, 0.1)',
-              border: '1px solid rgba(156, 163, 175, 0.3)'
-            }}
+            className="bg-gray-100 border border-gray-300 rounded-xl p-3 text-sm cursor-pointer transition-all duration-300 text-left text-gray-700 hover:bg-gray-200"
             onClick={() => {
               if (currentSubcategory) {
                 setCurrentSubcategory(null);
@@ -1483,342 +2404,12 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
     );
   };
 
-  // Inline Styles
-  const styles = {
-    floatingButton: {
-      position: 'fixed',
-      bottom: '25px',
-      right: '25px',
-      width: '70px',
-      height: '70px',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      border: 'none',
-      borderRadius: '50%',
-      cursor: 'pointer',
-      boxShadow: '0 8px 30px rgba(102, 126, 234, 0.4)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '28px',
-      zIndex: 1000,
-      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-      animation: 'pulse 2s infinite, float 6s ease-in-out infinite',
-    },
-
-    chatWindow: {
-      position: 'fixed',
-      bottom: '25px',
-      right: '25px',
-      width: '420px',
-      height: isMinimized ? '70px' : '600px',
-      background: 'white',
-      borderRadius: '20px',
-      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-      display: 'flex',
-      flexDirection: 'column',
-      transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-      zIndex: 1001,
-      overflow: 'hidden',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      backdropFilter: 'blur(10px)',
-      transform: isInitialLoad ? 'scale(0.8) translateY(20px)' : 'scale(1) translateY(0)',
-      opacity: isInitialLoad ? 0 : 1,
-    },
-
-    header: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '18px 20px',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      cursor: isMinimized ? 'pointer' : 'default',
-      transition: 'all 0.3s ease',
-    },
-
-    title: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      flex: 1,
-    },
-
-    botAvatar: {
-      width: '40px',
-      height: '40px',
-      background: 'rgba(255, 255, 255, 0.2)',
-      borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '18px',
-      animation: 'bounce 2s infinite',
-    },
-
-    titleText: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-
-    titleH3: {
-      margin: 0,
-      fontSize: '15px',
-      fontWeight: '600',
-      background: 'linear-gradient(45deg, #fff, #e0e7ff)',
-      backgroundClip: 'text',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-    },
-
-    status: {
-      fontSize: '11px',
-      opacity: 0.9,
-      color: isLoading ? '#fbbf24' : '#4ade80',
-      animation: isLoading ? 'pulse 1.5s infinite' : 'none',
-    },
-
-    modeSelector: {
-      display: 'flex',
-      background: 'rgba(255, 255, 255, 0.1)',
-      borderRadius: '12px',
-      padding: '4px',
-      marginTop: '8px',
-    },
-
-    modeButton: {
-      flex: 1,
-      padding: '6px 12px',
-      border: 'none',
-      background: 'transparent',
-      color: 'white',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      fontSize: '11px',
-      fontWeight: '500',
-      transition: 'all 0.3s ease',
-    },
-
-    activeMode: {
-      background: 'rgba(255, 255, 255, 0.3)',
-      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-    },
-
-    headerActions: {
-      display: 'flex',
-      gap: '8px',
-      alignItems: 'center',
-    },
-
-    actionBtn: {
-      background: 'rgba(255, 255, 255, 0.2)',
-      border: 'none',
-      color: 'white',
-      width: '32px',
-      height: '32px',
-      borderRadius: '50%',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '14px',
-      transition: 'all 0.3s ease',
-    },
-
-    messagesContainer: {
-      flex: 1,
-      padding: '20px',
-      overflowY: 'auto',
-      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-      display: isMinimized ? 'none' : 'block',
-    },
-
-    message: {
-      marginBottom: '16px',
-      display: 'flex',
-    },
-
-    userMessage: {
-      justifyContent: 'flex-end',
-    },
-
-    botMessage: {
-      justifyContent: 'flex-start',
-    },
-
-    messageBubble: {
-      maxWidth: '300px',
-      padding: '12px 16px',
-      borderRadius: '18px',
-      position: 'relative',
-      animation: 'messageAppear 0.4s ease-out',
-    },
-
-    userBubble: {
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      borderBottomRightRadius: '6px',
-      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
-    },
-
-    botBubble: {
-      background: 'white',
-      color: '#374151',
-      border: '1px solid rgba(229, 231, 235, 0.8)',
-      borderBottomLeftRadius: '6px',
-      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
-    },
-
-    messageText: {
-      fontSize: '14px',
-      lineHeight: 1.5,
-      marginBottom: '4px',
-      whiteSpace: 'pre-wrap',
-    },
-
-    messageTime: {
-      fontSize: '10px',
-      opacity: 0.7,
-      textAlign: 'right',
-    },
-
-    quickQuestions: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '8px',
-      marginTop: '15px',
-      marginBottom: '10px',
-    },
-
-    quickQuestion: {
-      background: 'rgba(255, 255, 255, 0.8)',
-      border: '1px solid rgba(102, 126, 234, 0.3)',
-      borderRadius: '12px',
-      padding: '10px 15px',
-      fontSize: '12px',
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
-      textAlign: 'left',
-      color: '#374151',
-    },
-
-    typingIndicator: {
-      display: 'flex',
-      gap: '4px',
-      padding: '12px 0',
-      alignItems: 'center',
-    },
-
-    typingDot: {
-      width: '8px',
-      height: '8px',
-      background: '#9ca3af',
-      borderRadius: '50%',
-      animation: 'typing 1.4s infinite ease-in-out',
-    },
-
-    typingText: {
-      fontSize: '12px',
-      color: '#6b7280',
-      marginLeft: '8px',
-    },
-
-    inputArea: {
-      padding: '20px',
-      background: 'white',
-      borderTop: '1px solid rgba(229, 231, 235, 0.8)',
-      display: isMinimized ? 'none' : 'block',
-    },
-
-    inputContainer: {
-      display: 'flex',
-      gap: '12px',
-      alignItems: 'center',
-      position: 'relative',
-    },
-
-    input: {
-      flex: 1,
-      padding: '14px 18px',
-      border: '2px solid #e5e7eb',
-      borderRadius: '25px',
-      fontSize: '14px',
-      outline: 'none',
-      transition: 'all 0.3s ease',
-      background: 'white',
-    },
-
-    sendBtn: {
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      border: 'none',
-      width: '44px',
-      height: '44px',
-      borderRadius: '50%',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '16px',
-      transition: 'all 0.3s ease',
-      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
-    },
-
-    keyframes: `
-      @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-10px) rotate(2deg); }
-      }
-      
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4); }
-        50% { transform: scale(1.05); box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6); }
-      }
-      
-      @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-5px); }
-        60% { transform: translateY(-3px); }
-      }
-      
-      @keyframes typing {
-        0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-        40% { transform: scale(1); opacity: 1; }
-      }
-      
-      @keyframes messageAppear {
-        0% { transform: translateY(20px); opacity: 0; }
-        100% { transform: translateY(0); opacity: 1; }
-      }
-      
-      @keyframes slideInRight {
-        0% { transform: translateX(50px); opacity: 0; }
-        100% { transform: translateX(0); opacity: 1; }
-      }
-      
-      @keyframes slideInLeft {
-        0% { transform: translateX(-50px); opacity: 0; }
-        100% { transform: translateX(0); opacity: 1; }
-      }
-    `,
-  };
-
   return (
     <>
-      <style>{styles.keyframes}</style>
-
       {!isOpen && (
         <button 
-          style={styles.floatingButton}
+          className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-none rounded-full cursor-pointer shadow-2xl flex items-center justify-center text-2xl z-50 transition-all duration-400 animate-float animate-pulse hover:scale-110 hover:rotate-3 hover:shadow-3xl"
           onClick={handleOpen}
-          onMouseEnter={(e) => {
-            e.target.style.transform = 'scale(1.15) rotate(5deg)';
-            e.target.style.boxShadow = '0 15px 40px rgba(102, 126, 234, 0.6)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = 'scale(1) rotate(0deg)';
-            e.target.style.boxShadow = '0 8px 30px rgba(102, 126, 234, 0.4)';
-          }}
           title="Dual Mode AI Assistant"
         >
           {activeMode === 'helpdesk' ? '📚' : '🌍'}
@@ -1826,20 +2417,22 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
       )}
 
       {isOpen && (
-        <div style={styles.chatWindow}>
+        <div className={`fixed bottom-6 right-6 w-96 ${isMinimized ? 'h-16' : 'h-[500px]'} bg-white rounded-2xl shadow-2xl flex flex-col transition-all duration-500 z-50 overflow-hidden border border-white/20 backdrop-blur-sm ${
+          isInitialLoad ? 'scale-90 translate-y-5 opacity-0' : 'scale-100 translate-y-0 opacity-100'
+        }`}>
           <div 
-            style={styles.header}
+            className={`flex justify-between items-center px-5 py-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white cursor-${isMinimized ? 'pointer' : 'default'} transition-all duration-300`}
             onClick={isMinimized ? toggleMinimize : undefined}
           >
-            <div style={styles.title}>
-              <div style={styles.botAvatar}>
+            <div className="flex items-center gap-3 flex-1">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg animate-bounce">
                 {activeMode === 'helpdesk' ? '📚' : '🌍'}
               </div>
-              <div style={styles.titleText}>
-                <h3 style={styles.titleH3}>
+              <div className="flex flex-col">
+                <h3 className="m-0 text-sm font-semibold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
                   {activeMode === 'helpdesk' ? 'Educon Helpdesk' : 'Global AI Assistant'}
                 </h3>
-                <span style={styles.status}>
+                <span className={`text-xs ${isLoading ? 'text-yellow-300 animate-pulse' : 'text-green-300'}`}>
                   {isLoading 
                     ? activeMode === 'helpdesk' 
                       ? '● Searching knowledge base...' 
@@ -1847,12 +2440,11 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
                     : '● Online'
                   }
                 </span>
-                <div style={styles.modeSelector}>
+                <div className="flex bg-white/10 rounded-xl p-1 mt-2">
                   <button
-                    style={{
-                      ...styles.modeButton,
-                      ...(activeMode === 'helpdesk' ? styles.activeMode : {})
-                    }}
+                    className={`flex-1 px-3 py-1.5 border-none bg-transparent text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 ${
+                      activeMode === 'helpdesk' ? 'bg-white/30 shadow-lg' : ''
+                    }`}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleModeChange('helpdesk');
@@ -1861,10 +2453,9 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
                     📚 Helpdesk
                   </button>
                   <button
-                    style={{
-                      ...styles.modeButton,
-                      ...(activeMode === 'global' ? styles.activeMode : {})
-                    }}
+                    className={`flex-1 px-3 py-1.5 border-none bg-transparent text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 ${
+                      activeMode === 'global' ? 'bg-white/30 shadow-lg' : ''
+                    }`}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleModeChange('global');
@@ -1875,159 +2466,117 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
                 </div>
               </div>
             </div>
-            <div style={styles.headerActions}>
+            <div className="flex gap-2 items-center">
               {!isMinimized && (
                 <button 
-                  style={styles.actionBtn}
+                  className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
                   onClick={(e) => {
                     e.stopPropagation();
                     clearChat();
                   }}
                   title="Clear conversation"
-                  onMouseEnter={(e) => {
-                    e.target.style.background = 'rgba(255, 255, 255, 0.3)';
-                    e.target.style.transform = 'scale(1.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                    e.target.style.transform = 'scale(1)';
-                  }}
                 >
                   🗑️
                 </button>
               )}
               <button 
-                style={styles.actionBtn}
+                className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleMinimize();
                 }}
                 title={isMinimized ? 'Expand chat' : 'Minimize chat'}
-                onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.3)';
-                  e.target.style.transform = 'scale(1.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                  e.target.style.transform = 'scale(1)';
-                }}
               >
                 {isMinimized ? '＋' : '−'}
               </button>
               <button 
-                style={styles.actionBtn}
+                className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleClose();
                 }}
                 title="Close assistant"
-                onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.3)';
-                  e.target.style.transform = 'scale(1.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                  e.target.style.transform = 'scale(1)';
-                }}
               >
                 ×
               </button>
             </div>
           </div>
 
-          <div style={styles.messagesContainer}>
-            {messages[activeMode].map((message) => (
-              <div
-                key={message.id}
-                style={{
-                  ...styles.message,
-                  ...(message.sender === 'user' ? styles.userMessage : styles.botMessage),
-                  animation: `${getMessageAnimation(message.id)} 0.4s ease-out`
-                }}
-              >
-                <div style={{
-                  ...styles.messageBubble,
-                  ...(message.sender === 'user' ? styles.userBubble : styles.botBubble)
-                }}>
-                  <div style={styles.messageText}>{message.text}</div>
-                  <div style={styles.messageTime}>
-                    {formatTime(message.timestamp)}
+          {!isMinimized && (
+            <div className="flex-1 p-5 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-200">
+              {messages[activeMode].map((message) => (
+                <div
+                  key={message.id}
+                  className={`mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} animate-${getMessageAnimation(message.id)}`}
+                >
+                  <div className={`max-w-[280px] px-4 py-3 rounded-2xl relative ${
+                    message.sender === 'user' 
+                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-br-md shadow-lg shadow-indigo-300/30' 
+                      : 'bg-white text-gray-700 border border-gray-200/80 rounded-bl-md shadow-lg shadow-gray-200/50'
+                  }`}>
+                    <div className="text-sm leading-relaxed mb-1 whitespace-pre-wrap">
+                      {message.text}
+                    </div>
+                    <div className="text-xs opacity-70 text-right">
+                      {formatTime(message.timestamp)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-            
-            <QuickQuestionsSection />
-            
-            {isLoading && (
-              <div style={{...styles.message, ...styles.botMessage}}>
-                <div style={{...styles.messageBubble, ...styles.botBubble}}>
-                  <div style={styles.typingIndicator}>
-                    <span style={{...styles.typingDot, animationDelay: '-0.32s'}}></span>
-                    <span style={{...styles.typingDot, animationDelay: '-0.16s'}}></span>
-                    <span style={styles.typingDot}></span>
-                    <span style={styles.typingText}>
-                      {activeMode === 'helpdesk' ? 'Searching knowledge base...' : 'Educon AI is thinking...'}
-                    </span>
+              ))}
+              
+              <QuickQuestionsSection />
+              
+              {isLoading && (
+                <div className="mb-4 flex justify-start">
+                  <div className="max-w-[280px] px-4 py-3 rounded-2xl bg-white text-gray-700 border border-gray-200/80 rounded-bl-md shadow-lg shadow-gray-200/50">
+                    <div className="flex gap-1 py-1 items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing -delay-300"></span>
+                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing -delay-150"></span>
+                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing"></span>
+                      <span className="text-xs text-gray-500 ml-2">
+                        {activeMode === 'helpdesk' ? 'Searching knowledge base...' : 'Educon AI is thinking...'}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          <form style={styles.inputArea} onSubmit={handleSendMessage}>
-            <div style={styles.inputContainer}>
-              <input
-                type="text"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                placeholder={
-                  activeMode === 'helpdesk' 
-                    ? "Ask about features, pricing, technical issues..."
-                    : "Ask me anything about any topic..."
-                }
-                style={{
-                  ...styles.input,
-                  borderColor: inputMessage ? '#667eea' : '#e5e7eb',
-                  boxShadow: inputMessage ? '0 0 0 3px rgba(102, 126, 234, 0.1)' : 'none'
-                }}
-                disabled={isLoading}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#667eea';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.2)';
-                  e.target.style.transform = 'scale(1.02)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#e5e7eb';
-                  e.target.style.boxShadow = 'none';
-                  e.target.style.transform = 'scale(1)';
-                }}
-              />
-              <button 
-                type="submit" 
-                style={{
-                  ...styles.sendBtn,
-                  opacity: (!inputMessage.trim() || isLoading) ? 0.6 : 1,
-                  transform: (!inputMessage.trim() || isLoading) ? 'scale(1)' : 'scale(1)',
-                  animation: inputMessage.trim() && !isLoading ? 'pulse 2s infinite' : 'none'
-                }}
-                disabled={!inputMessage.trim() || isLoading}
-                onMouseEnter={(e) => {
-                  if (inputMessage.trim() && !isLoading) {
-                    e.target.style.transform = 'scale(1.1) rotate(5deg)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (inputMessage.trim() && !isLoading) {
-                    e.target.style.transform = 'scale(1) rotate(0deg)';
-                  }
-                }}
-              >
-                {isLoading ? '⏳' : '📨'}
-              </button>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-          </form>
+          )}
+
+          {!isMinimized && (
+            <form className="p-5 bg-white border-t border-gray-200/80" onSubmit={handleSendMessage}>
+              <div className="flex gap-3 items-center relative">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder={
+                    activeMode === 'helpdesk' 
+                      ? "Ask about features, pricing, technical issues..."
+                      : "Ask me anything about any topic..."
+                  }
+                  className={`flex-1 px-4 py-3 border-2 rounded-full text-sm outline-none transition-all duration-300 bg-white ${
+                    inputMessage 
+                      ? 'border-indigo-500 shadow-lg shadow-indigo-100' 
+                      : 'border-gray-200'
+                  } focus:border-indigo-500 focus:shadow-lg focus:shadow-indigo-100 focus:scale-102`}
+                  disabled={isLoading}
+                />
+                <button 
+                  type="submit" 
+                  className={`w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-none rounded-full cursor-pointer flex items-center justify-center text-base transition-all duration-300 shadow-lg shadow-indigo-300/30 ${
+                    (!inputMessage.trim() || isLoading) 
+                      ? 'opacity-60 scale-100' 
+                      : 'opacity-100 animate-pulse hover:scale-110 hover:rotate-3'
+                  }`}
+                  disabled={!inputMessage.trim() || isLoading}
+                >
+                  {isLoading ? '⏳' : '📨'}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       )}
     </>
