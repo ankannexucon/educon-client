@@ -14,18 +14,24 @@ import {
   CheckCircle2,
   Activity,
   Sparkles,
+  X,
+  Save,
+  User,
+  Phone,
+  Link,
+  GraduationCap,
 } from "lucide-react";
 import CvBuilderModal from "../../components/CvBuilderModal";
 
-
-const student = {
+// Initial student data
+const initialStudent = {
   name: "Alex Johnson",
   email: "alex.johnson@student.edu",
   avatar:
     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop",
   program: "Computer Science",
   year: "2nd Year",
-  gpa: "3.85",
+  gpa: "9.5",
   enrollmentDate: "September 2023",
   phone: "+1 (555) 123-4567",
   location: "San Francisco, CA",
@@ -88,7 +94,7 @@ const stats = [
   },
   {
     label: "Current GPA",
-    value: student.gpa,
+    value: initialStudent.gpa,
     icon: TrendingUp,
     color: "text-green-600",
   },
@@ -96,9 +102,302 @@ const stats = [
   { label: "Achievements", value: "12", icon: Award, color: "text-purple-600" },
 ];
 
+// Edit Profile Modal Component
+const EditProfileModal = ({ isOpen, onClose, student, onSave }) => {
+  const [formData, setFormData] = useState(student);
+  const [isSaving, setIsSaving] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSaving(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      onSave(formData);
+      setIsSaving(false);
+      onClose();
+    }, 1000);
+  };
+
+  const handleChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/30 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-2000 p-4"
+      onClick={handleOverlayClick}
+    >
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Edit2 className="w-6 h-6" />
+              <h2 className="text-xl font-bold">Edit Profile</h2>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+          <div className="space-y-6">
+            {/* Avatar Section */}
+            <div className="text-center">
+              <div className="relative inline-block">
+                <img
+                  src={formData.avatar}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-2xl border-4 border-white shadow-lg object-cover mx-auto"
+                />
+                <button
+                  type="button"
+                  className="absolute bottom-0 right-0 bg-indigo-600 p-2 rounded-lg text-white hover:bg-indigo-700 transition-all shadow-lg"
+                >
+                  <Camera className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">Click camera to change photo</p>
+            </div>
+
+            {/* Personal Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <User className="w-4 h-4 inline mr-2" />
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleChange('name', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="Enter your full name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Mail className="w-4 h-4 inline mr-2" />
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleChange('email', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Phone className="w-4 h-4 inline mr-2" />
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleChange('phone', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <MapPin className="w-4 h-4 inline mr-2" />
+                  Location
+                </label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => handleChange('location', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="Enter your location"
+                />
+              </div>
+            </div>
+
+            {/* Academic Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <GraduationCap className="w-4 h-4 inline mr-2" />
+                  Program
+                </label>
+                <select
+                  value={formData.program}
+                  onChange={(e) => handleChange('program', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                >
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Software Engineering">Software Engineering</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Computer Engineering">Computer Engineering</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <BookOpen className="w-4 h-4 inline mr-2" />
+                  Year
+                </label>
+                <select
+                  value={formData.year}
+                  onChange={(e) => handleChange('year', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                >
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                  <option value="Graduate">Graduate</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <TrendingUp className="w-4 h-4 inline mr-2" />
+                  GPA
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="10.0"
+                  value={formData.gpa}
+                  onChange={(e) => handleChange('gpa', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="Enter your GPA"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Calendar className="w-4 h-4 inline mr-2" />
+                  Enrollment Date
+                </label>
+                <input
+                  type="text"
+                  value={formData.enrollmentDate}
+                  onChange={(e) => handleChange('enrollmentDate', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="e.g., September 2023"
+                />
+              </div>
+            </div>
+
+            {/* Bio */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Bio
+              </label>
+              <textarea
+                value={formData.bio}
+                onChange={(e) => handleChange('bio', e.target.value)}
+                rows="4"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"
+                placeholder="Tell us about yourself..."
+              />
+            </div>
+
+            {/* Social Links */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Globe className="w-4 h-4 inline mr-2" />
+                  Website
+                </label>
+                <input
+                  type="text"
+                  value={formData.website}
+                  onChange={(e) => handleChange('website', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="yourwebsite.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Link className="w-4 h-4 inline mr-2" />
+                  LinkedIn
+                </label>
+                <input
+                  type="text"
+                  value={formData.linkedin}
+                  onChange={(e) => handleChange('linkedin', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="linkedin.com/in/username"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Link className="w-4 h-4 inline mr-2" />
+                  GitHub
+                </label>
+                <input
+                  type="text"
+                  value={formData.github}
+                  onChange={(e) => handleChange('github', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  placeholder="github.com/username"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 justify-end pt-6 mt-6 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSaving}
+              className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Save className="w-4 h-4" />
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default function UserProfile() {
+  const [student, setStudent] = useState(initialStudent);
   const [isEditing, setIsEditing] = useState(false);
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
+
+  const handleSaveProfile = (updatedData) => {
+    setStudent(updatedData);
+    // In a real app, you would make an API call here
+    console.log("Profile updated:", updatedData);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -138,6 +437,10 @@ export default function UserProfile() {
                       <MapPin className="w-4 h-4" />
                       <span>{student.location}</span>
                     </div>
+                    <div className="flex items-center gap-1">
+                      <Phone className="w-4 h-4" />
+                      <span>{student.phone}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -145,7 +448,7 @@ export default function UserProfile() {
               {/* Action Buttons */}
               <div className="flex gap-3">
                 <button
-                  onClick={() => setIsEditing(!isEditing)}
+                  onClick={() => setIsEditing(true)}
                   className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg"
                 >
                   <Edit2 className="w-4 h-4" />
@@ -170,11 +473,28 @@ export default function UserProfile() {
             {/* Social Links */}
             <div className="flex flex-wrap gap-3">
               <a
-                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 text-sm font-medium transition-all flex items-center gap-2"
               >
                 <Globe className="w-4 h-4" />
                 {student.website}
+              </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-lg text-blue-700 text-sm font-medium transition-all flex items-center gap-2"
+              >
+                <Link className="w-4 h-4" />
+                LinkedIn
+              </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 text-sm font-medium transition-all flex items-center gap-2"
+              >
+                <Link className="w-4 h-4" />
+                GitHub
               </a>
             </div>
           </div>
@@ -229,7 +549,7 @@ export default function UserProfile() {
                     <span>GPA</span>
                   </div>
                   <p className="font-semibold text-slate-900">
-                    {student.gpa} / 4.0
+                    {student.gpa} / 10.0
                   </p>
                 </div>
                 <div>
@@ -334,6 +654,14 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal
+        isOpen={isEditing}
+        onClose={() => setIsEditing(false)}
+        student={student}
+        onSave={handleSaveProfile}
+      />
 
       {/* AI CV Builder Modal */}
       <CvBuilderModal
