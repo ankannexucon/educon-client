@@ -120,7 +120,7 @@ export default function NavbarComponent() {
       {
         name: "Scholarships",
         path: "/scholarships",
-        icon: <FileText size={18} />,
+        icon: <ArrowUpRight size={18} />,
       },
     ],
   };
