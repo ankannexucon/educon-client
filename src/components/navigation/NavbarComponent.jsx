@@ -115,6 +115,11 @@ export default function NavbarComponent() {
         path: "/track-scholarship",
         icon: <ArrowUpRight size={18} />,
       },
+      {
+        name: "Scholarships",
+        path: "/scholarships",
+        icon: <ArrowUpRight size={18} />,
+      },
     ],
   };
 
