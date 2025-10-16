@@ -8,7 +8,7 @@ export default function GuestRoute({ children }) {
   if (isLoading) return <div>Loading...</div>;
 
   return isAuthenticated ? (
-    <Navigate to={location.state?.from || "/courses"} replace />
+    <Navigate to={location.state?.from || "/"} replace />
   ) : (
     children
   );
