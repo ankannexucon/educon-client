@@ -10,7 +10,6 @@ import {
   Lightbulb,
   MessageCircle,
 } from "lucide-react";
-import UniversityCard from "../../components/card/UniversityCard";
 
 const mockUniversities = [
   {
@@ -654,7 +653,7 @@ const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
   const aiTags = getAITags(uni);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-300 hover:translate-y-[-2px]">
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-300 hover:translate-y-[-2px] flex flex-col h-full">
       <div className="relative">
         <img
           src={uni.image}
@@ -668,13 +667,13 @@ const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
           </div>
         )}
       </div>
-      <div className="p-4">
+      <div className="p-4 flex-1 flex flex-col">
         <h3 className="font-bold text-lg mb-2 text-slate-900">{uni.name}</h3>
         <p className="text-slate-600 text-sm mb-3 flex items-center gap-1">
           📍 {uni.location}
         </p>
 
-        <p className="text-slate-700 text-sm mb-3 line-clamp-2">
+        <p className="text-slate-700 text-sm mb-3 line-clamp-2 flex-1">
           {uni.description}
         </p>
 
@@ -705,10 +704,10 @@ const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
           </div>
           <div className="text-right">
             <span className="text-lg font-bold text-green-600">
-              ${uni.discountPrice}
+              £{uni.discountPrice}
             </span>
             <span className="text-slate-500 line-through text-sm ml-2">
-              ${uni.price}
+              £{uni.price}
             </span>
           </div>
         </div>
@@ -724,11 +723,13 @@ const EnhancedUniversityCard = ({ uni, userProfile, badge }) => {
           </span>
           <span className="text-slate-600">{uni.duration}</span>
         </div>
-        <button
-          className={`mt-2 w-full font-medium py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white`}
-        >
-          View Courses
-        </button>
+        
+        {/* View Courses Button - Now properly aligned at the bottom */}
+        <div className="mt-auto pt-4">
+          <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200">
+            View Courses
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -896,7 +897,7 @@ export default function EnhancedUniversityDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="sm:w-[90vw] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-slate-900 mb-2">
