@@ -443,15 +443,15 @@ export default function SubscriptionPage() {
     const getPayButtonText = () => {
       switch (selectedPaymentMethod) {
         case "card":
-          return `Pay $${price}`;
+          return `Pay £${price}`;
         case "upi":
-          return `Pay $${price} via UPI`;
+          return `Pay £${price} via UPI`;
         case "netbanking":
-          return `Pay $${price} via Net Banking`;
+          return `Pay £${price} via Net Banking`;
         case "wallet":
-          return `Pay $${price} via Wallet`;
+          return `Pay £${price} via Wallet`;
         default:
-          return `Pay $${price}`;
+          return `Pay £${price}`;
       }
     };
 
@@ -481,7 +481,7 @@ export default function SubscriptionPage() {
                 </div>
               </div>
               <div className="text-2xl font-bold text-gray-900">
-                ${price}
+                £{price}
                 <span className="text-sm font-normal text-gray-600">/{billingPeriod}</span>
               </div>
             </div>
@@ -653,7 +653,7 @@ export default function SubscriptionPage() {
                   <div className="mb-6">
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-bold text-gray-900">
-                        ${isYearly && !isFree ? plan.price.yearly : price}
+                        £{isYearly && !isFree ? plan.price.yearly : price}
                       </span>
                       {!isFree && (
                         <span className="text-gray-600">
@@ -664,7 +664,7 @@ export default function SubscriptionPage() {
                     {isYearly && !isFree && savings > 0 && (
                       <div className="flex items-center gap-2 mt-2">
                         <span className="text-sm text-gray-500 line-through">
-                          ${plan.price.monthly * 12}
+                          £{plan.price.monthly * 12}
                         </span>
                         <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
                           Save ${savings} ({percentage}%)

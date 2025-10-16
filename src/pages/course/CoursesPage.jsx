@@ -30,8 +30,8 @@ const mockCourseData = [
     institute: "University of NY (European Campus)",
     duration: "3 Years",
     enrolled: "320 Students",
-    price: "€9,000 / year",
-    discountPrice: "€8,100 / year",
+    price: "£9,000 / year",
+    discountPrice: "£8,100 / year",
     image: "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
     category: "Technology",
     level: "Beginner",
@@ -51,8 +51,8 @@ const mockCourseData = [
     institute: "Tech University",
     duration: "2 Years",
     enrolled: "150 Students",
-    price: "€12,000 / year",
-    discountPrice: "€10,800 / year",
+    price: "£12,000 / year",
+    discountPrice: "£10,800 / year",
     image: "https://picsum.photos/id/1012/400/250",
     category: "Technology",
     level: "Intermediate",
@@ -71,8 +71,8 @@ const mockCourseData = [
     institute: "Global Business School",
     duration: "2 Years",
     enrolled: "200 Students",
-    price: "€14,500 / year",
-    discountPrice: "€13,050 / year",
+    price: "£14,500 / year",
+    discountPrice: "£13,050 / year",
     image: "https://picsum.photos/id/1013/400/250",
     category: "Business",
     level: "Intermediate",
@@ -91,8 +91,8 @@ const mockCourseData = [
     institute: "City College Europe",
     duration: "3 Years",
     enrolled: "180 Students",
-    price: "€7,500 / year",
-    discountPrice: "€6,750 / year",
+    price: "£7,500 / year",
+    discountPrice: "£6,750 / year",
     image: "https://picsum.photos/id/1014/400/250",
     category: "Business",
     level: "Beginner",
@@ -110,8 +110,8 @@ const mockCourseData = [
     institute: "Code Academy Europe",
     duration: "8 Weeks",
     enrolled: "120 Students",
-    price: "€450",
-    discountPrice: "€405",
+    price: "£450",
+    discountPrice: "£405",
     image: "https://picsum.photos/id/1015/400/250",
     category: "Technology",
     level: "Advanced",
@@ -130,8 +130,8 @@ const mockCourseData = [
     institute: "Design School EU",
     duration: "6 Weeks",
     enrolled: "95 Students",
-    price: "€350",
-    discountPrice: "€315",
+    price: "£350",
+    discountPrice: "£315",
     image: "https://picsum.photos/id/1016/400/250",
     category: "Design",
     level: "Intermediate",
@@ -149,8 +149,8 @@ const mockCourseData = [
     institute: "Data School Europe",
     duration: "12 Weeks",
     enrolled: "140 Students",
-    price: "€600",
-    discountPrice: "€540",
+    price: "£600",
+    discountPrice: "£540",
     image: "https://picsum.photos/id/1018/400/250",
     category: "Technology",
     level: "Intermediate",
@@ -168,8 +168,8 @@ const mockCourseData = [
     institute: "Tech Hub EU",
     duration: "16 Weeks",
     enrolled: "250 Students",
-    price: "€1,000",
-    discountPrice: "€900",
+    price: "£1,000",
+    discountPrice: "£900",
     image: "https://picsum.photos/id/1019/400/250",
     category: "Technology",
     level: "Advanced",
@@ -259,7 +259,7 @@ const aiSearchKnowledge = {
   },
   affordable: {
     suggestions: [
-      "Budget-friendly courses under €500",
+      "Budget-friendly courses under £500",
       "Affordable certification programs",
       "Cost-effective learning options",
       "Short courses with great value",
@@ -408,7 +408,7 @@ const EnrollmentModal = ({ isOpen, onClose, course, onEnroll }) => {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-600">Platform Fee</span>
-                <span className="font-medium">€0</span>
+                <span className="font-medium">£0</span>
               </div>
               <div className="border-t border-slate-200 pt-2 flex justify-between">
                 <span className="font-semibold">Total</span>
@@ -559,7 +559,7 @@ const AISearch = ({ searchQuery, setSearchQuery, onSuggestionClick }) => {
         <Sparkles className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-500 w-5 h-5" />
         <input
           type="text"
-          placeholder="Ask AI: 'Find beginner programming courses under €500...'"
+          placeholder="Ask AI: 'Find beginner programming courses under £500...'"
           value={searchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
           onKeyPress={handleKeyPress}
@@ -924,9 +924,9 @@ const AISmartFilters = ({ courses, filters, setFilters }) => {
     const maxPrice = Math.max(...prices);
 
     insights.push(
-      `💰 Average price: €${avgPrice.toFixed(
+      `💰 Average price: £${avgPrice.toFixed(
         0
-      )} (range: €${minPrice}-€${maxPrice})`
+      )} (range: £${minPrice}-£${maxPrice})`
     );
 
     // Rating insights
