@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
   const [authMode, setAuthMode] = useState("login");
-  const { user, setUserDetails, login } = useAuth(); // get role from AuthContext
+  const { user, login } = useAuth(); // get role from AuthContext
   const [role, setRole] = useState(user?.role || "student");
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -28,8 +28,8 @@ export default function AuthPage() {
     const { email, password } = formData;
     const foundUser = userData.find((user) => user.email === email);
     if (foundUser) {
+      navigate("/courses", { state: { from: "/courses" } });
       login(foundUser);
-      navigate("/courses");
     } else {
       toast.error("Invalid credentials");
     }
