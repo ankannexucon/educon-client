@@ -1,5 +1,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 import NavbarComponent from "../components/navigation/NavbarComponent";
 import DocumentVerification from "../components/DocumentVerification";
 import FooterComponent from "../components/footer/FooterComponent";
@@ -8,16 +10,17 @@ import StudentApplicationPage from "../pages/application/StudentApplicationPage"
 import AboutUsPage from "../pages/info/AboutUsPage";
 import NotFoundPage from "../pages/info/NotFoundPage";
 import ScrollToTop from "../utils/ScrollToTop";
-import UniversityApplicationPage from "../pages/application/UniversityApplicationPage";
-import UniversityApplicationView from "../pages/application/UniversityApplicationView";
 import EduconChatbot from "../components/EduconChatbot";
 import { useAuth } from "../contexts/authContext";
 import CourseApplicationPage from "../pages/application/CourseApplicationPage";
 import ScholarshipApplicationPage from "../pages/application/ScholarshipApplicationPage";
-import ScholarshipPage from "../pages/Admission/ScholarshipPage";
 import { Toaster } from "react-hot-toast";
 
 // Lazy imports
+import UniversityApplicationView from "../pages/application/UniversityApplicationView";
+import UniversityApplicationPage from "../pages/application/UniversityApplicationPage";
+import ScholarshipPage from "../pages/Admission/ScholarshipPage";
+
 const LandingPage = lazy(() => import("../pages/dashboard/LandingPage"));
 const UniversityDashboardPage = lazy(() =>
   import("../pages/dashboard/UniversityDashboardPage")
@@ -34,7 +37,6 @@ function LayoutWrapper() {
   const { isAuthenticated } = useAuth();
 
   const noLayoutPaths = ["/auth", "/login", "/signup"];
-
   const hideLayout = noLayoutPaths.some((path) =>
     location.pathname.startsWith(path)
   );
@@ -44,39 +46,105 @@ function LayoutWrapper() {
       {!hideLayout && <NavbarComponent />}
       {isAuthenticated && <EduconChatbot />}
       <ScrollToTop />
+
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/signup" element={<AuthPage />} />
-          <Route path="/profile" element={<UserProfile />} />
           <Route
-            path="/document-verification"
-            element={<DocumentVerification />}
+            path="/auth"
+            element={
+              <GuestRoute>
+                <AuthPage />
+              </GuestRoute>
+            }
           />
+          <Route
+            path="/signup"
+            element={
+              <GuestRoute>
+                <AuthPage />
+              </GuestRoute>
+            }
+          />
+          <Route path="/about" element={<AboutUsPage />} />
           <Route path="/admissions" element={<AdmissionPage />} />
           <Route path="/scholarships" element={<ScholarshipPage />} />
           <Route path="/university" element={<UniversityDashboardPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/about" element={<AboutUsPage />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/document-verification"
+            element={
+              <ProtectedRoute>
+                <DocumentVerification />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/student-application"
-            element={<StudentApplicationPage />}
+            element={
+              <ProtectedRoute>
+                <StudentApplicationPage />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/university-application"
-            element={<UniversityApplicationPage />}
+            element={
+              <ProtectedRoute>
+                <UniversityApplicationPage />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/university-application-view"
-            element={<UniversityApplicationView />}
+            element={
+              <ProtectedRoute>
+                <UniversityApplicationView />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/subscriptions" element={<SubscriptionPage />} />
-          <Route path="/your-application" element={<CourseApplicationPage />} />
-          <Route path="/track-scholarship" element={<ScholarshipApplicationPage />} />
+          <Route
+            path="/subscriptions"
+            element={
+              <ProtectedRoute>
+                <SubscriptionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/your-application"
+            element={
+              <ProtectedRoute>
+                <CourseApplicationPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/track-scholarship"
+            element={
+              <ProtectedRoute>
+                <ScholarshipApplicationPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Fallback */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
+
       {!hideLayout && (
         <footer>
           <FooterComponent />

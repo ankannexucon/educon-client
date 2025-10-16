@@ -29,10 +29,11 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { ArrowUpRight } from "lucide-react";
 import { Crown } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 const APP_NAME = "Educon";
 
@@ -61,9 +62,15 @@ const dummyNotifications = [
 ];
 
 export default function NavbarComponent() {
-  const { user } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState({ more: false, notification: false });
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   const navItems = [
     { name: "Home", path: "/", icon: <BookOpen size={18} /> },
@@ -150,29 +157,33 @@ export default function NavbarComponent() {
             justifyContent: "space-between",
           }}
         >
-          {/* Logo */}
           <Box
-            component="img"
-            src="/Logo.png"
-            alt="Educon Logo"
-            sx={{
-              width: 60,
-              height: 60,
-              objectFit: "cover",
-            }}
-          />
-          {/* <Typography
-            variant="h5"
-            fontWeight={700}
             component={Link}
             to="/"
-            sx={{
-              color: "#111827",
-              textDecoration: "none",
-            }}
+            sx={{ display: "flex", alignItems: "center", gap: 2 }}
           >
-            {APP_NAME}
-          </Typography> */}
+            {/* Logo */}
+            <Box
+              component="img"
+              src="/Logo.png"
+              alt="Educon Logo"
+              sx={{
+                width: 60,
+                height: 60,
+                objectFit: "cover",
+              }}
+            />
+            <Typography
+              variant="h5"
+              fontWeight={700}
+              sx={{
+                color: "#111827",
+                textDecoration: "none",
+              }}
+            >
+              {APP_NAME}
+            </Typography>
+          </Box>
 
           {/* Desktop Navigation */}
           <Box
@@ -273,34 +284,35 @@ export default function NavbarComponent() {
                     </IconButton>
                   </Box>
 
-                  {moreOptions[user.role].map((option, i) => (
-                    <MenuItem
-                      key={i}
-                      onClick={() => setOpen({ ...open, more: false })}
-                      sx={{
-                        py: 1.2,
-                        px: 2,
-                        fontWeight: 500,
-                        "&:hover": { backgroundColor: "#f9fafb" },
-                      }}
-                    >
-                      <Button
-                        component={Link}
-                        to={option.path}
-                        startIcon={option.icon}
-                        style={{
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                          color: "inherit",
-                          width: "100%",
+                  {moreOptions[user?.role] &&
+                    moreOptions[user?.role].map((option, i) => (
+                      <MenuItem
+                        key={i}
+                        onClick={() => setOpen({ ...open, more: false })}
+                        sx={{
+                          py: 1.2,
+                          px: 2,
+                          fontWeight: 500,
+                          "&:hover": { backgroundColor: "#f9fafb" },
                         }}
                       >
-                        <Typography fontWeight={600} fontSize="0.9rem">
-                          {option.name}
-                        </Typography>
-                      </Button>
-                    </MenuItem>
-                  ))}
+                        <Button
+                          component={Link}
+                          to={option.path}
+                          startIcon={option.icon}
+                          style={{
+                            justifyContent: "flex-start",
+                            textAlign: "left",
+                            color: "inherit",
+                            width: "100%",
+                          }}
+                        >
+                          <Typography fontWeight={600} fontSize="0.9rem">
+                            {option.name}
+                          </Typography>
+                        </Button>
+                      </MenuItem>
+                    ))}
                 </Paper>
               )}
             </Box>
@@ -314,7 +326,7 @@ export default function NavbarComponent() {
               gap: 1.5,
             }}
           >
-            {user ? (
+            {isAuthenticated ? (
               <>
                 {/* Notifications */}
                 <Box sx={{ position: "relative" }}>
@@ -451,11 +463,24 @@ export default function NavbarComponent() {
                 >
                   <Crown size={20} />
                 </IconButton>
+                {/* Logout */}
+                <IconButton
+                  onClick={handleLogout}
+                  sx={{
+                    p: 1,
+                    borderRadius: 2,
+                    "&:hover": { backgroundColor: "#f3f4f6" },
+                  }}
+                >
+                  <LogOut size={20} />
+                </IconButton>
               </>
             ) : (
               <>
                 <Button
                   variant="text"
+                  component={Link}
+                  to="/auth"
                   sx={{
                     px: 3,
                     py: 1.2,
@@ -535,28 +560,29 @@ export default function NavbarComponent() {
 
           <Divider sx={{ my: 2 }} />
 
-          {moreOptions[user?.role].map((item) => (
-            <ListItemButton
-              key={item.name}
-              component={NavLink}
-              to={item.path}
-              onClick={() => setMobileOpen(false)}
-              sx={{
-                borderRadius: 2,
-                color: "#374151",
-                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItemButton>
-          ))}
+          {moreOptions[user?.role] &&
+            moreOptions[user?.role].map((item) => (
+              <ListItemButton
+                key={item.name}
+                component={NavLink}
+                to={item.path}
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  borderRadius: 2,
+                  color: "#374151",
+                  "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            ))}
 
           <Divider sx={{ my: 2 }} />
 
-          {user ? (
+          {isAuthenticated ? (
             <>
               <ListItemButton component={Link} to="/profile">
                 <ListItemIcon>
@@ -580,6 +606,8 @@ export default function NavbarComponent() {
             >
               <Button
                 startIcon={<LogIn size={18} />}
+                component={Link}
+                to="/auth"
                 variant="outlined"
                 sx={{
                   textTransform: "none",

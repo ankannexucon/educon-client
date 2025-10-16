@@ -1,14 +1,38 @@
 import React, { useState } from "react";
 import { FaGoogle, FaLinkedin } from "react-icons/fa";
 import { useAuth } from "../../contexts/authContext";
+import userData from "../../json/userData.json";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
   const [authMode, setAuthMode] = useState("login");
-  const { user } = useAuth(); // get role from AuthContext
+  const { user, setUserDetails, login } = useAuth(); // get role from AuthContext
   const [role, setRole] = useState(user?.role || "student");
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleAuthToggle = () => {
     setAuthMode(authMode === "login" ? "signup" : "login");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+    const foundUser = userData.find((user) => user.email === email);
+    if (foundUser) {
+      login(foundUser);
+      navigate("/courses");
+    } else {
+      toast.error("Invalid credentials");
+    }
   };
 
   const roles = [
@@ -50,7 +74,7 @@ export default function AuthPage() {
         )}
 
         {/* Form */}
-        <form className="flex flex-col gap-3 text-left">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left">
           {authMode === "signup" && (
             <input
               type="text"
@@ -68,24 +92,22 @@ export default function AuthPage() {
 
           <input
             type="email"
-            placeholder={
-              role === "university"
-                ? "University Email"
-                : role === "agency"
-                ? "Agency Email"
-                : "Student Email"
-            }
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
             className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             required
           />
-
           <input
             type="password"
+            name="password"
             placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
             className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             required
           />
-
           {authMode === "signup" && (
             <input
               type="tel"
