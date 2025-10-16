@@ -1,7 +1,15 @@
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
-import { Navigate } from "react-router-dom";
 
 export default function GuestRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Navigate to={"*"} /> : children;
+  const { isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return isAuthenticated ? (
+    <Navigate to={location.state?.from || "/courses"} replace />
+  ) : (
+    children
+  );
 }

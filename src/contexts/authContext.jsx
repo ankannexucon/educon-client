@@ -11,7 +11,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   // const [verifiedError, setVerifiedError] = useState(false);
   const [userDetails, setUserDetails] = useState({ role: "student" });
 
@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }) => {
         user: userDetails,
         setUserDetails,
         logout,
+        isLoading,
         login,
       }}
     >
