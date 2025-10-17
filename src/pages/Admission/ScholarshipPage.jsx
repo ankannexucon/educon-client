@@ -31,7 +31,7 @@ import {
   Share,
   FilterList
 } from '@mui/icons-material';
-import { toast} from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import ScholarshipApplicationModal from "../../components/course/ScholarshipApplicationModal";
 
 
@@ -200,7 +200,7 @@ const ScholarshipPage = () => {
               <Typography variant="caption" className="text-gray-500">Deadline</Typography>
               <Typography variant="body2" className="font-semibold">
                 {new Date(scholarship.deadline).toLocaleDateString()}
-            </Typography>
+              </Typography>
             </div>
           </div>
         </div>
@@ -233,8 +233,8 @@ const ScholarshipPage = () => {
           ))}
         </div>
 
-        <Accordion 
-          expanded={expanded === scholarship.id} 
+        <Accordion
+          expanded={expanded === scholarship.id}
           onChange={() => setExpanded(expanded === scholarship.id ? false : scholarship.id)}
           className="mb-4"
         >
@@ -261,8 +261,8 @@ const ScholarshipPage = () => {
           <Typography variant="caption" className="text-gray-500">
             Duration: {scholarship.duration}
           </Typography>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
             onClick={() => handleApplyClick(scholarship)}
           >
@@ -275,7 +275,7 @@ const ScholarshipPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      
+
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
         <Container maxWidth="lg">
@@ -286,7 +286,7 @@ const ScholarshipPage = () => {
             <Typography variant="h6" className="mb-8 opacity-90">
               Discover financial aid opportunities for courses and visa support worldwide
             </Typography>
-            
+
             {/* Search Bar */}
             <Paper className="max-w-2xl mx-auto p-2 flex items-center">
               <InputBase
@@ -318,51 +318,53 @@ const ScholarshipPage = () => {
             indicatorColor="primary"
             textColor="primary"
           >
-            <Tab 
+            <Tab
               label={
                 <div className="flex items-center">
                   <School className="mr-2" />
                   Course Scholarships
                 </div>
-              } 
+              }
             />
-            <Tab 
+            <Tab
               label={
                 <div className="flex items-center">
                   <Flag className="mr-2" />
                   Visa Support Scholarships
                 </div>
-              } 
+              }
             />
           </Tabs>
         </Paper>
 
         {/* Stats */}
         <Grid container spacing={3} className="mb-8">
-          <Grid item xs={12} sm={3}>
-            <Paper className="p-4 text-center shadow-md">
-              <Typography variant="h4" className="text-blue-600 font-bold">50+</Typography>
-              <Typography variant="body2" className="text-gray-600">Scholarships</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper className="p-4 text-center shadow-md">
-              <Typography variant="h4" className="text-green-600 font-bold">25+</Typography>
-              <Typography variant="body2" className="text-gray-600">Countries</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper className="p-4 text-center shadow-md">
-              <Typography variant="h4" className="text-purple-600 font-bold">$5M+</Typography>
-              <Typography variant="body2" className="text-gray-600">Total Funding</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper className="p-4 text-center shadow-md">
-              <Typography variant="h4" className="text-orange-600 font-bold">1000+</Typography>
-              <Typography variant="body2" className="text-gray-600">Students Helped</Typography>
-            </Paper>
-          </Grid>
+          {[
+            { value: "50+", color: "text-blue-600", label: "Scholarships" },
+            { value: "25+", color: "text-green-600", label: "Countries" },
+            { value: "50k+", color: "text-red-600", label: "Universities" },
+            { value: "$5M+", color: "text-purple-600", label: "Total Funding" },
+            { value: "1000+", color: "text-orange-600", label: "Students Helped" },
+          ].map((item, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Paper
+                className="flex flex-col justify-center items-center p-6 shadow-md h-full w-full"
+                sx={{
+                  width: "200px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h4" className={`${item.color} font-bold`}>
+                  {item.value}
+                </Typography>
+                <Typography variant="body2" className="text-gray-600">
+                  {item.label}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
         </Grid>
 
         {/* Scholarship List */}
