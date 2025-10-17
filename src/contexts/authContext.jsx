@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-// import { getCookie, removeCookie, setCookie } from "../util/cookieUtil";
+import { getCookie, removeCookie, setCookie } from "../utils/cookieUtil";
 // import PageLoadingComponent from "../components/PageLoadingComponent";
 // import { getUserApi } from "../api/accountApi";
 
@@ -10,10 +10,10 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   // const [verifiedError, setVerifiedError] = useState(false);
-  const [userDetails, setUserDetails] = useState({ role: "agency" });
+  const [userDetails, setUserDetails] = useState({ role: "student" });
 
   // const userInfo = async (token) => {
   //   if (!token) return;
@@ -28,16 +28,15 @@ export const AuthProvider = ({ children }) => {
   // };
 
   // Check website containing cookie
-  // useEffect(() => {
-  //   const token = getCookie("authToken");
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //     userInfo(token);
-  //   } else {
-  //     setIsAuthenticated(false);
-  //   }
-  //   setIsLoading(false);
-  // }, []);
+  useEffect(() => {
+    setIsLoading(true);
+    const cookie = getCookie("AUTH-EDUCON");
+    if (cookie) {
+      setUserDetails(JSON.parse(cookie));
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   // Log in the user by setting the cookie
 
@@ -45,26 +44,35 @@ export const AuthProvider = ({ children }) => {
   //   setVerifiedError(true);
   // };
 
-  // const login = (token) => {
-  //   setCookie("authToken", token, { secure: true });
-  //   setIsAuthenticated(true);
-  //   userInfo(token);
-  // };
+  const login = (user) => {
+    setUserDetails(user);
+    setIsAuthenticated(true);
+    setCookie("AUTH-EDUCON", JSON.stringify(user));
+    // setCookie("authToken", token, { secure: true });
+    // setIsAuthenticated(true);
+    // userInfo(token);
+  };
 
   // // Log out the user by removing the cookie
-  // const logout = () => {
-  //   removeCookie("authToken");
-  //   setIsAuthenticated(false);
-  // };
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUserDetails({});
+    removeCookie("AUTH-EDUCON");
+    // removeCookie("authToken");
+    // setIsAuthenticated(false);
+  };
 
   // Provide the auth state and functions to the rest of the app
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: Boolean(
-          userDetails && Object.values(userDetails).length
-        ),
+        isAuthenticated,
+        setIsAuthenticated,
         user: userDetails,
+        setUserDetails,
+        logout,
+        isLoading,
+        login,
       }}
     >
       {!isLoading ? children : <div>Loading...</div>}

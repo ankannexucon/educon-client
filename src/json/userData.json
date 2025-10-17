@@ -1,19 +1,19 @@
 [
   {
     "id": 1,
-    "email": "agency@nexucon.com",
+    "email": "agency@educon.com",
     "password": "1234",
     "role": "agency"
   },
   {
     "id": 2,
-    "email": "university@nexucon.com",
+    "email": "university@educon.com",
     "password": "1234",
     "role": "university"
   },
   {
     "id": 3,
-    "email": "student@nexucon.com",
+    "email": "student@educon.com",
     "password": "1234",
     "role": "student"
   }

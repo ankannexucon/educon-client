@@ -1,811 +1,577 @@
-import React from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  Avatar,
-  Chip,
-  Paper,
-  useTheme,
-  useMediaQuery,
-  alpha,
-} from "@mui/material";
-import {
-  School,
-  Groups,
-  TrendingUp,
-  Public,
-  Diversity3,
-  EmojiEvents,
-  Star,
-  LocationOn,
-  CalendarToday,
-  Computer,
-  ArrowRightAlt,
-  PlayCircle,
-} from "@mui/icons-material";
+import React, { useEffect, useRef } from "react";
 
 export default function AboutUsPage() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const sectionRefs = useRef([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    sectionRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const addToRefs = (el) => {
+    if (el && !sectionRefs.current.includes(el)) {
+      sectionRefs.current.push(el);
+    }
+  };
 
   const teamMembers = [
     {
-      name: "Dr. Nilesh Roy",
+      name: "Justine Massy",
       role: "Founder & CEO",
       bio: "Former Oxford University Professor with 15+ years in education technology",
-      avatar: "SC",
-      expertise: ["EdTech", "Curriculum Design", "Leadership"]
+      avatar: "NR",
+      expertise: ["EdTech", "Curriculum Design", "Leadership"],
     },
     {
-      name: "Ankan Biswas",
+      name: "Clifford Badman",
       role: "Chief Learning Officer",
       bio: "Education specialist with expertise in curriculum development",
-      avatar: "JW",
-      expertise: ["Learning Science", "Assessment", "Pedagogy"]
+      avatar: "AB",
+      expertise: ["Learning Science", "Assessment", "Pedagogy"],
     },
     {
-      name: "Subhodeep Polley",
+      name: "Neil Rose",
       role: "Head of Product",
       bio: "Product management expert passionate about learning experiences",
-      avatar: "PP",
-      expertise: ["UX Design", "Product Strategy", "Innovation"]
+      avatar: "SP",
+      expertise: ["UX Design", "Product Strategy", "Innovation"],
     },
     {
-      name: "Dipanjan Saha",
+      name: "Cade Dawson",
       role: "Technical Director",
       bio: "Software engineer dedicated to building scalable platforms",
-      avatar: "MB",
-      expertise: ["Cloud Architecture", "AI/ML", "Scalability"]
+      avatar: "DS",
+      expertise: ["Cloud Architecture", "AI/ML", "Scalability"],
     },
   ];
 
   const stats = [
-    { number: "50K+", label: "Active Students", icon: <Groups />, trend: "+25% this year" },
-    { number: "500+", label: "Expert Tutors", icon: <School />, trend: "Global network" },
-    { number: "95%", label: "Success Rate", icon: <TrendingUp />, trend: "Student satisfaction" },
-    { number: "25+", label: "Countries", icon: <Public />, trend: "Worldwide reach" },
+    {
+      number: "50K+",
+      label: "Active Students",
+      trend: "+25% this year",
+    },
+    {
+      number: "500+",
+      label: "Expert Tutors",
+      trend: "Global network",
+    },
+    {
+      number: "95%",
+      label: "Success Rate",
+      trend: "Student satisfaction",
+    },
+    {
+      number: "25+",
+      label: "Countries",
+      trend: "Worldwide reach",
+    },
   ];
 
   const values = [
     {
-      icon: <Diversity3 />,
+      icon: "👥",
       title: "Inclusive Learning",
-      description: "Education accessible to everyone, everywhere regardless of background",
-      features: ["Scholarship Programs", "Multi-language Support", "Accessibility First"]
+      description:
+        "Education accessible to everyone, everywhere regardless of background",
+      features: [
+        "Scholarship Programs",
+        "Multi-language Support",
+        "Accessibility First",
+      ],
     },
     {
-      icon: <Star />,
+      icon: "⭐",
       title: "Quality First",
       description: "Rigorous standards for all courses and instructors",
-      features: ["Expert Vetting", "Quality Assurance", "Continuous Improvement"]
+      features: [
+        "Expert Vetting",
+        "Quality Assurance",
+        "Continuous Improvement",
+      ],
     },
     {
-      icon: <EmojiEvents />,
+      icon: "🏆",
       title: "Student Success",
       description: "Your achievements drive us forward every day",
-      features: ["Personalized Learning", "Career Support", "Lifetime Access"]
+      features: ["Personalized Learning", "Career Support", "Lifetime Access"],
     },
   ];
 
   const companyInfo = [
     {
-      icon: <LocationOn />,
+      icon: "📍",
       title: "Headquarters",
       description: "London, UK",
       detail: "Serving students worldwide",
-      gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
     {
-      icon: <CalendarToday />,
+      icon: "📅",
       title: "Founded",
       description: "2018",
       detail: "5+ years of excellence",
-      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     {
-      icon: <Computer />,
+      icon: "💻",
       title: "Platform",
       description: "Online Learning",
       detail: "Cutting-edge technology",
-      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-    }
+    },
   ];
 
   const milestones = [
-    { year: "2018", event: "EduCon Founded", description: "Launched with 10 courses" },
-    { year: "2019", event: "10K Students", description: "Reached first major milestone" },
-    { year: "2020", event: "Global Expansion", description: "Expanded to 15 countries" },
-    { year: "2022", event: "AI Integration", description: "Launched smart learning features" },
-    { year: "2023", event: "50K Students", description: "Current active user base" },
+    {
+      year: "2018",
+      event: "EduCon Founded",
+      description: "Launched with 10 courses",
+    },
+    {
+      year: "2019",
+      event: "10K Students",
+      description: "Reached first major milestone",
+    },
+    {
+      year: "2020",
+      event: "Global Expansion",
+      description: "Expanded to 15 countries",
+    },
+    {
+      year: "2022",
+      event: "AI Integration",
+      description: "Launched smart learning features",
+    },
+    {
+      year: "2023",
+      event: "50K Students",
+      description: "Current active user base",
+    },
   ];
 
   const SectionHeader = ({ title, subtitle, center = true }) => (
-    <Box sx={{ 
-      textAlign: center ? "center" : "left", 
-      mb: 8,
-      position: "relative"
-    }}>
-      <Typography
-        variant="h2"
-        fontWeight="bold"
-        gutterBottom
-        sx={{
-          fontSize: { xs: "2.5rem", md: "3.5rem" },
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          position: "relative",
-          display: "inline-block",
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            bottom: -8,
-            left: center ? "50%" : 0,
-            transform: center ? "translateX(-50%)" : "none",
-            width: 80,
-            height: 4,
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-            borderRadius: 2,
-          }
-        }}
-      >
+    <div
+      ref={addToRefs}
+      className={`${
+        center ? "text-center" : "text-left"
+      } mb-16 relative opacity-0 transition-all duration-700`}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent relative">
         {title}
-      </Typography>
+      </h2>
       {subtitle && (
-        <Typography
-          variant="h6"
-          color="text.secondary"
-          sx={{ 
-            maxWidth: 600, 
-            mx: center ? "auto" : 0,
-            mt: 3,
-            fontSize: "1.2rem",
-            fontWeight: 300
-          }}
-        >
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-6 font-light opacity-0 transition-all duration-700 delay-300">
           {subtitle}
-        </Typography>
+        </p>
       )}
-    </Box>
+    </div>
   );
 
   return (
-    <Box sx={{ 
-      bgcolor: "background.default", 
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
-      backgroundAttachment: "fixed",
-    }}>
-      {/* Hero Section */}
-      <Box sx={{ 
-        position: "relative",
-        overflow: "hidden",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)",
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 bg-fixed overflow-hidden">
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-      }}>
-        <Container maxWidth="lg" sx={{ position: "relative", py: { xs: 8, md: 12 } }}>
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              {/* <Chip
-                icon={<PlayCircle />}
-                label="Welcome to EduCon"
-                sx={{
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  color: "primary.main",
-                  mb: 4,
-                  px: 3,
-                  py: 1,
-                  fontSize: "0.9rem",
-                  fontWeight: "bold",
-                  backdropFilter: "blur(10px)",
-                }}
-              /> */}
-              <Typography
-                variant="h1"
-                fontWeight="bold"
-                gutterBottom
-                sx={{
-                  fontSize: { xs: "3rem", md: "4.5rem" },
-                  lineHeight: 1.1,
-                  mb: 3,
-                  background: "linear-gradient(135deg, #2c3e50 0%, #3498db 100%)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                About EduCon
-              </Typography>
-              <Typography
-                variant="h4"
-                color="text.primary"
-                fontWeight="600"
-                gutterBottom
-                sx={{ 
-                  mb: 3,
-                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes pulseGlow {
+          0%,
+          100% {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+          }
+          50% {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        .animate-slide-in-left {
+          animation: slideInLeft 0.8s ease-out forwards;
+        }
+        .animate-slide-in-right {
+          animation: slideInRight 0.8s ease-out forwards;
+        }
+        .animate-pulse-glow {
+          animation: pulseGlow 2s ease-in-out infinite;
+        }
+        .stagger-animation > * {
+          opacity: 0;
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .stagger-animation > *:nth-child(1) {
+          animation-delay: 0.1s;
+        }
+        .stagger-animation > *:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        .stagger-animation > *:nth-child(3) {
+          animation-delay: 0.3s;
+        }
+        .stagger-animation > *:nth-child(4) {
+          animation-delay: 0.4s;
+        }
+      `}</style>
+
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-purple-700 to-indigo-600">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-indigo-600/10"></div>
+        <div className="absolute inset-0 bg-black/5"></div>
+        <div className="relative max-w-7xl mx-auto py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="opacity-0 animate-slide-in-left">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                About <span className="animate-float inline-block">EduCon</span>
+              </h1>
+              <h2 className="text-2xl md:text-3xl text-white font-semibold mb-4 opacity-95">
                 UK's Premier Online Learning Platform
-              </Typography>
-              <Typography variant="h6" color="text.secondary" sx={{ mb: 4, lineHeight: 1.7, fontSize: "1.1rem" }}>
-                Transforming education through innovation, technology, and unwavering 
-                commitment to student success since 2018.
-              </Typography>
-            </Grid>
-            
-            <Grid item xs={12} md={6}>
-              <Paper
-                elevation={8}
-                sx={{
-                  p: 5,
-                  borderRadius: 4,
-                  background: "linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)",
-                  color: "white",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  position: "relative",
-                  overflow: "hidden",
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    top: -50,
-                    right: -50,
-                    width: 100,
-                    height: 100,
-                    borderRadius: "50%",
-                    background: "rgba(255, 255, 255, 0.1)",
-                  }
-                }}
-              >
-                <Box sx={{ position: "relative", zIndex: 1 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                    <Box sx={{ 
-                      width: 4, 
-                      height: 40, 
-                      background: "linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%)",
-                      borderRadius: 2,
-                      mr: 2
-                    }} />
-                    <Typography variant="h4" fontWeight="bold">
-                      Our Mission
-                    </Typography>
-                  </Box>
-                  <Typography sx={{ mb: 5, fontSize: "1.1rem", lineHeight: 1.7, opacity: 0.95 }}>
-                    To democratize education by breaking down geographical and financial barriers, 
-                    providing world-class learning experiences to students across the globe through innovative technology.
-                  </Typography>
-                  
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                    <Box sx={{ 
-                      width: 4, 
-                      height: 40, 
-                      background: "linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%)",
-                      borderRadius: 2,
-                      mr: 2
-                    }} />
-                    <Typography variant="h4" fontWeight="bold">
-                      Our Vision
-                    </Typography>
-                  </Box>
-                  <Typography sx={{ fontSize: "1.1rem", lineHeight: 1.7, opacity: 0.95 }}>
-                    A world where anyone, anywhere can access the education they need to 
-                    achieve their dreams, transform their lives, and contribute positively to society.
-                  </Typography>
-                </Box>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+              </h2>
+              <p className="text-lg md:text-xl text-white mb-8 leading-relaxed opacity-90">
+                Transforming education through innovation, technology, and
+                unwavering commitment to student success since 2018.
+              </p>
+            </div>
+            <div className="opacity-0 animate-slide-in-right">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 animate-pulse-glow">
+                <div className="text-center text-white">
+                  <div className="text-6xl mb-4 animate-float">🎓</div>
+                  <h3 className="text-2xl font-bold mb-2">
+                    Innovating Education
+                  </h3>
+                  <p className="opacity-90">Since 2018</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Company Info Section */}
-      <Container maxWidth="lg" sx={{ mb: 12, mt: 4 }}>
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-24 mt-8 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
         <SectionHeader
           title="Company Information"
           subtitle="Key facts about our organization and global operations"
         />
-        <Grid container spacing={4}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-animation">
           {companyInfo.map((info, index) => (
-            <Grid item xs={12} md={4} key={index}>
-              <Card
-                elevation={8}
-                sx={{
-                  p: 4,
-                  textAlign: "center",
-                  borderRadius: 4,
-                  background: "rgba(255, 255, 255, 0.8)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                  position: "relative",
-                  overflow: "hidden",
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: 4,
-                    background: info.gradient,
-                  },
-                  "&:hover": {
-                    transform: "translateY(-12px) scale(1.02)",
-                    boxShadow: "0 24px 48px rgba(0,0,0,0.15)",
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    mb: 3,
-                    "& .MuiSvgIcon-root": { 
-                      fontSize: "4rem",
-                      background: info.gradient,
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.1))",
-                    },
-                  }}
-                >
-                  {info.icon}
-                </Box>
-                <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: "text.primary" }}>
-                  {info.title}
-                </Typography>
-                <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ 
-                  background: info.gradient,
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  mb: 1
-                }}>
-                  {info.description}
-                </Typography>
-                <Typography variant="body1" color="text.secondary" textAlign="center" sx={{ fontWeight: 500 }}>
-                  {info.detail}
-                </Typography>
-              </Card>
-            </Grid>
+            <div
+              key={index}
+              className="bg-white rounded-2xl shadow-2xl p-8 text-center border border-purple-100 h-full flex flex-col items-center transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl relative overflow-hidden group"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-600"></div>
+              <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300 animate-float">
+                {info.icon}
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {info.title}
+              </h3>
+              <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                {info.description}
+              </div>
+              <p className="text-gray-600 font-medium text-center">
+                {info.detail}
+              </p>
+            </div>
           ))}
-        </Grid>
-      </Container>
+        </div>
+      </div>
 
       {/* Stats Section */}
-      <Box sx={{ 
-        py: 8, 
-        mb: 12,
-        background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)",
-        backdropFilter: "blur(10px)",
-        border: "1px solid rgba(255, 255, 255, 0.5)",
-      }}>
-        <Container maxWidth="lg">
+      <div
+        ref={addToRefs}
+        className="py-16 mb-24 bg-white border border-purple-100 opacity-0 transition-all duration-700"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Our Impact"
             subtitle="The numbers that showcase our global reach and educational effectiveness"
           />
-          <Grid container spacing={4}>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 stagger-animation">
             {stats.map((stat, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Paper
-                  elevation={4}
-                  sx={{
-                    p: 4,
-                    textAlign: "center",
-                    borderRadius: 4,
-                    background: "rgba(255, 255, 255, 0.7)",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255, 255, 255, 0.4)",
-                    transition: "all 0.3s ease",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&:hover": {
-                      transform: "translateY(-8px)",
-                      background: "rgba(255, 255, 255, 0.9)",
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      color: "primary.main",
-                      mb: 2,
-                      "& .MuiSvgIcon-root": { 
-                        fontSize: "3.5rem",
-                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                        backgroundClip: "text",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.1))",
-                      },
-                    }}
-                  >
-                    {stat.icon}
-                  </Box>
-                  <Typography variant="h2" fontWeight="bold" gutterBottom sx={{
-                    background: "linear-gradient(135deg, #2c3e50 0%, #3498db 100%)",
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}>
-                    {stat.number}
-                  </Typography>
-                  <Typography variant="h6" fontWeight="600" gutterBottom sx={{ color: "text.primary" }}>
-                    {stat.label}
-                  </Typography>
-                  <Typography variant="body2" color="primary.main" sx={{ fontWeight: "bold" }}>
-                    {stat.trend}
-                  </Typography>
-                </Paper>
-              </Grid>
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg p-8 text-center border border-purple-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl group"
+              >
+                <div className="text-5xl mb-4 animate-float">📊</div>
+                <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {stat.number}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {stat.label}
+                </h3>
+                <p className="text-purple-600 font-bold text-sm">
+                  {stat.trend}
+                </p>
+              </div>
             ))}
-          </Grid>
-        </Container>
-      </Box>
+          </div>
+        </div>
+      </div>
 
       {/* Story & Timeline Section */}
-      <Container maxWidth="lg" sx={{ mb: 12 }}>
-        <Grid container spacing={6} alignItems="center">
-          <Grid item xs={12} md={6}>
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="opacity-0 animate-slide-in-left">
             <SectionHeader
               title="Our Journey"
               subtitle="The evolution of EduCon from a visionary idea to a global learning platform"
               center={false}
             />
-            <Typography variant="body1" paragraph sx={{ fontSize: "1.1rem", lineHeight: 1.8, mb: 3 }}>
-              Founded in 2018 in the heart of London, EduCon emerged from Dr. Nilesh Roy's vision to 
-              revolutionize online education. We recognized the untapped potential of digital learning 
-              to bridge educational gaps worldwide.
-            </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: "1.1rem", lineHeight: 1.8, mb: 3 }}>
-              From our humble beginnings with just 10 meticulously crafted courses, we've grown into 
-              a comprehensive learning ecosystem that serves passionate learners across 25+ countries, 
-              constantly pushing the boundaries of what's possible in online education.
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", lineHeight: 1.8 }}>
-              Today, EduCon stands as a testament to innovation in education, blending cutting-edge 
-              technology with pedagogical excellence to create transformative learning experiences 
-              that empower students to achieve their fullest potential.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper
-              elevation={8}
-              sx={{
-                p: 4,
-                borderRadius: 4,
-                background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 255, 255, 0.4)",
-              }}
+            <p
+              className="text-lg text-gray-700 leading-relaxed mb-6 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.2s" }}
             >
-              <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 4 }}>
+              Founded in 2018 in the heart of London, EduCon emerged from Dr.
+              Nilesh Roy's vision to revolutionize online education. We
+              recognized the untapped potential of digital learning to bridge
+              educational gaps worldwide.
+            </p>
+            <p
+              className="text-lg text-gray-700 leading-relaxed mb-6 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.4s" }}
+            >
+              From our humble beginnings with just 10 meticulously crafted
+              courses, we've grown into a comprehensive learning ecosystem that
+              serves passionate learners across 25+ countries, constantly
+              pushing the boundaries of what's possible in online education.
+            </p>
+            <p
+              className="text-lg text-gray-700 leading-relaxed opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.6s" }}
+            >
+              Today, EduCon stands as a testament to innovation in education,
+              blending cutting-edge technology with pedagogical excellence to
+              create transformative learning experiences that empower students
+              to achieve their fullest potential.
+            </p>
+          </div>
+          <div className="opacity-0 animate-slide-in-right">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 border border-purple-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-8">
                 Our Milestones
-              </Typography>
-              <Box sx={{ position: "relative" }}>
+              </h3>
+              <div className="relative">
                 {milestones.map((milestone, index) => (
-                  <Box key={index} sx={{ 
-                    display: "flex", 
-                    alignItems: "flex-start", 
-                    mb: 3,
-                    position: "relative",
-                    "&::before": index < milestones.length - 1 ? {
-                      content: '""',
-                      position: "absolute",
-                      left: 20,
-                      top: 40,
-                      bottom: -20,
-                      width: 2,
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                      opacity: 0.3,
-                    } : {}
-                  }}>
-                    <Box sx={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: "50%",
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "0.9rem",
-                      flexShrink: 0,
-                      mr: 3,
-                      boxShadow: "0 4px 12px rgba(102, 126, 234, 0.4)",
-                    }}>
+                  <div
+                    key={index}
+                    className="flex items-start mb-6 relative opacity-0 animate-fade-in-up"
+                    style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
+                  >
+                    {index < milestones.length - 1 && (
+                      <div className="absolute left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-purple-600 to-indigo-600 opacity-30"></div>
+                    )}
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-purple-500/40 flex-shrink-0 mr-6 group hover:scale-110 transition-transform duration-300">
                       {milestone.year}
-                    </Box>
-                    <Box>
-                      <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors duration-300">
                         {milestone.event}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {milestone.description}
-                      </Typography>
-                    </Box>
-                  </Box>
+                      </h4>
+                      <p className="text-gray-600">{milestone.description}</p>
+                    </div>
+                  </div>
                 ))}
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Values Section */}
-      <Container maxWidth="lg" sx={{ mb: 12 }}>
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
         <SectionHeader
           title="Our Values"
           subtitle="The core principles that shape every decision and innovation at EduCon"
         />
-        <Grid container spacing={4}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-animation">
           {values.map((value, index) => (
-            <Grid item xs={12} md={4} key={index}>
-              <Card
-                elevation={8}
-                sx={{
-                  p: 4,
-                  textAlign: "center",
-                  borderRadius: 4,
-                  background: "rgba(255, 255, 255, 0.8)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                  position: "relative",
-                  overflow: "hidden",
-                  "&:hover": {
-                    transform: "translateY(-12px)",
-                    boxShadow: "0 24px 48px rgba(0,0,0,0.15)",
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    mb: 3,
-                    "& .MuiSvgIcon-root": { 
-                      fontSize: "4rem",
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.1))",
-                    },
-                  }}
-                >
-                  {value.icon}
-                </Box>
-                <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ color: "text.primary" }}>
-                  {value.title}
-                </Typography>
-                <Typography variant="body1" color="text.secondary" textAlign="center" sx={{ mb: 3, lineHeight: 1.6 }}>
-                  {value.description}
-                </Typography>
-                <Box sx={{ width: "100%" }}>
-                  {value.features.map((feature, featureIndex) => (
-                    <Chip
-                      key={featureIndex}
-                      label={feature}
-                      size="small"
-                      sx={{
-                        m: 0.5,
-                        background: "linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)",
-                        color: "primary.main",
-                        fontWeight: "500",
-                        border: "1px solid rgba(102, 126, 234, 0.2)",
-                      }}
-                    />
-                  ))}
-                </Box>
-              </Card>
-            </Grid>
+            <div
+              key={index}
+              className="bg-white rounded-2xl shadow-2xl p-8 text-center border border-purple-100 h-full flex flex-col items-center transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl group"
+            >
+              <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300 animate-float">
+                {value.icon}
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors duration-300">
+                {value.title}
+              </h3>
+              <p className="text-gray-600 text-center mb-6 leading-relaxed">
+                {value.description}
+              </p>
+              <div className="w-full">
+                {value.features.map((feature, featureIndex) => (
+                  <span
+                    key={featureIndex}
+                    className="inline-block bg-purple-50 text-purple-600 text-sm font-medium px-3 py-1 rounded-full border border-purple-200 m-1 group-hover:bg-purple-100 group-hover:border-purple-300 transition-all duration-300"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
-        </Grid>
-      </Container>
+        </div>
+      </div>
 
       {/* Team Section */}
-      <Box sx={{ 
-        py: 8, 
-        mb: 12,
-        background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)",
-        backdropFilter: "blur(10px)",
-        border: "1px solid rgba(255, 255, 255, 0.5)",
-      }}>
-        <Container maxWidth="lg">
+      <div
+        ref={addToRefs}
+        className="py-16 mb-24 bg-white border border-purple-100 opacity-0 transition-all duration-700"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Leadership Team"
             subtitle="Meet the visionary professionals driving EduCon's mission to transform education globally"
           />
-          <Grid container spacing={4}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 stagger-animation">
             {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card
-                  elevation={8}
-                  sx={{
-                    p: 4,
-                    textAlign: "center",
-                    borderRadius: 4,
-                    background: "rgba(255, 255, 255, 0.8)",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255, 255, 255, 0.3)",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&:hover": {
-                      transform: "translateY(-12px)",
-                      boxShadow: "0 24px 48px rgba(0,0,0,0.15)",
-                    },
-                  }}
-                >
-                  <Avatar
-                    sx={{
-                      width: 100,
-                      height: 100,
-                      mb: 3,
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                      fontSize: "2rem",
-                      fontWeight: "bold",
-                      boxShadow: "0 8px 24px rgba(102, 126, 234, 0.4)",
-                    }}
-                  >
-                    {member.avatar}
-                  </Avatar>
-                  <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: "text.primary" }}>
-                    {member.name}
-                  </Typography>
-                  <Chip
-                    label={member.role}
-                    size="small"
-                    sx={{
-                      bgcolor: "primary.main",
-                      color: "white",
-                      mb: 2,
-                      fontWeight: "bold",
-                      boxShadow: "0 4px 12px rgba(102, 126, 234, 0.4)",
-                    }}
-                  />
-                  <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ mb: 3, lineHeight: 1.6 }}>
-                    {member.bio}
-                  </Typography>
-                  <Box sx={{ width: "100%" }}>
-                    {member.expertise.map((skill, skillIndex) => (
-                      <Chip
-                        key={skillIndex}
-                        label={skill}
-                        size="small"
-                        variant="outlined"
-                        sx={{
-                          m: 0.5,
-                          fontSize: "0.7rem",
-                          borderColor: "primary.main",
-                          color: "primary.main",
-                        }}
-                      />
-                    ))}
-                  </Box>
-                </Card>
-              </Grid>
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-2xl p-8 text-center border border-purple-100 h-full flex flex-col items-center transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl group"
+              >
+                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-purple-500/40 mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {member.avatar}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
+                  {member.name}
+                </h3>
+                <span className="bg-purple-600 text-white text-sm font-bold px-3 py-1 rounded-full mb-4 shadow-lg shadow-purple-500/40 group-hover:bg-indigo-700 transition-colors duration-300">
+                  {member.role}
+                </span>
+                <p className="text-gray-600 text-center mb-6 leading-relaxed">
+                  {member.bio}
+                </p>
+                <div className="w-full">
+                  {member.expertise.map((skill, skillIndex) => (
+                    <span
+                      key={skillIndex}
+                      className="inline-block border border-purple-600 text-purple-600 text-xs px-2 py-1 rounded-full m-1 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
-          </Grid>
-        </Container>
-      </Box>
+          </div>
+        </div>
+      </div>
 
       {/* Commitment Section */}
-      <Container maxWidth="lg" sx={{ mb: 8 }}>
-        <Paper
-          elevation={16}
-          sx={{
-            p: 6,
-            borderRadius: 4,
-            background: "linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)",
-            color: "white",
-            textAlign: "center",
-            backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            position: "relative",
-            overflow: "hidden",
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              top: -100,
-              right: -100,
-              width: 200,
-              height: 200,
-              borderRadius: "50%",
-              background: "rgba(255, 255, 255, 0.1)",
-            },
-            "&::after": {
-              content: '""',
-              position: "absolute",
-              bottom: -50,
-              left: -50,
-              width: 100,
-              height: 100,
-              borderRadius: "50%",
-              background: "rgba(255, 255, 255, 0.1)",
-            }
-          }}
-        >
-          <Box sx={{ position: "relative", zIndex: 1 }}>
-            <Typography variant="h2" fontWeight="bold" gutterBottom sx={{ 
-              fontSize: { xs: "2.5rem", md: "3.5rem" },
-              textShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            }}>
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-16 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl shadow-2xl p-8 text-white text-center border border-white/20 relative overflow-hidden animate-pulse-glow">
+          <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-white/10 animate-float"></div>
+          <div
+            className="absolute -bottom-6 -left-6 w-12 h-12 rounded-full bg-white/10 animate-float"
+            style={{ animationDelay: "1.5s" }}
+          ></div>
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-shadow opacity-0 animate-fade-in-up">
               Our Commitment
-            </Typography>
-            <Typography variant="h5" sx={{ mb: 6, opacity: 0.95, fontWeight: 300 }}>
-              To Students, Education, and Building a Better Future Through Learning
-            </Typography>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ 
-                  p: 3, 
-                  borderRadius: 3, 
-                  background: "rgba(255, 255, 255, 0.1)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                }}>
-                  <Typography variant="h5" fontWeight="bold" gutterBottom>
-                    Educational Excellence
-                  </Typography>
-                  <Typography sx={{ opacity: 0.95, lineHeight: 1.7 }}>
-                    We maintain the highest standards of educational quality, ensuring 
-                    every course and resource meets rigorous academic criteria and 
-                    delivers tangible value to our students worldwide.
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ 
-                  p: 3, 
-                  borderRadius: 3, 
-                  background: "rgba(255, 255, 255, 0.1)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                }}>
-                  <Typography variant="h5" fontWeight="bold" gutterBottom>
-                    Innovation & Technology
-                  </Typography>
-                  <Typography sx={{ opacity: 0.95, lineHeight: 1.7 }}>
-                    We continuously invest in cutting-edge technology and innovative 
-                    teaching methodologies to create engaging, effective, and accessible 
-                    learning experiences that prepare students for the future.
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Paper>
-      </Container>
-    </Box>
+            </h2>
+            <p
+              className="text-xl mb-12 opacity-95 font-light opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.3s" }}
+            >
+              To Students, Education, and Building a Better Future Through
+              Learning
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 stagger-animation">
+              <div
+                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "0.5s" }}
+              >
+                <h3 className="text-2xl font-bold mb-4">
+                  Educational Excellence
+                </h3>
+                <p className="opacity-95 leading-relaxed">
+                  We maintain the highest standards of educational quality,
+                  ensuring every course and resource meets rigorous academic
+                  criteria and delivers tangible value to our students
+                  worldwide.
+                </p>
+              </div>
+              <div
+                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "0.7s" }}
+              >
+                <h3 className="text-2xl font-bold mb-4">
+                  Innovation & Technology
+                </h3>
+                <p className="opacity-95 leading-relaxed">
+                  We continuously invest in cutting-edge technology and
+                  innovative teaching methodologies to create engaging,
+                  effective, and accessible learning experiences that prepare
+                  students for the future.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
