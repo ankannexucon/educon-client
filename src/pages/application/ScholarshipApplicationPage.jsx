@@ -22,8 +22,6 @@ import {
   DialogContent,
   DialogActions,
   LinearProgress,
-  Badge,
-  Avatar,
   List,
   ListItem,
   ListItemIcon,
@@ -37,7 +35,6 @@ import {
   Download,
   Visibility,
   Cancel,
-  Edit,
   CheckCircle,
   Pending,
   Schedule,
@@ -294,8 +291,8 @@ const ScholarshipApplicationPage = () => {
 
   const filteredApplications = applicationData.filter(application => {
     const matchesSearch = application.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         application.university.toLowerCase().includes(searchTerm.toLowerCase());
-    
+      application.university.toLowerCase().includes(searchTerm.toLowerCase());
+
     if (activeTab === 0) return matchesSearch; // All
     if (activeTab === 1) return matchesSearch && application.status === 'under_review';
     if (activeTab === 2) return matchesSearch && application.status === 'shortlisted';
@@ -357,12 +354,12 @@ const ScholarshipApplicationPage = () => {
               {application.progress}%
             </Typography>
           </div>
-          <LinearProgress 
-            variant="determinate" 
-            value={application.progress} 
+          <LinearProgress
+            variant="determinate"
+            value={application.progress}
             color={
               application.status === 'shortlisted' ? 'secondary' :
-              application.status === 'under_review' ? 'primary' : 'primary'
+                application.status === 'under_review' ? 'primary' : 'primary'
             }
             className="h-2 rounded-full"
           />
@@ -429,7 +426,7 @@ const ScholarshipApplicationPage = () => {
           {expandedApplication === application.id && (
             <Box className="space-y-6">
               <Divider />
-              
+
               {/* Application Timeline */}
               <Box>
                 <Typography variant="h6" className="font-semibold mb-3 text-gray-800">
@@ -438,7 +435,7 @@ const ScholarshipApplicationPage = () => {
                 <Stepper activeStep={application.currentStep - 1} orientation="vertical">
                   {application.steps.map((step, index) => (
                     <Step key={step.label} completed={step.completed}>
-                      <StepLabel 
+                      <StepLabel
                         optional={
                           <Typography variant="caption" className="text-gray-500">
                             {step.date}
@@ -455,11 +452,11 @@ const ScholarshipApplicationPage = () => {
                       <StepContent>
                         {index === application.currentStep - 1 && (
                           <Box className="mt-2">
-                            <Chip 
-                              label="Current Step" 
-                              color="primary" 
-                              size="small" 
-                              variant="outlined" 
+                            <Chip
+                              label="Current Step"
+                              color="primary"
+                              size="small"
+                              variant="outlined"
                             />
                           </Box>
                         )}
@@ -486,11 +483,11 @@ const ScholarshipApplicationPage = () => {
                           <Warning color="warning" />
                         )}
                       </ListItemIcon>
-                      <ListItemText 
+                      <ListItemText
                         primary={doc.name}
                         secondary={
-                          doc.verified ? "Verified" : 
-                          doc.uploaded ? "Under Review" : "Not Uploaded"
+                          doc.verified ? "Verified" :
+                            doc.uploaded ? "Under Review" : "Not Uploaded"
                         }
                       />
                       <ListItemSecondaryAction>
@@ -532,22 +529,22 @@ const ScholarshipApplicationPage = () => {
 
               {/* Action Buttons */}
               <Box className="flex flex-wrap gap-2 justify-end">
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   startIcon={<Visibility />}
                   onClick={() => toast.success('Opening application details...')}
                 >
                   View Application
                 </Button>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   startIcon={<Chat />}
                   onClick={() => toast.success('Opening chat with advisor...')}
                 >
                   Contact Advisor
                 </Button>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   color="error"
                   startIcon={<Cancel />}
                   onClick={() => handleWithdrawClick(application)}
@@ -574,7 +571,7 @@ const ScholarshipApplicationPage = () => {
             <Typography variant="h6" className="mb-8 opacity-90">
               Track and manage your scholarship applications in one place
             </Typography>
-            
+
             {/* Search Bar */}
             <Paper className="max-w-2xl mx-auto p-2 flex items-center">
               <Search className="mx-2 text-gray-400" />
@@ -594,40 +591,58 @@ const ScholarshipApplicationPage = () => {
 
       {/* Main Content */}
       <Container maxWidth="lg" className="py-8">
+        
         {/* Stats Cards */}
-        <Grid container spacing={3} className="mb-8">
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className="p-4 text-center shadow-md bg-white">
-              <Typography variant="h4" className="text-blue-600 font-bold">
-                {applicationData.length}
-              </Typography>
-              <Typography variant="body2" className="text-gray-600">Total Applications</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className="p-4 text-center shadow-md bg-white">
-              <Typography variant="h4" className="text-green-600 font-bold">
-                {applicationData.filter(app => app.status === 'shortlisted').length}
-              </Typography>
-              <Typography variant="body2" className="text-gray-600">Shortlisted</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className="p-4 text-center shadow-md bg-white">
-              <Typography variant="h4" className="text-orange-600 font-bold">
-                {applicationData.filter(app => app.status === 'under_review').length}
-              </Typography>
-              <Typography variant="body2" className="text-gray-600">Under Review</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className="p-4 text-center shadow-md bg-white">
-              <Typography variant="h4" className="text-purple-600 font-bold">
-                {applicationData.filter(app => app.status === 'submitted').length}
-              </Typography>
-              <Typography variant="body2" className="text-gray-600">Submitted</Typography>
-            </Paper>
-          </Grid>
+        <Grid container spacing={3} alignItems="stretch" className="mb-8">
+          {[
+            {
+              value: applicationData.length,
+              color: "text-blue-600",
+              label: "Total Applications",
+            },
+            {
+              value: applicationData.filter((app) => app.status === "shortlisted").length,
+              color: "text-green-600",
+              label: "Shortlisted",
+            },
+            {
+              value: applicationData.filter((app) => app.status === "under_review").length,
+              color: "text-orange-600",
+              label: "Under Review",
+            },
+            {
+              value: applicationData.filter((app) => app.status === "submitted").length,
+              color: "text-purple-600",
+              label: "Submitted",
+            },
+          ].map((item, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Paper
+                className="flex flex-col justify-center items-center p-6 text-center shadow-md bg-white rounded-2xl transition-transform transform hover:scale-105 hover:shadow-lg"
+                sx={{
+                  width: "250px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  className={`${item.color} font-extrabold mb-2`}
+                  sx={{ fontSize: '2.5rem', fontWeight: 'bold' }}
+                >
+                  {item.value}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  className="text-gray-700 font-semibold"
+                  sx={{ fontWeight: '600' }}
+                >
+                  {item.label}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
         </Grid>
 
         {/* Tabs */}
@@ -703,9 +718,9 @@ const ScholarshipApplicationPage = () => {
           <Button onClick={() => setWithdrawDialogOpen(false)}>
             Cancel
           </Button>
-          <Button 
+          <Button
             onClick={handleWithdrawConfirm}
-            variant="contained" 
+            variant="contained"
             color="error"
           >
             Withdraw Application
