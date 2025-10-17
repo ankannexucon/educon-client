@@ -821,6 +821,12 @@ export default function NavbarComponent() {
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
               </ListItemButton>
+              <ListItemButton component={Link} to="/" onClick={handleLogout}>
+                <ListItemIcon>
+                  <LogOut size={18} />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
               <ListItemButton component={Link} to="/subscriptions">
                 <ListItemIcon>
                   <Crown size={18} />
