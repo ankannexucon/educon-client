@@ -30,28 +30,28 @@ export default function AboutUsPage() {
 
   const teamMembers = [
     {
-      name: "Dr. Nilesh Roy",
+      name: "Justine Massy",
       role: "Founder & CEO",
       bio: "Former Oxford University Professor with 15+ years in education technology",
       avatar: "NR",
       expertise: ["EdTech", "Curriculum Design", "Leadership"],
     },
     {
-      name: "Ankan Biswas",
+      name: "Clifford Badman",
       role: "Chief Learning Officer",
       bio: "Education specialist with expertise in curriculum development",
       avatar: "AB",
       expertise: ["Learning Science", "Assessment", "Pedagogy"],
     },
     {
-      name: "Subhodeep Polley",
+      name: "Neil Rose",
       role: "Head of Product",
       bio: "Product management expert passionate about learning experiences",
       avatar: "SP",
       expertise: ["UX Design", "Product Strategy", "Innovation"],
     },
     {
-      name: "Dipanjan Saha",
+      name: "Cade Dawson",
       role: "Technical Director",
       bio: "Software engineer dedicated to building scalable platforms",
       avatar: "DS",
@@ -86,14 +86,23 @@ export default function AboutUsPage() {
     {
       icon: "👥",
       title: "Inclusive Learning",
-      description: "Education accessible to everyone, everywhere regardless of background",
-      features: ["Scholarship Programs", "Multi-language Support", "Accessibility First"],
+      description:
+        "Education accessible to everyone, everywhere regardless of background",
+      features: [
+        "Scholarship Programs",
+        "Multi-language Support",
+        "Accessibility First",
+      ],
     },
     {
       icon: "⭐",
       title: "Quality First",
       description: "Rigorous standards for all courses and instructors",
-      features: ["Expert Vetting", "Quality Assurance", "Continuous Improvement"],
+      features: [
+        "Expert Vetting",
+        "Quality Assurance",
+        "Continuous Improvement",
+      ],
     },
     {
       icon: "🏆",
@@ -153,9 +162,11 @@ export default function AboutUsPage() {
   ];
 
   const SectionHeader = ({ title, subtitle, center = true }) => (
-    <div 
+    <div
       ref={addToRefs}
-      className={`${center ? 'text-center' : 'text-left'} mb-16 relative opacity-0 transition-all duration-700`}
+      className={`${
+        center ? "text-center" : "text-left"
+      } mb-16 relative opacity-0 transition-all duration-700`}
     >
       <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent relative">
         {title}
@@ -183,8 +194,13 @@ export default function AboutUsPage() {
           }
         }
         @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
         }
         @keyframes slideInLeft {
           from {
@@ -207,8 +223,13 @@ export default function AboutUsPage() {
           }
         }
         @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-          50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.6); }
+          0%,
+          100% {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+          }
+          50% {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+          }
         }
         .animate-fade-in-up {
           animation: fadeInUp 0.8s ease-out forwards;
@@ -229,10 +250,18 @@ export default function AboutUsPage() {
           opacity: 0;
           animation: fadeInUp 0.6s ease-out forwards;
         }
-        .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
-        .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
-        .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
-        .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-animation > *:nth-child(1) {
+          animation-delay: 0.1s;
+        }
+        .stagger-animation > *:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        .stagger-animation > *:nth-child(3) {
+          animation-delay: 0.3s;
+        }
+        .stagger-animation > *:nth-child(4) {
+          animation-delay: 0.4s;
+        }
       `}</style>
 
       {/* Hero Section */}
@@ -249,14 +278,17 @@ export default function AboutUsPage() {
                 UK's Premier Online Learning Platform
               </h2>
               <p className="text-lg md:text-xl text-white mb-8 leading-relaxed opacity-90">
-                Transforming education through innovation, technology, and unwavering commitment to student success since 2018.
+                Transforming education through innovation, technology, and
+                unwavering commitment to student success since 2018.
               </p>
             </div>
             <div className="opacity-0 animate-slide-in-right">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 animate-pulse-glow">
                 <div className="text-center text-white">
                   <div className="text-6xl mb-4 animate-float">🎓</div>
-                  <h3 className="text-2xl font-bold mb-2">Innovating Education</h3>
+                  <h3 className="text-2xl font-bold mb-2">
+                    Innovating Education
+                  </h3>
                   <p className="opacity-90">Since 2018</p>
                 </div>
               </div>
@@ -266,7 +298,10 @@ export default function AboutUsPage() {
       </div>
 
       {/* Company Info Section */}
-      <div ref={addToRefs} className="max-w-7xl mx-auto mb-24 mt-8 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700">
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-24 mt-8 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
         <SectionHeader
           title="Company Information"
           subtitle="Key facts about our organization and global operations"
@@ -296,7 +331,10 @@ export default function AboutUsPage() {
       </div>
 
       {/* Stats Section */}
-      <div ref={addToRefs} className="py-16 mb-24 bg-white border border-purple-100 opacity-0 transition-all duration-700">
+      <div
+        ref={addToRefs}
+        className="py-16 mb-24 bg-white border border-purple-100 opacity-0 transition-all duration-700"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Our Impact"
@@ -325,7 +363,10 @@ export default function AboutUsPage() {
       </div>
 
       {/* Story & Timeline Section */}
-      <div ref={addToRefs} className="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700">
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="opacity-0 animate-slide-in-left">
             <SectionHeader
@@ -333,25 +374,45 @@ export default function AboutUsPage() {
               subtitle="The evolution of EduCon from a visionary idea to a global learning platform"
               center={false}
             />
-            <p className="text-lg text-gray-700 leading-relaxed mb-6 opacity-0 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              Founded in 2018 in the heart of London, EduCon emerged from Dr. Nilesh Roy's vision to revolutionize online education. We recognized the untapped potential of digital learning to bridge educational gaps worldwide.
+            <p
+              className="text-lg text-gray-700 leading-relaxed mb-6 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.2s" }}
+            >
+              Founded in 2018 in the heart of London, EduCon emerged from Dr.
+              Nilesh Roy's vision to revolutionize online education. We
+              recognized the untapped potential of digital learning to bridge
+              educational gaps worldwide.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6 opacity-0 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              From our humble beginnings with just 10 meticulously crafted courses, we've grown into a comprehensive learning ecosystem that serves passionate learners across 25+ countries, constantly pushing the boundaries of what's possible in online education.
+            <p
+              className="text-lg text-gray-700 leading-relaxed mb-6 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.4s" }}
+            >
+              From our humble beginnings with just 10 meticulously crafted
+              courses, we've grown into a comprehensive learning ecosystem that
+              serves passionate learners across 25+ countries, constantly
+              pushing the boundaries of what's possible in online education.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed opacity-0 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-              Today, EduCon stands as a testament to innovation in education, blending cutting-edge technology with pedagogical excellence to create transformative learning experiences that empower students to achieve their fullest potential.
+            <p
+              className="text-lg text-gray-700 leading-relaxed opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.6s" }}
+            >
+              Today, EduCon stands as a testament to innovation in education,
+              blending cutting-edge technology with pedagogical excellence to
+              create transformative learning experiences that empower students
+              to achieve their fullest potential.
             </p>
           </div>
           <div className="opacity-0 animate-slide-in-right">
             <div className="bg-white rounded-2xl shadow-2xl p-8 border border-purple-100">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Our Milestones</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-8">
+                Our Milestones
+              </h3>
               <div className="relative">
                 {milestones.map((milestone, index) => (
                   <div
                     key={index}
                     className="flex items-start mb-6 relative opacity-0 animate-fade-in-up"
-                    style={{animationDelay: `${index * 0.1 + 0.2}s`}}
+                    style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
                   >
                     {index < milestones.length - 1 && (
                       <div className="absolute left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-purple-600 to-indigo-600 opacity-30"></div>
@@ -363,9 +424,7 @@ export default function AboutUsPage() {
                       <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors duration-300">
                         {milestone.event}
                       </h4>
-                      <p className="text-gray-600">
-                        {milestone.description}
-                      </p>
+                      <p className="text-gray-600">{milestone.description}</p>
                     </div>
                   </div>
                 ))}
@@ -376,7 +435,10 @@ export default function AboutUsPage() {
       </div>
 
       {/* Values Section */}
-      <div ref={addToRefs} className="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700">
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-24 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
         <SectionHeader
           title="Our Values"
           subtitle="The core principles that shape every decision and innovation at EduCon"
@@ -412,7 +474,10 @@ export default function AboutUsPage() {
       </div>
 
       {/* Team Section */}
-      <div ref={addToRefs} className="py-16 mb-24 bg-white border border-purple-100 opacity-0 transition-all duration-700">
+      <div
+        ref={addToRefs}
+        className="py-16 mb-24 bg-white border border-purple-100 opacity-0 transition-all duration-700"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Leadership Team"
@@ -453,28 +518,54 @@ export default function AboutUsPage() {
       </div>
 
       {/* Commitment Section */}
-      <div ref={addToRefs} className="max-w-7xl mx-auto mb-16 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700">
+      <div
+        ref={addToRefs}
+        className="max-w-7xl mx-auto mb-16 px-4 sm:px-6 lg:px-8 opacity-0 transition-all duration-700"
+      >
         <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl shadow-2xl p-8 text-white text-center border border-white/20 relative overflow-hidden animate-pulse-glow">
           <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-white/10 animate-float"></div>
-          <div className="absolute -bottom-6 -left-6 w-12 h-12 rounded-full bg-white/10 animate-float" style={{animationDelay: '1.5s'}}></div>
+          <div
+            className="absolute -bottom-6 -left-6 w-12 h-12 rounded-full bg-white/10 animate-float"
+            style={{ animationDelay: "1.5s" }}
+          ></div>
           <div className="relative z-10">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-shadow opacity-0 animate-fade-in-up">
               Our Commitment
             </h2>
-            <p className="text-xl mb-12 opacity-95 font-light opacity-0 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-              To Students, Education, and Building a Better Future Through Learning
+            <p
+              className="text-xl mb-12 opacity-95 font-light opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.3s" }}
+            >
+              To Students, Education, and Building a Better Future Through
+              Learning
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 stagger-animation">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 opacity-0 animate-fade-in-up" style={{animationDelay: '0.5s'}}>
-                <h3 className="text-2xl font-bold mb-4">Educational Excellence</h3>
+              <div
+                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "0.5s" }}
+              >
+                <h3 className="text-2xl font-bold mb-4">
+                  Educational Excellence
+                </h3>
                 <p className="opacity-95 leading-relaxed">
-                  We maintain the highest standards of educational quality, ensuring every course and resource meets rigorous academic criteria and delivers tangible value to our students worldwide.
+                  We maintain the highest standards of educational quality,
+                  ensuring every course and resource meets rigorous academic
+                  criteria and delivers tangible value to our students
+                  worldwide.
                 </p>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 opacity-0 animate-fade-in-up" style={{animationDelay: '0.7s'}}>
-                <h3 className="text-2xl font-bold mb-4">Innovation & Technology</h3>
+              <div
+                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "0.7s" }}
+              >
+                <h3 className="text-2xl font-bold mb-4">
+                  Innovation & Technology
+                </h3>
                 <p className="opacity-95 leading-relaxed">
-                  We continuously invest in cutting-edge technology and innovative teaching methodologies to create engaging, effective, and accessible learning experiences that prepare students for the future.
+                  We continuously invest in cutting-edge technology and
+                  innovative teaching methodologies to create engaging,
+                  effective, and accessible learning experiences that prepare
+                  students for the future.
                 </p>
               </div>
             </div>

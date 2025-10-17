@@ -1,32 +1,36 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import { GoogleGenAI } from "@google/genai";
+import { BotMessageSquare } from "lucide-react";
+import { Globe } from "lucide-react";
+import { SendHorizontal } from "lucide-react";
+import { Hourglass } from "lucide-react";
 
 const EduconChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [activeMode, setActiveMode] = useState('helpdesk');
+  const [activeMode, setActiveMode] = useState("helpdesk");
   const [messages, setMessages] = useState({
     helpdesk: [
       {
         id: 1,
         text: "Hello! I'm your Educon Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?",
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
-        mode: 'helpdesk'
-      }
+        mode: "helpdesk",
+      },
     ],
     global: [
       {
         id: 1,
         text: "Hello! I'm your Global AI Assistant powered by Educon. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
-        mode: 'global'
-      }
-    ]
+        mode: "global",
+      },
+    ],
   });
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [messageAnimations, setMessageAnimations] = useState({});
   const [suggestedQuestions, setSuggestedQuestions] = useState([]);
@@ -34,20 +38,22 @@ const EduconChatbot = () => {
   const [currentSubcategory, setCurrentSubcategory] = useState(null);
   const messagesEndRef = useRef(null);
 
-  const ai = new GoogleGenAI({ apiKey: "AIzaSyDXLHQx0mVDaXYVzDF7klzYpF2qdmlOcAE" });
+  const ai = new GoogleGenAI({
+    apiKey: "AIzaSyDXLHQx0mVDaXYVzDF7klzYpF2qdmlOcAE",
+  });
 
   // Complete FAQ database with all categories and subcategories
   const faqDatabase = {
     // Admissions & Enrollment Category
-    'admissions': {
-      type: 'category',
-      title: 'Admissions & Enrollment',
-      description: 'Streamline your student recruitment and admission process',
+    admissions: {
+      type: "category",
+      title: "Admissions & Enrollment",
+      description: "Streamline your student recruitment and admission process",
       subtypes: {
-        'enquiry_management': {
-          title: 'Enquiry Management',
+        enquiry_management: {
+          title: "Enquiry Management",
           questions: {
-            'lead_capture': `**Lead Capture Features:**
+            lead_capture: `**Lead Capture Features:**
 • Multi-channel enquiry forms (website, social media, email)
 • Automatic lead scoring and prioritization
 • CRM integration with Salesforce and HubSpot
@@ -59,7 +65,7 @@ const EduconChatbot = () => {
 • Mobile app for field admissions teams
 • Custom form builder with conditional logic`,
 
-            'enquiry_tracking': `**Enquiry Tracking System:**
+            enquiry_tracking: `**Enquiry Tracking System:**
 • Complete enquiry lifecycle tracking from first contact to enrollment
 • Communication history log with timestamps
 • Task and reminder system for follow-ups
@@ -71,7 +77,7 @@ const EduconChatbot = () => {
 • Lost lead analysis and reporting
 • Integration with call center systems`,
 
-            'communication_tools': `**Communication Tools:**
+            communication_tools: `**Communication Tools:**
 • Bulk SMS and email campaigns
 • Personalized email templates with merge tags
 • WhatsApp Business integration
@@ -81,13 +87,13 @@ const EduconChatbot = () => {
 • Document attachment tracking
 • Read receipt monitoring
 • Multi-language support
-• A/B testing for communication templates`
-          }
+• A/B testing for communication templates`,
+          },
         },
-        'application_process': {
-          title: 'Application Process',
+        application_process: {
+          title: "Application Process",
           questions: {
-            'online_application': `**Online Application System:**
+            online_application: `**Online Application System:**
 • Customizable application forms with drag-and-drop builder
 • Progress saving functionality for multi-page forms
 • Document upload portal with file type validation
@@ -99,7 +105,7 @@ const EduconChatbot = () => {
 • Conditional logic for form fields
 • Integration with payment gateways`,
 
-            'document_management': `**Document Management:**
+            document_management: `**Document Management:**
 • Digital document submission portal
 • File type validation (PDF, DOC, JPG, PNG)
 • Automatic document categorization
@@ -111,7 +117,7 @@ const EduconChatbot = () => {
 • Document expiry tracking
 • Integration with verification services`,
 
-            'application_tracking': `**Application Tracking:**
+            application_tracking: `**Application Tracking:**
 • Real-time application status updates
 • Stage-wise progression tracking
 • Automated status update emails to applicants
@@ -121,13 +127,13 @@ const EduconChatbot = () => {
 • Priority application handling
 • Transfer application support
 • Bulk status update capabilities
-• Custom workflow configuration`
-          }
+• Custom workflow configuration`,
+          },
         },
-        'admission_workflow': {
-          title: 'Admission Workflow',
+        admission_workflow: {
+          title: "Admission Workflow",
           questions: {
-            'approval_process': `**Approval Workflow:**
+            approval_process: `**Approval Workflow:**
 • Multi-level approval system with configurable chains
 • Role-based permissions for different approvers
 • Electronic signatures with legal compliance
@@ -139,7 +145,7 @@ const EduconChatbot = () => {
 • Mobile approval capabilities
 • Integration with document management`,
 
-            'interview_scheduling': `**Interview Management:**
+            interview_scheduling: `**Interview Management:**
 • Automated interview scheduling with calendar integration
 • Panel management for multiple interviewers
 • Video interview integration (Zoom, Teams, Google Meet)
@@ -151,7 +157,7 @@ const EduconChatbot = () => {
 • Group interview scheduling
 • Candidate self-scheduling options`,
 
-            'decision_management': `**Decision Management:**
+            decision_management: `**Decision Management:**
 • Batch decision processing for multiple applications
 • Acceptance/waitlist/rejection letter templates
 • Conditional offer management
@@ -161,13 +167,13 @@ const EduconChatbot = () => {
 • Deposit payment processing
 • Welcome package automation
 • Multi-level decision approval
-• Integration with financial aid systems`
-          }
+• Integration with financial aid systems`,
+          },
         },
-        'student_onboarding': {
-          title: 'Student Onboarding',
+        student_onboarding: {
+          title: "Student Onboarding",
           questions: {
-            'enrollment_process': `**Enrollment Process:**
+            enrollment_process: `**Enrollment Process:**
 • Online enrollment forms with pre-filled data
 • Course selection wizard with prerequisites checking
 • Fee structure display with installment options
@@ -179,7 +185,7 @@ const EduconChatbot = () => {
 • Housing preference selection
 • Transportation arrangement requests`,
 
-            'welcome_portal': `**Welcome Portal Features:**
+            welcome_portal: `**Welcome Portal Features:**
 • Personalized student dashboard
 • Orientation materials and schedules
 • Campus virtual tour with 360° views
@@ -191,7 +197,7 @@ const EduconChatbot = () => {
 • Peer mentor matching
 • Campus map with interactive features`,
 
-            'parent_integration': `**Parent Onboarding:**
+            parent_integration: `**Parent Onboarding:**
 • Separate parent portal access with limited permissions
 • Fee payment dashboard with transaction history
 • Communication channel with administration
@@ -201,13 +207,13 @@ const EduconChatbot = () => {
 • Emergency contact updates
 • Transportation preferences and tracking
 • Parent-teacher meeting scheduling
-• Newsletter subscription management`
-          }
+• Newsletter subscription management`,
+          },
         },
-        'analytics_reporting': {
-          title: 'Analytics & Reporting',
+        analytics_reporting: {
+          title: "Analytics & Reporting",
           questions: {
-            'admission_analytics': `**Admission Analytics:**
+            admission_analytics: `**Admission Analytics:**
 • Enquiry-to-application conversion rates
 • Application source analysis and ROI tracking
 • Demographic reporting and diversity metrics
@@ -219,7 +225,7 @@ const EduconChatbot = () => {
 • Yield rate analysis
 • Geographic distribution reports`,
 
-            'forecasting_tools': `**Forecasting Tools:**
+            forecasting_tools: `**Forecasting Tools:**
 • Enrollment prediction models with 95% accuracy
 • Capacity planning and resource allocation
 • Waitlist probability analysis
@@ -231,7 +237,7 @@ const EduconChatbot = () => {
 • Real-time enrollment projections
 • Scenario planning and what-if analysis`,
 
-            'compliance_reports': `**Compliance Reporting:**
+            compliance_reports: `**Compliance Reporting:**
 • Regulatory compliance tracking for education boards
 • Accreditation documentation management
 • Diversity and inclusion reports
@@ -241,13 +247,13 @@ const EduconChatbot = () => {
 • Data privacy compliance (GDPR, FERPA)
 • Export functionality for regulatory authorities
 • Automated compliance checklist
-• Custom report builder for specific requirements`
-          }
+• Custom report builder for specific requirements`,
+          },
         },
-        'integration_capabilities': {
-          title: 'Integration & API',
+        integration_capabilities: {
+          title: "Integration & API",
           questions: {
-            'crm_integration': `**CRM Integration:**
+            crm_integration: `**CRM Integration:**
 • Salesforce integration with bidirectional sync
 • HubSpot connectivity for marketing automation
 • Microsoft Dynamics sync for enterprise CRM
@@ -259,7 +265,7 @@ const EduconChatbot = () => {
 • Custom field mapping
 • Webhook support for real-time updates`,
 
-            'student_information': `**SIS Integration:**
+            student_information: `**SIS Integration:**
 • Seamless student data transfer upon enrollment
 • Automatic class roster creation
 • Grade book integration and sync
@@ -271,7 +277,7 @@ const EduconChatbot = () => {
 • Transcript generation
 • Graduation tracking`,
 
-            'payment_gateways': `**Payment Integration:**
+            payment_gateways: `**Payment Integration:**
 • Multiple payment gateway support (Stripe, PayPal, Square)
 • International payment processing in 50+ currencies
 • Refund management and processing
@@ -281,22 +287,23 @@ const EduconChatbot = () => {
 • Scholarship deduction handling
 • Financial aid integration
 • Payment plan customization
-• Failed payment recovery system`
-          }
-        }
-      }
+• Failed payment recovery system`,
+          },
+        },
+      },
     },
 
     // Courses & Programs Category
-    'courses': {
-      type: 'category',
-      title: 'Courses & Programs',
-      description: 'Explore and manage academic programs, courses, and curriculum',
+    courses: {
+      type: "category",
+      title: "Courses & Programs",
+      description:
+        "Explore and manage academic programs, courses, and curriculum",
       subtypes: {
-        'course_catalogue': {
-          title: 'Course Catalogue',
+        course_catalogue: {
+          title: "Course Catalogue",
           questions: {
-            'browse_courses': `**Available Courses in Our Catalogue:**
+            browse_courses: `**Available Courses in Our Catalogue:**
 
 🎓 **B.Sc. in Computer Science**
 🏫 University of NY
@@ -372,7 +379,7 @@ Learn to analyze financial statements, build models, and make data-driven invest
 
 **Total: 12 courses across 3 categories (Technology, Business, Design)**`,
 
-            'course_details': `**Detailed Course Information:**
+            course_details: `**Detailed Course Information:**
 • Comprehensive course descriptions and learning outcomes
 • Syllabus and curriculum overview with weekly breakdown
 • Required textbooks and materials list
@@ -384,7 +391,7 @@ Learn to analyze financial statements, build models, and make data-driven invest
 • Prerequisites and eligibility requirements
 • Student support services available`,
 
-            'program_pathways': `**Program Pathways:**
+            program_pathways: `**Program Pathways:**
 • Degree and certificate program overviews
 • Major and minor combinations available
 • Credit requirements and course sequences
@@ -394,13 +401,13 @@ Learn to analyze financial statements, build models, and make data-driven invest
 • Specialization options and tracks
 • Co-op and internship integration
 • Accelerated program options
-• Dual degree opportunities`
-          }
+• Dual degree opportunities`,
+          },
         },
-        'course_enquiry': {
-          title: 'Course Enquiry',
+        course_enquiry: {
+          title: "Course Enquiry",
           questions: {
-            'enquiry_submission': `**Course Enquiry System:**
+            enquiry_submission: `**Course Enquiry System:**
 
 You can enquire about any of our 12 courses including:
 
@@ -430,7 +437,7 @@ You can enquire about any of our 12 courses including:
 • Current experience level
 • Career goals and objectives`,
 
-            'enquiry_tracking': `**Enquiry Management:**
+            enquiry_tracking: `**Enquiry Management:**
 • Automated enquiry acknowledgment within 15 minutes
 • Priority-based routing to specialized advisors
 • Response time tracking and SLA monitoring
@@ -442,7 +449,7 @@ You can enquire about any of our 12 courses including:
 • Multi-channel enquiry consolidation
 • Lead scoring and prioritization`,
 
-            'advisor_connect': `**Advisor Connection:**
+            advisor_connect: `**Advisor Connection:**
 • Direct messaging with course advisors
 • Video consultation scheduling
 • Department-specific expert routing
@@ -452,13 +459,13 @@ You can enquire about any of our 12 courses including:
 • Group information sessions
 • Campus tour scheduling
 • Career counseling sessions
-• Alumni mentorship connections`
-          }
+• Alumni mentorship connections`,
+          },
         },
-        'technology_courses': {
-          title: 'Technology Courses',
+        technology_courses: {
+          title: "Technology Courses",
           questions: {
-            'all_tech_courses': `**Technology Courses Available (6 courses):**
+            all_tech_courses: `**Technology Courses Available (6 courses):**
 
 💻 **B.Sc. in Computer Science**
 🏫 University of NY
@@ -496,7 +503,7 @@ Learn front-end and back-end development with React, Node.js, and databases to b
 🎯 Intermediate
 Apply Python programming to implement machine learning algorithms, models, and data pipelines.`,
 
-            'computer_science': `**B.Sc. in Computer Science Details:**
+            computer_science: `**B.Sc. in Computer Science Details:**
 • Institute: University of NY
 • Duration: 3 Years
 • Level: Beginner
@@ -527,7 +534,7 @@ Learn the fundamentals of computer science, programming, and problem-solving ski
 • Web Developer
 • IT Consultant`,
 
-            'data_science': `**Data Science Programs:**
+            data_science: `**Data Science Programs:**
 
 📊 **M.Sc. in Data Science**
 🏫 Tech University
@@ -555,13 +562,13 @@ Apply Python programming to implement machine learning algorithms, models, and d
 • Database Management
 • Cloud Computing Platforms
 • Business Intelligence Tools
-• Data Ethics and Privacy`
-          }
+• Data Ethics and Privacy`,
+          },
         },
-        'business_courses': {
-          title: 'Business Courses',
+        business_courses: {
+          title: "Business Courses",
           questions: {
-            'all_business_courses': `**Business & Management Courses (4 courses):**
+            all_business_courses: `**Business & Management Courses (4 courses):**
 
 📈 **MBA in Marketing**
 🏫 Global Business School
@@ -587,7 +594,7 @@ Understand SEO, social media marketing, content strategies, and analytics to gro
 🎯 Intermediate
 Learn to analyze financial statements, build models, and make data-driven investment decisions.`,
 
-            'mba_programs': `**MBA in Marketing Details:**
+            mba_programs: `**MBA in Marketing Details:**
 • Institute: Global Business School
 • Duration: 2 Years
 • Level: Intermediate
@@ -618,7 +625,7 @@ Develop strategic marketing skills and learn how to grow businesses effectively 
 • Market Research Analyst
 • Product Manager`,
 
-            'bba_programs': `**BBA in Management Details:**
+            bba_programs: `**BBA in Management Details:**
 • Institute: City College
 • Duration: 3 Years
 • Level: Beginner
@@ -647,13 +654,13 @@ Understand the basics of business management, leadership, and organizational ski
 • Operations Supervisor
 • Team Leader
 • Project Coordinator
-• Small Business Owner`
-          }
+• Small Business Owner`,
+          },
         },
-        'design_courses': {
-          title: 'Design Courses',
+        design_courses: {
+          title: "Design Courses",
           questions: {
-            'all_design_courses': `**Design & Creative Courses (2 courses):**
+            all_design_courses: `**Design & Creative Courses (2 courses):**
 
 🎨 **Tailwind CSS Mastery**
 🏫 Design School
@@ -667,7 +674,7 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 🎯 Beginner
 Master the principles of user interface and user experience design to create intuitive digital products.`,
 
-            'ui_ux_design': `**UI/UX Design Fundamentals Details:**
+            ui_ux_design: `**UI/UX Design Fundamentals Details:**
 • Institute: Creative Institute
 • Duration: 10 Weeks
 • Level: Beginner
@@ -698,7 +705,7 @@ Master the principles of user interface and user experience design to create int
 • UX Researcher
 • Design Consultant`,
 
-            'tailwind_css': `**Tailwind CSS Mastery Details:**
+            tailwind_css: `**Tailwind CSS Mastery Details:**
 • Institute: Design School
 • Duration: 6 Weeks
 • Level: Intermediate
@@ -727,13 +734,13 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 • Web Designer
 • UI Developer
 • CSS Specialist
-• Fullstack Developer`
-          }
+• Fullstack Developer`,
+          },
         },
-        'enrollment_management': {
-          title: 'Enrollment & Registration',
+        enrollment_management: {
+          title: "Enrollment & Registration",
           questions: {
-            'registration_process': `**Registration Process for Courses:**
+            registration_process: `**Registration Process for Courses:**
 
 **Step-by-Step Enrollment:**
 1. Browse available courses from our catalogue of 12 courses
@@ -758,7 +765,7 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 • Payment method setup
 • Agreement to terms and conditions`,
 
-            'pricing_information': `**Course Pricing Information:**
+            pricing_information: `**Course Pricing Information:**
 
 **Degree Programs (Years):**
 • B.Sc. in Computer Science: $12,000
@@ -785,7 +792,7 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 • Alumni referral discounts
 • Military and veteran benefits`,
 
-            'duration_options': `**Course Duration Options:**
+            duration_options: `**Course Duration Options:**
 
 **Long-term Programs (1+ Years):**
 • B.Sc. in Computer Science: 3 Years
@@ -810,22 +817,22 @@ Learn how to build responsive, modern, and visually stunning UIs using Tailwind 
 • Hybrid blended formats
 • Weekend-only schedules
 • Accelerated completion options
-• Extended duration for working professionals`
-          }
-        }
-      }
+• Extended duration for working professionals`,
+          },
+        },
+      },
     },
 
     // Universities & Institutions Category
-    'universities': {
-      type: 'category',
-      title: 'Universities & Institutions',
-      description: 'Explore top universities and educational institutions',
+    universities: {
+      type: "category",
+      title: "Universities & Institutions",
+      description: "Explore top universities and educational institutions",
       subtypes: {
-        'university_catalogue': {
-          title: 'University Catalogue',
+        university_catalogue: {
+          title: "University Catalogue",
           questions: {
-            'browse_universities': `**Available Universities in Our Network:**
+            browse_universities: `**Available Universities in Our Network:**
 
 🏛️ **Stanford University**
 📍 Stanford, CA
@@ -877,7 +884,7 @@ Small but mighty institution focused on science and engineering excellence.
 
 **Total: 8 universities across 4 categories**`,
 
-            'university_details': `**University Details Include:**
+            university_details: `**University Details Include:**
 • Comprehensive institution profiles and history
 • Campus facilities and infrastructure details
 • Faculty qualifications and research achievements
@@ -891,7 +898,7 @@ Small but mighty institution focused on science and engineering excellence.
 • Housing and accommodation options
 • Sports and recreational facilities`,
 
-            'location_info': `**Location Information:**
+            location_info: `**Location Information:**
 • Campus locations and satellite campuses
 • Transportation and accessibility options
 • Local community and amenities
@@ -903,13 +910,13 @@ Small but mighty institution focused on science and engineering excellence.
 • Cost of living estimates
 • Healthcare facilities access
 • Public transportation networks
-• Nearby attractions and landmarks`
-          }
+• Nearby attractions and landmarks`,
+          },
         },
-        'university_enquiry': {
-          title: 'University Enquiry',
+        university_enquiry: {
+          title: "University Enquiry",
           questions: {
-            'enquiry_submission': `**University Enquiry System:**
+            enquiry_submission: `**University Enquiry System:**
 
 You can enquire about any of our 8 partner universities including:
 
@@ -939,7 +946,7 @@ You can enquire about any of our 8 partner universities including:
 • Career goals and objectives
 • Previous educational qualifications`,
 
-            'admission_process': `**Admission Process:**
+            admission_process: `**Admission Process:**
 • Application requirements and deadlines
 • Document submission guidelines and formats
 • Entrance exam requirements (SAT, ACT, GRE, GMAT)
@@ -953,7 +960,7 @@ You can enquire about any of our 8 partner universities including:
 • Application fee payment methods
 • Status tracking and updates`,
 
-            'campus_tours': `**Campus Tours & Visits:**
+            campus_tours: `**Campus Tours & Visits:**
 • Virtual campus tour availability 24/7
 • On-campus visit scheduling system
 • Open house events calendar
@@ -965,13 +972,13 @@ You can enquire about any of our 8 partner universities including:
 • Transportation arrangements
 • International student orientation
 • Family and guest accommodations
-• Accessibility services information`
-          }
+• Accessibility services information`,
+          },
         },
-        'technology_engineering': {
-          title: 'Technology & Engineering',
+        technology_engineering: {
+          title: "Technology & Engineering",
           questions: {
-            'tech_universities': `**Technology & Engineering Universities:**
+            tech_universities: `**Technology & Engineering Universities:**
 
 🔧 **Stanford University**
 📍 Stanford, CA
@@ -999,7 +1006,7 @@ Small but mighty institution focused on science and engineering excellence.
 • Startup incubation centers
 • Industry mentorship programs`,
 
-            'stanford_details': `**Stanford University Details:**
+            stanford_details: `**Stanford University Details:**
 • Location: Stanford, California
 • Rating: 4.8/5 (12,450 reviews)
 • Student Population: 17,000
@@ -1033,7 +1040,7 @@ Small but mighty institution focused on science and engineering excellence.
 • Data Science
 • Environmental Engineering`,
 
-            'caltech_details': `**Caltech Details:**
+            caltech_details: `**Caltech Details:**
 • Location: Pasadena, California
 • Rating: 4.9/5 (5,600 reviews)
 • Student Population: 2,400
@@ -1065,13 +1072,13 @@ Small but mighty institution focused on science and engineering excellence.
 • Astronomy
 • Electrical Engineering
 • Environmental Science
-• Materials Science`
-          }
+• Materials Science`,
+          },
         },
-        'science_technology': {
-          title: 'Science & Technology',
+        science_technology: {
+          title: "Science & Technology",
           questions: {
-            'science_universities': `**Science & Technology Universities:**
+            science_universities: `**Science & Technology Universities:**
 
 🔬 **MIT - Massachusetts Institute of Technology**
 📍 Cambridge, MA
@@ -1099,7 +1106,7 @@ Elite research university with exceptional undergraduate education.
 • International research collaborations
 • Technology commercialization support`,
 
-            'mit_details': `**MIT Details:**
+            mit_details: `**MIT Details:**
 • Location: Cambridge, Massachusetts
 • Rating: 4.9/5 (8,950 reviews)
 • Student Population: 12,000
@@ -1133,7 +1140,7 @@ Elite research university with exceptional undergraduate education.
 • Economics
 • Brain and Cognitive Sciences`,
 
-            'princeton_details': `**Princeton University Details:**
+            princeton_details: `**Princeton University Details:**
 • Location: Princeton, New Jersey
 • Rating: 4.9/5 (9,800 reviews)
 • Student Population: 8,500
@@ -1165,13 +1172,13 @@ Elite research university with exceptional undergraduate education.
 • Economics
 • Public and International Affairs
 • Psychology
-• Mechanical and Aerospace Engineering`
-          }
+• Mechanical and Aerospace Engineering`,
+          },
         },
-        'business_arts': {
-          title: 'Business & Arts',
+        business_arts: {
+          title: "Business & Arts",
           questions: {
-            'business_universities': `**Business & Arts Universities:**
+            business_universities: `**Business & Arts Universities:**
 
 💼 **Harvard University**
 📍 Cambridge, MA
@@ -1206,7 +1213,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Career development workshops
 • Professional certification programs`,
 
-            'harvard_details': `**Harvard University Details:**
+            harvard_details: `**Harvard University Details:**
 • Location: Cambridge, Massachusetts
 • Rating: 4.7/5 (15,600 reviews)
 • Student Population: 21,000
@@ -1240,7 +1247,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Divinity
 • Extension Studies`,
 
-            'yale_details': `**Yale University Details:**
+            yale_details: `**Yale University Details:**
 • Location: New Haven, Connecticut
 • Rating: 4.8/5 (11,200 reviews)
 • Student Population: 13,500
@@ -1272,13 +1279,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • English
 • Biology
 • Architecture
-• Music`
-          }
+• Music`,
+          },
         },
-        'admission_requirements': {
-          title: 'Admission Requirements',
+        admission_requirements: {
+          title: "Admission Requirements",
           questions: {
-            'general_requirements': `**General Admission Requirements:**
+            general_requirements: `**General Admission Requirements:**
 
 **Academic Requirements:**
 • Completed application form with personal statement
@@ -1310,7 +1317,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Housing application deadlines
 • Financial aid submission dates`,
 
-            'financial_info': `**Financial Information:**
+            financial_info: `**Financial Information:**
 
 **Pricing Structure:**
 • Stanford University: $199 ($89 discount)
@@ -1334,7 +1341,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Military and veteran benefits
 • Alumni sponsorship opportunities`,
 
-            'scholarship_opportunities': `**Scholarship Opportunities:**
+            scholarship_opportunities: `**Scholarship Opportunities:**
 
 **Available Scholarships:**
 • Academic Excellence Scholarships (up to full tuition)
@@ -1358,22 +1365,22 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Renewal criteria and requirements
 • Academic performance maintenance
 • Community service commitments
-• Leadership role expectations`
-          }
-        }
-      }
+• Leadership role expectations`,
+          },
+        },
+      },
     },
 
     // Technical Support Category
-    'technical': {
-      type: 'category',
-      title: 'Technical Support',
-      description: 'Get help with technical problems and troubleshooting',
+    technical: {
+      type: "category",
+      title: "Technical Support",
+      description: "Get help with technical problems and troubleshooting",
       subtypes: {
-        'login_issues': {
-          title: 'Login & Access',
+        login_issues: {
+          title: "Login & Access",
           questions: {
-            'forgot_password': `**Password Recovery Process:**
+            forgot_password: `**Password Recovery Process:**
 1. Click 'Forgot Password' on login page
 2. Enter registered email address
 3. Check email for reset link (check spam folder)
@@ -1383,7 +1390,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 7. Security questions verification option available
 8. Two-factor authentication reset if needed`,
 
-            'account_locked': `**Account Locked Solutions:**
+            account_locked: `**Account Locked Solutions:**
 • Too many failed login attempts (5 attempts limit)
 • Wait 15 minutes for automatic unlock or contact support
 • Verify email address through confirmation link
@@ -1395,7 +1402,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Security verification may be required
 • Check if account is suspended for policy violations`,
 
-            'two_factor': `**Two-Factor Authentication:**
+            two_factor: `**Two-Factor Authentication:**
 • Setup via security settings in account dashboard
 • Use authenticator app (Google Authenticator, Authy) or SMS
 • Backup codes provided during setup (save securely)
@@ -1407,7 +1414,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Biometric authentication options
 • Emergency access procedures`,
 
-            'browser_issues': `**Browser Compatibility:**
+            browser_issues: `**Browser Compatibility:**
 • Chrome 90+ (recommended for best performance)
 • Firefox 85+ (fully supported)
 • Safari 14+ (macOS and iOS)
@@ -1418,13 +1425,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Disable conflicting extensions
 • Update browser to latest version
 • Enable pop-ups for certain features
-• Check internet connection stability`
-          }
+• Check internet connection stability`,
+          },
         },
-        'audio_video': {
-          title: 'Audio & Video',
+        audio_video: {
+          title: "Audio & Video",
           questions: {
-            'camera_not_working': `**Camera Issues Troubleshooting:**
+            camera_not_working: `**Camera Issues Troubleshooting:**
 • Check browser permissions for camera access
 • Ensure no other app is using camera simultaneously
 • Test camera on other websites to verify functionality
@@ -1437,7 +1444,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Verify camera is not physically blocked
 • Test in incognito/private browsing mode`,
 
-            'microphone_problems': `**Microphone Problems Solutions:**
+            microphone_problems: `**Microphone Problems Solutions:**
 • Grant microphone permissions in browser settings
 • Test microphone in system settings/control panel
 • Check input device selection in audio settings
@@ -1450,7 +1457,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Check physical connections for external mics
 • Verify microphone is set as default device`,
 
-            'screen_sharing': `**Screen Sharing Guide:**
+            screen_sharing: `**Screen Sharing Guide:**
 • Click share screen button in meeting interface
 • Choose entire screen/window/tab option
 • Grant permissions when prompted by browser
@@ -1463,7 +1470,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Optimize bandwidth for smooth sharing
 • Test sharing before important meetings`,
 
-            'quality_issues': `**Quality Optimization:**
+            quality_issues: `**Quality Optimization:**
 • Use wired internet connection instead of WiFi
 • Close unnecessary applications and browser tabs
 • Reduce video resolution if experiencing lag
@@ -1474,13 +1481,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Use Ethernet connection for stability
 • Limit background processes
 • Adjust bandwidth settings in preferences
-• Contact ISP if consistent speed issues`
-          }
+• Contact ISP if consistent speed issues`,
+          },
         },
-        'performance': {
-          title: 'Performance Issues',
+        performance: {
+          title: "Performance Issues",
           questions: {
-            'slow_loading': `**Performance Optimization:**
+            slow_loading: `**Performance Optimization:**
 • Clear browser cache and cookies regularly
 • Close unused browser tabs to free memory
 • Use incognito/private mode for testing
@@ -1493,7 +1500,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Scan for malware or viruses
 • Contact support if issues continue`,
 
-            'mobile_app': `**Mobile App Performance:**
+            mobile_app: `**Mobile App Performance:**
 • Update to latest app version from app store
 • Clear app cache and data in settings
 • Ensure sufficient storage space (min 500MB free)
@@ -1506,7 +1513,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Check battery optimization settings
 • Contact app support for specific issues`,
 
-            'offline_access': `**Offline Features:**
+            offline_access: `**Offline Features:**
 • Download course materials for offline use
 • Automatic sync when back online
 • Limited functionality available offline
@@ -1517,13 +1524,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Offline quiz and assignment completion
 • Sync progress when reconnected
 • Storage management for offline content
-• Manual sync trigger available`
-          }
+• Manual sync trigger available`,
+          },
         },
-        'integration': {
-          title: 'Integrations',
+        integration: {
+          title: "Integrations",
           questions: {
-            'google_classroom': `**Google Classroom Integration:**
+            google_classroom: `**Google Classroom Integration:**
 • Connect via Google Workspace for Education
 • Automatic sync of classes and assignments
 • Import student roster from Google Classroom
@@ -1536,7 +1543,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Grade passback functionality
 • Calendar integration for due dates`,
 
-            'microsoft_teams': `**Microsoft Teams Integration:**
+            microsoft_teams: `**Microsoft Teams Integration:**
 • Install Educon app in Teams app store
 • Schedule and join meetings directly from Teams
 • Share files and assignments within Teams
@@ -1549,7 +1556,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Single sign-on with Microsoft accounts
 • Teams tab embedding for quick access`,
 
-            'sis_integration': `**SIS Integration:**
+            sis_integration: `**SIS Integration:**
 • Compatible with major SIS platforms (PowerSchool, Infinite Campus, etc.)
 • Automated student data sync (enrollment, demographics)
 • Grade passback to SIS gradebooks
@@ -1560,22 +1567,22 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Real-time or scheduled sync options
 • Data validation and error reporting
 • Historical data migration support
-• Custom integration development available`
-          }
-        }
-      }
+• Custom integration development available`,
+          },
+        },
+      },
     },
 
     // Billing & Account Category
-    'billing': {
-      type: 'category',
-      title: 'Billing & Account',
-      description: 'Manage your subscription, payments, and account settings',
+    billing: {
+      type: "category",
+      title: "Billing & Account",
+      description: "Manage your subscription, payments, and account settings",
       subtypes: {
-        'pricing_plans': {
-          title: 'Pricing & Plans',
+        pricing_plans: {
+          title: "Pricing & Plans",
           questions: {
-            'current_plans': `**Current Pricing Plans:**
+            current_plans: `**Current Pricing Plans:**
 • BASIC: $29/month - 50 students, core features, basic support
 • PRO: $79/month - 200 students, advanced analytics, custom branding, priority support
 • ENTERPRISE: $199/month - Unlimited students, all features + premium support, SSO, custom development
@@ -1586,7 +1593,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Non-profit organization discounts
 • Government and public institution pricing`,
 
-            'feature_comparison': `**Plan Comparison:**
+            feature_comparison: `**Plan Comparison:**
 • BASIC: Virtual classes, basic assessments, standard reports, email support
 • PRO: All Basic features + Advanced analytics, custom branding, API access, priority support, mobile app
 • ENTERPRISE: All Pro features + Single Sign-On (SSO), custom development, dedicated support manager, advanced security, compliance features
@@ -1596,7 +1603,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Advanced reporting on Pro and Enterprise
 • Integration capabilities vary by plan`,
 
-            'educational_discount': `**Educational Discounts:**
+            educational_discount: `**Educational Discounts:**
 • K-12 Schools: 40% discount on all plans
 • Higher Education Institutions: 30% discount
 • Non-profit Organizations: 25% discount
@@ -1608,7 +1615,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Bundle discounts with other Educon products
 • Early renewal incentives available`,
 
-            'free_trial': `**Free Trial Information:**
+            free_trial: `**Free Trial Information:**
 • 30-day full feature access on selected plan
 • No credit card required for sign-up
 • Setup assistance available during trial
@@ -1618,13 +1625,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Extended trials available for institutions
 • Multiple plan trials possible sequentially
 • Trial includes all features except custom development
-• Support included during trial period`
-          }
+• Support included during trial period`,
+          },
         },
-        'payment': {
-          title: 'Payment & Invoicing',
+        payment: {
+          title: "Payment & Invoicing",
           questions: {
-            'payment_methods': `**Accepted Payment Methods:**
+            payment_methods: `**Accepted Payment Methods:**
 • Credit Cards (Visa, MasterCard, American Express, Discover)
 • PayPal for individual and small business accounts
 • Bank transfers (Enterprise plans only)
@@ -1637,7 +1644,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Automatic receipt generation
 • Payment security guarantees`,
 
-            'invoice_access': `**Invoice Management:**
+            invoice_access: `**Invoice Management:**
 • Download invoices from billing section of dashboard
 • Automatic email delivery for all invoices
 • Multiple currency support for international clients
@@ -1650,7 +1657,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Bulk invoice download for multiple periods
 • Integration with accounting software`,
 
-            'billing_cycle': `**Billing Cycle Information:**
+            billing_cycle: `**Billing Cycle Information:**
 • Monthly or annual billing options available
 • Prorated charges for plan upgrades during cycle
 • Immediate downgrade effect on features (next billing cycle for charges)
@@ -1663,7 +1670,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Multiple payment method management
 • Automatic retry for failed payments`,
 
-            'tax_information': `**Tax Documentation:**
+            tax_information: `**Tax Documentation:**
 • VAT/GST included where applicable based on customer location
 • Tax-exempt organizations can submit tax exemption forms
 • Invoice includes detailed tax breakdown by jurisdiction
@@ -1673,13 +1680,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Digital tax compliance for various regions
 • Tax certificate storage for business customers
 • Automatic tax rate updates
-• Tax reporting assistance for Enterprise customers`
-          }
+• Tax reporting assistance for Enterprise customers`,
+          },
         },
-        'account_management': {
-          title: 'Account Management',
+        account_management: {
+          title: "Account Management",
           questions: {
-            'upgrade_downgrade': `**Plan Changes:**
+            upgrade_downgrade: `**Plan Changes:**
 • Upgrade: Immediate access to new features, prorated charge for remaining period
 • Downgrade: Effective at next billing cycle, no refunds for unused time
 • Compare plans before changing to understand feature differences
@@ -1691,7 +1698,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Feature access adjusted immediately for downgrades
 • Support available for plan transition questions`,
 
-            'user_management': `**User Management:**
+            user_management: `**User Management:**
 • Add/remove teachers and students individually or in bulk
 • Bulk import users via CSV template with validation
 • Role-based permissions (Admin, Teacher, Student, Parent, etc.)
@@ -1704,7 +1711,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • User lifecycle management (onboarding/offboarding)
 • Integration with directory services`,
 
-            'data_export': `**Data Export Capabilities:**
+            data_export: `**Data Export Capabilities:**
 • Export student records in multiple formats (CSV, Excel, PDF)
 • Download assignment submissions with metadata
 • Backup grade books with historical data
@@ -1717,7 +1724,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Bulk export for entire institution
 • Historical data archive creation`,
 
-            'account_closure': `**Account Closure Process:**
+            account_closure: `**Account Closure Process:**
 • Contact support to initiate account closure process
 • 30-day data retention period after closure request
 • Export all data before closure completion
@@ -1728,13 +1735,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Data destruction certificate available for compliance
 • Bulk closure for multiple users
 • Archive option instead of complete deletion
-• Reactivation fees may apply after closure`
-          }
+• Reactivation fees may apply after closure`,
+          },
         },
-        'support': {
-          title: 'Support & Training',
+        support: {
+          title: "Support & Training",
           questions: {
-            'training_resources': `**Training Resources:**
+            training_resources: `**Training Resources:**
 • Weekly live webinars with product experts
 • Video tutorial library with 200+ videos
 • Interactive product tours for new features
@@ -1748,7 +1755,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Monthly feature update webinars
 • Advanced training for administrators`,
 
-            'support_channels': `**Support Channels:**
+            support_channels: `**Support Channels:**
 • Email: support@educon.com (response within 4 hours)
 • Phone: 1-800-EDUCON (9 AM - 9 PM EST, Monday-Friday)
 • Live Chat: In-app support (24/7 for urgent issues)
@@ -1761,7 +1768,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Video call support for complex issues
 • Screen sharing support sessions`,
 
-            'service_status': `**Service Status Information:**
+            service_status: `**Service Status Information:**
 • Real-time status page at status.educon.com
 • Scheduled maintenance notices 72 hours in advance
 • Performance metrics and uptime statistics
@@ -1772,22 +1779,22 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Maintenance window preferences
 • Historical performance data
 • API status monitoring
-• Third-party integration status`
-          }
-        }
-      }
+• Third-party integration status`,
+          },
+        },
+      },
     },
 
     // Setup & Configuration Category
-    'setup': {
-      type: 'category',
-      title: 'Setup & Configuration',
-      description: 'Get started and customize your platform experience',
+    setup: {
+      type: "category",
+      title: "Setup & Configuration",
+      description: "Get started and customize your platform experience",
       subtypes: {
-        'initial_setup': {
-          title: 'Initial Setup',
+        initial_setup: {
+          title: "Initial Setup",
           questions: {
-            'getting_started': `**Getting Started Guide:**
+            getting_started: `**Getting Started Guide:**
 1. Verify email address through confirmation link
 2. Complete institution profile with basic information
 3. Set up classes and subjects using templates
@@ -1801,7 +1808,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 11. Test system with sample data
 12. Go live with actual student data`,
 
-            'data_migration': `**Data Migration Support:**
+            data_migration: `**Data Migration Support:**
 • CSV template provided for easy data import
 • Bulk import tools available for large datasets
 • Previous system export guidance and support
@@ -1815,7 +1822,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Grade history transfer capabilities
 • Custom migration scripts for unique requirements`,
 
-            'customization': `**Platform Customization:**
+            customization: `**Platform Customization:**
 • School branding and colors throughout platform
 • Custom domain setup (yourname.educon.com)
 • Communication templates for emails and notifications
@@ -1829,7 +1836,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Language and localization settings
 • Accessibility features configuration`,
 
-            'best_practices': `**Best Practices:**
+            best_practices: `**Best Practices:**
 • Start with pilot group of 5-10 users for testing
 • Train super users first to become internal experts
 • Establish clear usage guidelines and policies
@@ -1841,13 +1848,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Document processes and procedures
 • Monitor key performance indicators
 • Plan for seasonal usage patterns
-• Establish escalation procedures for issues`
-          }
+• Establish escalation procedures for issues`,
+          },
         },
-        'administrative': {
-          title: 'Administrative Settings',
+        administrative: {
+          title: "Administrative Settings",
           questions: {
-            'permissions': `**Permission Levels:**
+            permissions: `**Permission Levels:**
 • Super Admin: Full system access and configuration
 • Admin: Limited administrative rights for daily operations
 • Teacher: Classroom management and student progress tracking
@@ -1861,7 +1868,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Bulk permission management
 • Permission audit trails`,
 
-            'security_settings': `**Security Configuration:**
+            security_settings: `**Security Configuration:**
 • Password complexity requirements (configurable)
 • Session timeout settings for inactivity
 • IP restriction options for specific locations
@@ -1875,7 +1882,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Security incident response protocols
 • Regular security assessments and updates`,
 
-            'notification_setup': `**Notification Management:**
+            notification_setup: `**Notification Management:**
 • Email notification preferences by user role
 • Push notification settings for mobile app
 • SMS alerts for emergency communications
@@ -1887,13 +1894,13 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Do-not-disturb scheduling
 • Escalation rules for urgent matters
 • Multi-language notification support
-• Notification analytics and reporting`
-          }
+• Notification analytics and reporting`,
+          },
         },
-        'class_management': {
-          title: 'Class Management',
+        class_management: {
+          title: "Class Management",
           questions: {
-            'create_class': `**Creating Classes:**
+            create_class: `**Creating Classes:**
 • Basic class information (name, subject, grade level)
 • Enrollment capacity settings and waitlist options
 • Co-teacher assignment and collaboration settings
@@ -1907,7 +1914,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Grading period alignment
 • Student grouping and section management`,
 
-            'student_enrollment': `**Student Enrollment:**
+            student_enrollment: `**Student Enrollment:**
 • Manual student addition with individual profiles
 • Bulk CSV import with validation and error reporting
 • Self-registration links for student sign-up
@@ -1921,7 +1928,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Transfer student handling
 • Enrollment approval workflows`,
 
-            'academic_calendar': `**Academic Calendar:**
+            academic_calendar: `**Academic Calendar:**
 • Term and semester setup with date ranges
 • Holiday configuration with regional variations
 • Assignment due dates and extension policies
@@ -1933,24 +1940,49 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 • Recurring event patterns
 • Calendar sharing with students and parents
 • Mobile calendar sync
-• Academic year transition planning`
-          }
-        }
-      }
+• Academic year transition planning`,
+          },
+        },
+      },
     },
 
     // Default fallback
-    'default': "I understand you're asking about our Educon platform. For specific technical issues, please contact our support team at support@educon.com or call 1-800-EDUCON. For product features, check our documentation at docs.educon.com. You can also browse our help categories above for more specific information."
+    default:
+      "I understand you're asking about our Educon platform. For specific technical issues, please contact our support team at support@educon.com or call 1-800-EDUCON. For product features, check our documentation at docs.educon.com. You can also browse our help categories above for more specific information.",
   };
 
   // Main categories for initial selection
   const mainCategories = [
-    { key: 'admissions', title: 'Admissions & Enrollment', description: 'Student recruitment and admission process' },
-    { key: 'courses', title: 'Courses & Programs', description: 'Explore courses and academic programs' },
-    { key: 'universities', title: 'Universities', description: 'Partner institutions and universities' },
-    { key: 'technical', title: 'Technical Support', description: 'Troubleshoot technical issues' },
-    { key: 'billing', title: 'Billing & Account', description: 'Manage subscription & payments' },
-    { key: 'setup', title: 'Setup & Configuration', description: 'Get started & customize platform' }
+    {
+      key: "admissions",
+      title: "Admissions & Enrollment",
+      description: "Student recruitment and admission process",
+    },
+    {
+      key: "courses",
+      title: "Courses & Programs",
+      description: "Explore courses and academic programs",
+    },
+    {
+      key: "universities",
+      title: "Universities",
+      description: "Partner institutions and universities",
+    },
+    {
+      key: "technical",
+      title: "Technical Support",
+      description: "Troubleshoot technical issues",
+    },
+    {
+      key: "billing",
+      title: "Billing & Account",
+      description: "Manage subscription & payments",
+    },
+    {
+      key: "setup",
+      title: "Setup & Configuration",
+      description: "Get started & customize platform",
+    },
   ];
 
   const scrollToBottom = () => {
@@ -1965,7 +1997,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
     if (isOpen && isInitialLoad) {
       const timer = setTimeout(() => {
         setIsInitialLoad(false);
-        if (activeMode === 'helpdesk') {
+        if (activeMode === "helpdesk") {
           setSuggestedQuestions(mainCategories);
         }
       }, 500);
@@ -1974,7 +2006,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
   }, [isOpen, isInitialLoad, activeMode]);
 
   useEffect(() => {
-    if (activeMode === 'helpdesk') {
+    if (activeMode === "helpdesk") {
       if (!currentCategory && !currentSubcategory) {
         setSuggestedQuestions(mainCategories);
       }
@@ -1985,25 +2017,31 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 
   const getHelpdeskResponse = (userInput) => {
     const input = userInput.toLowerCase().trim();
-    
+
     // Check for exact category matches
-    if (faqDatabase[input] && faqDatabase[input].type === 'category') {
+    if (faqDatabase[input] && faqDatabase[input].type === "category") {
       return `I can help you with ${faqDatabase[input].title}. What specific area are you interested in?`;
     }
-    
+
     // Deep search in questions
     for (const [categoryKey, category] of Object.entries(faqDatabase)) {
-      if (category.type === 'category') {
+      if (category.type === "category") {
         for (const [subtypeKey, subtype] of Object.entries(category.subtypes)) {
-          for (const [questionKey, answer] of Object.entries(subtype.questions)) {
-            if (input.includes(questionKey) || input.includes(subtypeKey) || input.includes(categoryKey)) {
+          for (const [questionKey, answer] of Object.entries(
+            subtype.questions
+          )) {
+            if (
+              input.includes(questionKey) ||
+              input.includes(subtypeKey) ||
+              input.includes(categoryKey)
+            ) {
               return answer;
             }
           }
         }
       }
     }
-    
+
     return faqDatabase.default;
   };
 
@@ -2011,9 +2049,9 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
     try {
       const modelsToTry = [
         "gemini-2.0-flash",
-        "gemini-1.5-flash", 
+        "gemini-1.5-flash",
         "gemini-1.5-pro",
-        "gemini-1.0-pro"
+        "gemini-1.0-pro",
       ];
 
       let lastError = null;
@@ -2024,7 +2062,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
             model: model,
             contents: userMessage,
           });
-          
+
           if (response.text) {
             return response.text;
           }
@@ -2035,125 +2073,134 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
         }
       }
 
-      throw lastError || new Error('All models failed');
-      
+      throw lastError || new Error("All models failed");
     } catch (error) {
-      console.error('Gemini API Error:', error);
+      console.error("Gemini API Error:", error);
       throw error;
     }
   };
 
   const handleCategorySelect = (categoryKey) => {
     const category = faqDatabase[categoryKey];
-    if (category && category.type === 'category') {
+    if (category && category.type === "category") {
       setCurrentCategory(categoryKey);
       setCurrentSubcategory(null);
-      
+
       // Convert subtypes to suggested questions format
-      const subtypeQuestions = Object.entries(category.subtypes).map(([key, subtype]) => ({
-        key: key,
-        title: `📋 ${subtype.title}`,
-        description: `Explore ${subtype.title.toLowerCase()} questions`
-      }));
-      
+      const subtypeQuestions = Object.entries(category.subtypes).map(
+        ([key, subtype]) => ({
+          key: key,
+          title: `📋 ${subtype.title}`,
+          description: `Explore ${subtype.title.toLowerCase()} questions`,
+        })
+      );
+
       setSuggestedQuestions(subtypeQuestions);
-      
+
       // Add bot message about category selection
       const botMessage = {
         id: Date.now(),
         text: `Great! You've selected **${category.title}**. ${category.description}. What specific area would you like help with?`,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
-        mode: 'helpdesk'
+        mode: "helpdesk",
       };
-      
-      setMessages(prev => ({
+
+      setMessages((prev) => ({
         ...prev,
-        helpdesk: [...prev.helpdesk, botMessage]
+        helpdesk: [...prev.helpdesk, botMessage],
       }));
     }
   };
 
   const handleSubcategorySelect = (subcategoryKey) => {
     if (!currentCategory) return;
-    
+
     const category = faqDatabase[currentCategory];
     const subcategory = category.subtypes[subcategoryKey];
-    
+
     if (subcategory) {
       setCurrentSubcategory(subcategoryKey);
-      
+
       // Convert questions to suggested questions format
-      const questionList = Object.entries(subcategory.questions).map(([key, answer]) => ({
-        key: key,
-        title: `❓ ${key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`,
-        description: `Get details about ${key.replace(/_/g, ' ')}`
-      }));
-      
+      const questionList = Object.entries(subcategory.questions).map(
+        ([key, answer]) => ({
+          key: key,
+          title: `❓ ${key
+            .replace(/_/g, " ")
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^./, (str) => str.toUpperCase())}`,
+          description: `Get details about ${key.replace(/_/g, " ")}`,
+        })
+      );
+
       setSuggestedQuestions(questionList);
-      
+
       // Add bot message about subcategory selection
       const botMessage = {
         id: Date.now(),
         text: `You've selected **${subcategory.title}**. Here are the common questions I can help with:`,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
-        mode: 'helpdesk'
+        mode: "helpdesk",
       };
-      
-      setMessages(prev => ({
+
+      setMessages((prev) => ({
         ...prev,
-        helpdesk: [...prev.helpdesk, botMessage]
+        helpdesk: [...prev.helpdesk, botMessage],
       }));
     }
   };
 
   const handleQuestionSelect = (questionKey) => {
     if (!currentCategory || !currentSubcategory) return;
-    
-    const answer = faqDatabase[currentCategory].subtypes[currentSubcategory].questions[questionKey];
-    
+
+    const answer =
+      faqDatabase[currentCategory].subtypes[currentSubcategory].questions[
+        questionKey
+      ];
+
     if (answer) {
       // Add user message (simulated question)
       const userMessage = {
         id: Date.now(),
-        text: `Tell me about ${questionKey.replace(/_/g, ' ')}`,
-        sender: 'user',
+        text: `Tell me about ${questionKey.replace(/_/g, " ")}`,
+        sender: "user",
         timestamp: new Date(),
-        mode: 'helpdesk'
+        mode: "helpdesk",
       };
-      
+
       // Add bot answer
       const botMessage = {
         id: Date.now() + 1,
         text: answer,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
-        mode: 'helpdesk'
+        mode: "helpdesk",
       };
-      
-      setMessages(prev => ({
+
+      setMessages((prev) => ({
         ...prev,
-        helpdesk: [...prev.helpdesk, userMessage, botMessage]
+        helpdesk: [...prev.helpdesk, userMessage, botMessage],
       }));
-      
+
       // Reset to main categories after answering
       setTimeout(() => {
         setCurrentCategory(null);
         setCurrentSubcategory(null);
         setSuggestedQuestions(mainCategories);
-        
+
         const followUpMessage = {
           id: Date.now() + 2,
           text: "Is there anything else I can help you with today?",
-          sender: 'bot',
+          sender: "bot",
           timestamp: new Date(),
-          mode: 'helpdesk'
+          mode: "helpdesk",
         };
-        
-        setMessages(prev => ({
+
+        setMessages((prev) => ({
           ...prev,
-          helpdesk: [...prev.helpdesk, followUpMessage]
+          helpdesk: [...prev.helpdesk, followUpMessage],
         }));
       }, 2000);
     }
@@ -2174,110 +2221,111 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    
+
     if (!inputMessage.trim()) return;
 
     const userMessage = {
       id: Date.now(),
       text: inputMessage,
-      sender: 'user',
+      sender: "user",
       timestamp: new Date(),
-      mode: activeMode
+      mode: activeMode,
     };
 
-    setMessages(prev => ({
+    setMessages((prev) => ({
       ...prev,
-      [activeMode]: [...prev[activeMode], userMessage]
+      [activeMode]: [...prev[activeMode], userMessage],
     }));
-    setInputMessage('');
+    setInputMessage("");
     setIsLoading(true);
 
-    setMessageAnimations(prev => ({
+    setMessageAnimations((prev) => ({
       ...prev,
-      [userMessage.id]: 'slideInRight'
+      [userMessage.id]: "slideInRight",
     }));
 
     try {
       let response;
-      
-      if (activeMode === 'helpdesk') {
+
+      if (activeMode === "helpdesk") {
         setTimeout(() => {
           response = getHelpdeskResponse(inputMessage);
-          
+
           const botMessage = {
             id: Date.now() + 1,
             text: response,
-            sender: 'bot',
+            sender: "bot",
             timestamp: new Date(),
-            mode: activeMode
+            mode: activeMode,
           };
 
-          setMessages(prev => ({
+          setMessages((prev) => ({
             ...prev,
-            [activeMode]: [...prev[activeMode], botMessage]
+            [activeMode]: [...prev[activeMode], botMessage],
           }));
-          
+
           setTimeout(() => {
-            setMessageAnimations(prev => ({
+            setMessageAnimations((prev) => ({
               ...prev,
-              [botMessage.id]: 'slideInLeft'
+              [botMessage.id]: "slideInLeft",
             }));
           }, 100);
-          
+
           setIsLoading(false);
-          
+
           // Reset navigation after direct question
-          if (!inputMessage.toLowerCase().includes('category') && !inputMessage.toLowerCase().includes('type')) {
+          if (
+            !inputMessage.toLowerCase().includes("category") &&
+            !inputMessage.toLowerCase().includes("type")
+          ) {
             setCurrentCategory(null);
             setCurrentSubcategory(null);
             setSuggestedQuestions(mainCategories);
           }
         }, 800 + Math.random() * 400);
-        
       } else {
         response = await getGeminiResponse(inputMessage);
-        
+
         const botMessage = {
           id: Date.now() + 1,
           text: response,
-          sender: 'bot',
+          sender: "bot",
           timestamp: new Date(),
-          mode: activeMode
+          mode: activeMode,
         };
 
-        setMessages(prev => ({
+        setMessages((prev) => ({
           ...prev,
-          [activeMode]: [...prev[activeMode], botMessage]
+          [activeMode]: [...prev[activeMode], botMessage],
         }));
-        
+
         setTimeout(() => {
-          setMessageAnimations(prev => ({
+          setMessageAnimations((prev) => ({
             ...prev,
-            [botMessage.id]: 'slideInLeft'
+            [botMessage.id]: "slideInLeft",
           }));
         }, 100);
-        
+
         setIsLoading(false);
       }
-      
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       const errorMessage = {
         id: Date.now() + 1,
         text: `Sorry, I encountered an error: ${error.message}. Please try again.`,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
-        mode: activeMode
+        mode: activeMode,
       };
-      setMessages(prev => ({
+      setMessages((prev) => ({
         ...prev,
-        [activeMode]: [...prev[activeMode], errorMessage]
+        [activeMode]: [...prev[activeMode], errorMessage],
       }));
-      
+
       setTimeout(() => {
-        setMessageAnimations(prev => ({
+        setMessageAnimations((prev) => ({
           ...prev,
-          [errorMessage.id]: 'slideInLeft'
+          [errorMessage.id]: "slideInLeft",
         }));
       }, 100);
       setIsLoading(false);
@@ -2288,7 +2336,7 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
     setActiveMode(mode);
     setCurrentCategory(null);
     setCurrentSubcategory(null);
-    if (mode === 'helpdesk') {
+    if (mode === "helpdesk") {
       setSuggestedQuestions(mainCategories);
     } else {
       setSuggestedQuestions([]);
@@ -2296,26 +2344,32 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
   };
 
   const formatTime = (timestamp) => {
-    return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return timestamp.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   const clearChat = () => {
-    setMessages(prev => ({
+    setMessages((prev) => ({
       ...prev,
-      [activeMode]: [{
-        id: 1,
-        text: activeMode === 'helpdesk' 
-          ? "Hello! I'm your Educon Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?"
-          : "Hello! I'm your Global AI Assistant. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
-        sender: 'bot',
-        timestamp: new Date(),
-        mode: activeMode
-      }]
+      [activeMode]: [
+        {
+          id: 1,
+          text:
+            activeMode === "helpdesk"
+              ? "Hello! I'm your Educon Helpdesk Assistant. I'm here to help you with product features, technical issues, billing, and account management! How can I assist you today?"
+              : "Hello! I'm your Global AI Assistant. I can help you with any questions, creative tasks, research, and much more! What would you like to know?",
+          sender: "bot",
+          timestamp: new Date(),
+          mode: activeMode,
+        },
+      ],
     }));
     setMessageAnimations({});
     setCurrentCategory(null);
     setCurrentSubcategory(null);
-    if (activeMode === 'helpdesk') {
+    if (activeMode === "helpdesk") {
       setSuggestedQuestions(mainCategories);
     } else {
       setSuggestedQuestions([]);
@@ -2339,21 +2393,27 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
   };
 
   const getMessageAnimation = (messageId) => {
-    return messageAnimations[messageId] || 'messageAppear';
+    return messageAnimations[messageId] || "messageAppear";
   };
 
   // Quick Questions Section Component
   const QuickQuestionsSection = () => {
-    if (activeMode !== 'helpdesk' || suggestedQuestions.length === 0 || isLoading) {
+    if (
+      activeMode !== "helpdesk" ||
+      suggestedQuestions.length === 0 ||
+      isLoading
+    ) {
       return null;
     }
 
     return (
       <div className="flex flex-col gap-2 mt-4 mb-3">
         <div className="text-xs text-gray-500 mb-2">
-          {!currentCategory ? 'Choose a category:' : 
-           !currentSubcategory ? 'Choose a subcategory:' : 
-           'Select a question:'}
+          {!currentCategory
+            ? "Choose a category:"
+            : !currentSubcategory
+            ? "Choose a subcategory:"
+            : "Select a question:"}
         </div>
         {suggestedQuestions.map((item, index) => (
           <button
@@ -2361,15 +2421,11 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
             className="bg-white/80 border border-indigo-300 rounded-xl p-3 text-sm cursor-pointer transition-all duration-300 text-left text-gray-700 hover:bg-indigo-50 hover:translate-x-1"
             onClick={() => handleQuickQuestion(item)}
           >
-            <div className="font-semibold text-xs mb-1">
-              {item.title}
-            </div>
-            <div className="text-xs opacity-70">
-              {item.description}
-            </div>
+            <div className="font-semibold text-xs mb-1">{item.title}</div>
+            <div className="text-xs opacity-70">{item.description}</div>
           </button>
         ))}
-        
+
         {/* Back button when in subcategory or question view */}
         {(currentCategory || currentSubcategory) && (
           <button
@@ -2381,23 +2437,23 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
               } else {
                 setCurrentCategory(null);
                 setSuggestedQuestions(mainCategories);
-                
+
                 const botMessage = {
                   id: Date.now(),
                   text: "What would you like help with today?",
-                  sender: 'bot',
+                  sender: "bot",
                   timestamp: new Date(),
-                  mode: 'helpdesk'
+                  mode: "helpdesk",
                 };
-                
-                setMessages(prev => ({
+
+                setMessages((prev) => ({
                   ...prev,
-                  helpdesk: [...prev.helpdesk, botMessage]
+                  helpdesk: [...prev.helpdesk, botMessage],
                 }));
               }
             }}
           >
-            ← Back to {currentSubcategory ? 'Categories' : 'Main Menu'}
+            ← Back to {currentSubcategory ? "Categories" : "Main Menu"}
           </button>
         )}
       </div>
@@ -2407,176 +2463,217 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
   return (
     <>
       {!isOpen && (
-        <button 
+        <button
           className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-none rounded-full cursor-pointer shadow-2xl flex items-center justify-center text-2xl z-50 transition-all duration-400 animate-float animate-pulse hover:scale-110 hover:rotate-3 hover:shadow-3xl"
           onClick={handleOpen}
           title="Dual Mode AI Assistant"
         >
-          {activeMode === 'helpdesk' ? '📚' : '🌍'}
+          {activeMode === "helpdesk" ? <BotMessageSquare /> : <Globe />}
         </button>
       )}
 
       {isOpen && (
-        <div className={`fixed bottom-6 right-6 w-96 ${isMinimized ? 'h-16' : 'h-[500px]'} bg-white rounded-2xl shadow-2xl flex flex-col transition-all duration-500 z-50 overflow-hidden border border-white/20 backdrop-blur-sm ${
-          isInitialLoad ? 'scale-90 translate-y-5 opacity-0' : 'scale-100 translate-y-0 opacity-100'
-        }`}>
-          <div 
-            className={`flex justify-between items-center px-5 py-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white cursor-${isMinimized ? 'pointer' : 'default'} transition-all duration-300`}
-            onClick={isMinimized ? toggleMinimize : undefined}
+        <div
+          onClick={() => {
+            setIsOpen(false);
+            setIsInitialLoad((prev) => !prev);
+            setIsMinimized((prev) => !prev);
+          }}
+          className={`top-0 left-0 w-screen h-screen z-[3000] fixed duration-500  ${
+            isInitialLoad ? "bg-black/0" : "bg-black/40"
+          }`}
+        >
+          <div
+            className={`fixed bottom-3 left-0 md:bottom-6 md:right-6 md:left-auto w-screen md:w-96 ${
+              isMinimized ? "h-16" : "h-[calc(100vh-150px)] md:h-[500px]"
+            } bg-white rounded-2xl shadow-2xl flex flex-col transition-all duration-500 z-50 overflow-hidden border border-white/20 backdrop-blur-sm ${
+              isInitialLoad
+                ? "scale-90 translate-y-5 opacity-0"
+                : "scale-100 translate-y-0 opacity-100"
+            }`}
           >
-            <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg animate-bounce">
-                {activeMode === 'helpdesk' ? '📚' : '🌍'}
-              </div>
-              <div className="flex flex-col">
-                <h3 className="m-0 text-sm font-semibold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-                  {activeMode === 'helpdesk' ? 'Educon Helpdesk' : 'Global AI Assistant'}
-                </h3>
-                <span className={`text-xs ${isLoading ? 'text-yellow-300 animate-pulse' : 'text-green-300'}`}>
-                  {isLoading 
-                    ? activeMode === 'helpdesk' 
-                      ? '● Searching knowledge base...' 
-                      : '● Thinking...'
-                    : '● Online'
-                  }
-                </span>
-                <div className="flex bg-white/10 rounded-xl p-1 mt-2">
-                  <button
-                    className={`flex-1 px-3 py-1.5 border-none bg-transparent text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 ${
-                      activeMode === 'helpdesk' ? 'bg-white/30 shadow-lg' : ''
+            <div
+              className={`flex justify-between items-center px-5 py-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white cursor-${
+                isMinimized ? "pointer" : "default"
+              } transition-all duration-300`}
+              onClick={isMinimized ? toggleMinimize : undefined}
+            >
+              <div className="flex items-center gap-3 flex-1">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg animate-bounce">
+                  {activeMode === "helpdesk" ? <BotMessageSquare /> : <Globe />}
+                </div>
+                <div className="flex flex-col">
+                  <h3 className="m-0 text-sm font-semibold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                    {activeMode === "helpdesk"
+                      ? "Educon Helpdesk"
+                      : "Global AI Assistant"}
+                  </h3>
+                  <span
+                    className={`text-xs ${
+                      isLoading
+                        ? "text-yellow-300 animate-pulse"
+                        : "text-green-300"
                     }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleModeChange('helpdesk');
-                    }}
                   >
-                    📚 Helpdesk
-                  </button>
-                  <button
-                    className={`flex-1 px-3 py-1.5 border-none bg-transparent text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 ${
-                      activeMode === 'global' ? 'bg-white/30 shadow-lg' : ''
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleModeChange('global');
-                    }}
-                  >
-                    🌍 Global AI
-                  </button>
+                    {isLoading
+                      ? activeMode === "helpdesk"
+                        ? "● Searching knowledge base..."
+                        : "● Thinking..."
+                      : "● Online"}
+                  </span>
+                  <div className="flex bg-white/10 rounded-xl p-1 mt-2">
+                    <button
+                      className={`flex-1 px-3 py-1.5 border-none bg-transparent text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 ${
+                        activeMode === "helpdesk" ? "bg-white/30 shadow-lg" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleModeChange("helpdesk");
+                      }}
+                    >
+                      Helpdesk
+                    </button>
+                    <button
+                      className={`flex-1 px-3 py-1.5 border-none bg-transparent text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 ${
+                        activeMode === "global" ? "bg-white/30 shadow-lg" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleModeChange("global");
+                      }}
+                    >
+                      Global AI
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              {!isMinimized && (
-                <button 
+              <div className="flex gap-2 items-center">
+                {!isMinimized && (
+                  <button
+                    className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearChat();
+                    }}
+                    title="Clear conversation"
+                  >
+                    🗑️
+                  </button>
+                )}
+                <button
                   className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
                   onClick={(e) => {
                     e.stopPropagation();
-                    clearChat();
+                    toggleMinimize();
                   }}
-                  title="Clear conversation"
+                  title={isMinimized ? "Expand chat" : "Minimize chat"}
                 >
-                  🗑️
+                  {isMinimized ? "＋" : "−"}
                 </button>
-              )}
-              <button 
-                className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleMinimize();
-                }}
-                title={isMinimized ? 'Expand chat' : 'Minimize chat'}
-              >
-                {isMinimized ? '＋' : '−'}
-              </button>
-              <button 
-                className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClose();
-                }}
-                title="Close assistant"
-              >
-                ×
-              </button>
-            </div>
-          </div>
-
-          {!isMinimized && (
-            <div className="flex-1 p-5 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-200">
-              {messages[activeMode].map((message) => (
-                <div
-                  key={message.id}
-                  className={`mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} animate-${getMessageAnimation(message.id)}`}
+                <button
+                  className="bg-white/20 border-none text-white w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm transition-all duration-300 hover:bg-white/30 hover:scale-110"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClose();
+                  }}
+                  title="Close assistant"
                 >
-                  <div className={`max-w-[280px] px-4 py-3 rounded-2xl relative ${
-                    message.sender === 'user' 
-                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-br-md shadow-lg shadow-indigo-300/30' 
-                      : 'bg-white text-gray-700 border border-gray-200/80 rounded-bl-md shadow-lg shadow-gray-200/50'
-                  }`}>
-                    <div className="text-sm leading-relaxed mb-1 whitespace-pre-wrap">
-                      {message.text}
-                    </div>
-                    <div className="text-xs opacity-70 text-right">
-                      {formatTime(message.timestamp)}
-                    </div>
-                  </div>
-                </div>
-              ))}
-              
-              <QuickQuestionsSection />
-              
-              {isLoading && (
-                <div className="mb-4 flex justify-start">
-                  <div className="max-w-[280px] px-4 py-3 rounded-2xl bg-white text-gray-700 border border-gray-200/80 rounded-bl-md shadow-lg shadow-gray-200/50">
-                    <div className="flex gap-1 py-1 items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing -delay-300"></span>
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing -delay-150"></span>
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing"></span>
-                      <span className="text-xs text-gray-500 ml-2">
-                        {activeMode === 'helpdesk' ? 'Searching knowledge base...' : 'Educon AI is thinking...'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-          )}
-
-          {!isMinimized && (
-            <form className="p-5 bg-white border-t border-gray-200/80" onSubmit={handleSendMessage}>
-              <div className="flex gap-3 items-center relative">
-                <input
-                  type="text"
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder={
-                    activeMode === 'helpdesk' 
-                      ? "Ask about features, pricing, technical issues..."
-                      : "Ask me anything about any topic..."
-                  }
-                  className={`flex-1 px-4 py-3 border-2 rounded-full text-sm outline-none transition-all duration-300 bg-white ${
-                    inputMessage 
-                      ? 'border-indigo-500 shadow-lg shadow-indigo-100' 
-                      : 'border-gray-200'
-                  } focus:border-indigo-500 focus:shadow-lg focus:shadow-indigo-100 focus:scale-102`}
-                  disabled={isLoading}
-                />
-                <button 
-                  type="submit" 
-                  className={`w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-none rounded-full cursor-pointer flex items-center justify-center text-base transition-all duration-300 shadow-lg shadow-indigo-300/30 ${
-                    (!inputMessage.trim() || isLoading) 
-                      ? 'opacity-60 scale-100' 
-                      : 'opacity-100 animate-pulse hover:scale-110 hover:rotate-3'
-                  }`}
-                  disabled={!inputMessage.trim() || isLoading}
-                >
-                  {isLoading ? '⏳' : '📨'}
+                  ×
                 </button>
               </div>
-            </form>
-          )}
+            </div>
+
+            {!isMinimized && (
+              <div className="flex-1 p-5 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-200">
+                {messages[activeMode].map((message) => (
+                  <div
+                    key={message.id}
+                    className={`mb-4 flex ${
+                      message.sender === "user"
+                        ? "justify-end"
+                        : "justify-start"
+                    } animate-${getMessageAnimation(message.id)}`}
+                  >
+                    <div
+                      className={`max-w-[280px] px-4 py-3 rounded-2xl relative ${
+                        message.sender === "user"
+                          ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-br-md shadow-lg shadow-indigo-300/30"
+                          : "bg-white text-gray-700 border border-gray-200/80 rounded-bl-md shadow-lg shadow-gray-200/50"
+                      }`}
+                    >
+                      <div className="text-sm leading-relaxed mb-1 whitespace-pre-wrap">
+                        {message.text}
+                      </div>
+                      <div className="text-xs opacity-70 text-right">
+                        {formatTime(message.timestamp)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <QuickQuestionsSection />
+
+                {isLoading && (
+                  <div className="mb-4 flex justify-start">
+                    <div className="max-w-[280px] px-4 py-3 rounded-2xl bg-white text-gray-700 border border-gray-200/80 rounded-bl-md shadow-lg shadow-gray-200/50">
+                      <div className="flex gap-1 py-1 items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing -delay-300"></span>
+                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing -delay-150"></span>
+                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-typing"></span>
+                        <span className="text-xs text-gray-500 ml-2">
+                          {activeMode === "helpdesk"
+                            ? "Searching knowledge base..."
+                            : "Educon AI is thinking..."}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
+
+            {!isMinimized && (
+              <form
+                className="p-5 bg-white border-t border-gray-200/80"
+                onSubmit={handleSendMessage}
+              >
+                <div className="flex gap-3 items-center relative">
+                  <input
+                    type="text"
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    placeholder={
+                      activeMode === "helpdesk"
+                        ? "Ask about features, pricing, technical issues..."
+                        : "Ask me anything about any topic..."
+                    }
+                    className={`flex-1 px-4 py-3 border-2 rounded-full text-sm outline-none transition-all duration-300 bg-white ${
+                      inputMessage
+                        ? "border-indigo-500 shadow-lg shadow-indigo-100"
+                        : "border-gray-200"
+                    } focus:border-indigo-500 focus:shadow-lg focus:shadow-indigo-100 focus:scale-102`}
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="submit"
+                    className={`w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-none rounded-full cursor-pointer flex items-center justify-center text-base transition-all duration-300 shadow-lg shadow-indigo-300/30 ${
+                      !inputMessage.trim() || isLoading
+                        ? "opacity-60 scale-100"
+                        : "opacity-100 animate-pulse hover:scale-110 hover:rotate-3"
+                    }`}
+                    disabled={!inputMessage.trim() || isLoading}
+                  >
+                    {isLoading ? (
+                      <Hourglass size={20} />
+                    ) : (
+                      <SendHorizontal size={20} />
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       )}
     </>
