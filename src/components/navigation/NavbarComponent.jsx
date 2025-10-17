@@ -353,11 +353,12 @@ export default function NavbarComponent() {
             />
             <Typography
               variant="h5"
-              fontWeight={700}
+              fontWeight={800} // Increased from 700 to 800
               sx={{
                 color: showDiwaliTheme ? '#B8860B' : '#111827',
                 textDecoration: "none",
                 textShadow: showDiwaliTheme ? '0 0 10px rgba(255,215,0,0.3)' : 'none',
+                fontSize: { xs: '1.4rem', md: '1.6rem' }, // Slightly larger
               }}
             >
               {APP_NAME}
@@ -388,8 +389,8 @@ export default function NavbarComponent() {
                   px: 2,
                   py: 1,
                   color: showDiwaliTheme ? '#B8860B' : '#374151',
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
+                  fontWeight: 700, // Increased from 500 to 700
+                  fontSize: "1rem", // Slightly larger
                   textTransform: "none",
                   "&::after": {
                     content: '""',
@@ -409,6 +410,7 @@ export default function NavbarComponent() {
                   "&.active::after": { width: "100%" },
                   "&.active": { 
                     color: showDiwaliTheme ? "#FF6B35" : "#432dd7",
+                    fontWeight: 800, // Even bolder when active
                   },
                 }}
               >
@@ -423,7 +425,8 @@ export default function NavbarComponent() {
                 endIcon={<ChevronDown size={18} />}
                 sx={{
                   textTransform: "none",
-                  fontSize: "0.95rem",
+                  fontSize: "1rem", // Slightly larger
+                  fontWeight: 700, // Increased from default to 700
                   borderRadius: 2,
                   px: 2,
                   py: 1,
@@ -459,7 +462,7 @@ export default function NavbarComponent() {
                       backgroundColor: showDiwaliTheme ? '#FFF9C4' : 'transparent',
                     }}
                   >
-                    <Typography fontWeight={700} fontSize="1rem">
+                    <Typography fontWeight={800} fontSize="1.1rem"> {/* Increased from 700 to 800 */}
                       Select Option
                     </Typography>
                     <IconButton
@@ -478,7 +481,7 @@ export default function NavbarComponent() {
                         sx={{
                           py: 1.2,
                           px: 2,
-                          fontWeight: 500,
+                          fontWeight: 600, // Increased from 500 to 600
                           "&:hover": { 
                             backgroundColor: showDiwaliTheme ? '#FFE082' : '#f9fafb' 
                           },
@@ -495,7 +498,7 @@ export default function NavbarComponent() {
                             width: "100%",
                           }}
                         >
-                          <Typography fontWeight={600} fontSize="0.9rem">
+                          <Typography fontWeight={700} fontSize="0.95rem"> {/* Increased from 600 to 700 */}
                             {option.name}
                           </Typography>
                         </Button>
@@ -569,7 +572,7 @@ export default function NavbarComponent() {
                           backgroundColor: showDiwaliTheme ? '#FFF9C4' : 'transparent',
                         }}
                       >
-                        <Typography fontWeight={700} fontSize="1rem">
+                        <Typography fontWeight={800} fontSize="1.1rem"> {/* Increased from 700 to 800 */}
                           Notifications
                         </Typography>
                         <IconButton
@@ -611,18 +614,20 @@ export default function NavbarComponent() {
                                 />
                               )}
                               <Box>
-                                <Typography fontWeight={600} fontSize="0.9rem">
+                                <Typography fontWeight={700} fontSize="0.95rem"> {/* Increased from 600 to 700 */}
                                   {n.title}
                                 </Typography>
                                 <Typography
                                   color="text.secondary"
-                                  fontSize="0.8rem"
+                                  fontSize="0.85rem"
+                                  fontWeight={500} // Added medium weight for better readability
                                 >
                                   {n.message}
                                 </Typography>
                                 <Typography
                                   color="text.disabled"
-                                  fontSize="0.7rem"
+                                  fontSize="0.75rem"
+                                  fontWeight={600} // Added semi-bold for better visibility
                                 >
                                   {n.time}
                                 </Typography>
@@ -643,7 +648,8 @@ export default function NavbarComponent() {
                           size="small"
                           sx={{ 
                             color: showDiwaliTheme ? '#B8860B' : '#6b21a8', 
-                            fontWeight: 600 
+                            fontWeight: 700, // Increased from 600 to 700
+                            fontSize: '0.9rem'
                           }}
                         >
                           View All Notifications
@@ -699,9 +705,10 @@ export default function NavbarComponent() {
                     px: 3,
                     py: 1.2,
                     color: showDiwaliTheme ? '#B8860B' : '#6b21a8',
-                    fontWeight: 600,
+                    fontWeight: 700, // Increased from 600 to 700
                     borderRadius: 2,
                     textTransform: "none",
+                    fontSize: '0.95rem',
                     "&:hover": { 
                       backgroundColor: showDiwaliTheme ? '#FFF9C4' : '#faf5ff' 
                     },
@@ -716,8 +723,9 @@ export default function NavbarComponent() {
                     px: 3,
                     py: 1.2,
                     borderRadius: 2,
-                    fontWeight: 600,
+                    fontWeight: 700, // Increased from 600 to 700
                     textTransform: "none",
+                    fontSize: '0.95rem',
                     background: showDiwaliTheme 
                       ? 'linear-gradient(to right, #FF6B35, #FFD166)'
                       : 'linear-gradient(to right, #6b21a8, #312e81)',
@@ -782,7 +790,13 @@ export default function NavbarComponent() {
               <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.name} />
+              <ListItemText 
+                primary={item.name} 
+                primaryTypographyProps={{ 
+                  fontWeight: 600, // Added semi-bold for mobile items
+                  fontSize: '0.95rem'
+                }}
+              />
             </ListItemButton>
           ))}
 
@@ -807,7 +821,13 @@ export default function NavbarComponent() {
                 <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
                   {item.icon}
                 </ListItemIcon>
-                <ListItemText primary={item.name} />
+                <ListItemText 
+                  primary={item.name} 
+                  primaryTypographyProps={{ 
+                    fontWeight: 600, // Added semi-bold for mobile items
+                    fontSize: '0.95rem'
+                  }}
+                />
               </ListItemButton>
             ))}
 
@@ -819,13 +839,19 @@ export default function NavbarComponent() {
                 <ListItemIcon>
                   <User size={18} />
                 </ListItemIcon>
-                <ListItemText primary="My Profile" />
+                <ListItemText 
+                  primary="My Profile" 
+                  primaryTypographyProps={{ fontWeight: 600 }}
+                />
               </ListItemButton>
               <ListItemButton component={Link} to="/subscriptions">
                 <ListItemIcon>
                   <Crown size={18} />
                 </ListItemIcon>
-                <ListItemText primary="Subscriptions" />
+                <ListItemText 
+                  primary="Subscriptions" 
+                  primaryTypographyProps={{ fontWeight: 600 }}
+                />
               </ListItemButton>
               <ListItemButton>
                 <ListItemIcon>
@@ -833,7 +859,9 @@ export default function NavbarComponent() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Notifications"
+                  primaryTypographyProps={{ fontWeight: 600 }}
                   secondary={`${unreadCount} unread`}
+                  secondaryTypographyProps={{ fontWeight: 500 }}
                 />
               </ListItemButton>
             </>
@@ -850,7 +878,8 @@ export default function NavbarComponent() {
                   textTransform: "none",
                   color: showDiwaliTheme ? '#B8860B' : '#6b21a8',
                   borderColor: showDiwaliTheme ? '#B8860B' : '#6b21a8',
-                  fontWeight: 600,
+                  fontWeight: 700, // Increased from 600 to 700
+                  fontSize: '0.95rem',
                   "&:hover": { 
                     backgroundColor: showDiwaliTheme ? '#FFF9C4' : '#faf5ff' 
                   },
@@ -863,7 +892,8 @@ export default function NavbarComponent() {
                 variant="contained"
                 sx={{
                   textTransform: "none",
-                  fontWeight: 600,
+                  fontWeight: 700, // Increased from 600 to 700
+                  fontSize: '0.95rem',
                   background: showDiwaliTheme 
                     ? 'linear-gradient(to right, #FF6B35, #FFD166)'
                     : 'linear-gradient(to right, #6b21a8, #312e81)',
