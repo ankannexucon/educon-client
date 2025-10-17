@@ -176,9 +176,9 @@ const DiwaliCrackers = () => {
   );
 };
 
-// Festive Header Banner - Fixed to appear below navbar
+// Festive Header Banner
 const DiwaliBanner = () => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   if (!visible) return null;
 
@@ -186,40 +186,36 @@ const DiwaliBanner = () => {
     <Box
       sx={{
         position: 'fixed',
-        top: 80, // Position below navbar (navbar height is 80px)
+        top: 0,
         left: 0,
         width: '100%',
+        backgroundColor: 'linear-gradient(45deg, #FF6B35, #FFD166, #06D6A0, #118AB2)',
         background: 'linear-gradient(45deg, #FF6B35, #FFD166, #06D6A0, #118AB2)',
         color: 'white',
         textAlign: 'center',
-        padding: '12px 16px',
-        fontSize: '15px',
+        padding: '8px',
+        fontSize: '14px',
         fontWeight: 'bold',
-        zIndex: 9997,
+        zIndex: 10000,
         animation: 'colorChange 3s infinite alternate',
-        boxShadow: '0 2px 15px rgba(0,0,0,0.2)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        marginBottom:"14px"
       }}
     >
       🪔 Happy Diwali! May this festival of lights bring joy and prosperity to your life! 🪔
-      {/* <IconButton
+      <IconButton
         size="small"
-        onClick={() => setVisible(true)}
+        onClick={() => setVisible(false)}
         sx={{
           color: 'white',
           position: 'absolute',
-          right: '16px',
+          right: '10px',
           top: '50%',
           transform: 'translateY(-50%)',
-          '&:hover': {
-            backgroundColor: 'rgba(255,255,255,0.2)',
-          },
         }}
       >
         <CloseIcon fontSize="small" />
-      </IconButton> */}
+      </IconButton>
     </Box>
   );
 };
@@ -298,13 +294,12 @@ export default function NavbarComponent() {
 
   return (
     <>
-      <Box height={80} /> {/* Spacer for navbar */}
+      <Box height={80} /> {/* Spacer */}
       
       {/* Diwali Animations */}
       {showDiwaliTheme && (
         <>
           <DiwaliBanner />
-          <Box height={44} /> {/* Spacer for Diwali banner */}
           <DiwaliFireworks />
           <DiwaliCrackers />
         </>
@@ -769,24 +764,6 @@ export default function NavbarComponent() {
         }}
       >
         <Box sx={{ p: 2 }}>
-          {/* Diwali Toggle in Mobile */}
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-            <Typography variant="h6" fontWeight={600}>
-              Menu
-            </Typography>
-            <IconButton
-              onClick={() => setShowDiwaliTheme(!showDiwaliTheme)}
-              sx={{
-                backgroundColor: showDiwaliTheme ? '#FFD700' : 'transparent',
-                "&:hover": { 
-                  backgroundColor: showDiwaliTheme ? '#FFC400' : '#f3f4f6' 
-                },
-              }}
-            >
-              🪔
-            </IconButton>
-          </Box>
-
           {navItems.map((item) => (
             <ListItemButton
               key={item.name}
@@ -858,12 +835,6 @@ export default function NavbarComponent() {
                   primary="Notifications"
                   secondary={`${unreadCount} unread`}
                 />
-              </ListItemButton>
-              <ListItemButton onClick={handleLogout}>
-                <ListItemIcon>
-                  <LogOut size={18} />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
               </ListItemButton>
             </>
           ) : (
