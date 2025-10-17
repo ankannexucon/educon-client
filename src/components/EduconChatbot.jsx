@@ -2477,14 +2477,15 @@ Ivy League university in the heart of Manhattan with diverse academic offerings.
           onClick={() => {
             setIsOpen(false);
             setIsInitialLoad((prev) => !prev);
-            setIsMinimized((prev) => !prev);
+            setIsMinimized(false);
           }}
           className={`top-0 left-0 w-screen h-screen z-[3000] fixed duration-500  ${
             isInitialLoad ? "bg-black/0" : "bg-black/40"
           }`}
         >
           <div
-            className={`fixed bottom-3 left-0 md:bottom-6 md:right-6 md:left-auto w-screen md:w-96 ${
+            onClick={(e) => e.stopPropagation()}
+            className={`fixed bottom-3 left-0 md:bottom-6 md:right-6 md:left-auto w-screen z-[3200] pointer-events-auto md:w-96 ${
               isMinimized ? "h-16" : "h-[calc(100vh-150px)] md:h-[500px]"
             } bg-white rounded-2xl shadow-2xl flex flex-col transition-all duration-500 z-50 overflow-hidden border border-white/20 backdrop-blur-sm ${
               isInitialLoad
