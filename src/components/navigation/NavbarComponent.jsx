@@ -367,14 +367,9 @@ export default function NavbarComponent() {
               sx={{
                 color: showDiwaliTheme ? "#B8860B" : "#111827",
                 textDecoration: "none",
-<<<<<<< HEAD
-                textShadow: showDiwaliTheme ? '0 0 10px rgba(255,215,0,0.3)' : 'none',
-                fontSize: { xs: '1.4rem', md: '1.6rem' }, // Slightly larger
-=======
                 textShadow: showDiwaliTheme
                   ? "0 0 10px rgba(255,215,0,0.3)"
                   : "none",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
               }}
             >
               {APP_NAME}
@@ -404,15 +399,9 @@ export default function NavbarComponent() {
                   position: "relative",
                   px: 2,
                   py: 1,
-<<<<<<< HEAD
-                  color: showDiwaliTheme ? '#B8860B' : '#374151',
-                  fontWeight: 700, // Increased from 500 to 700
-                  fontSize: "1rem", // Slightly larger
-=======
                   color: showDiwaliTheme ? "#B8860B" : "#374151",
                   fontWeight: 500,
                   fontSize: "0.95rem",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                   textTransform: "none",
                   "&::after": {
                     content: '""',
@@ -507,17 +496,11 @@ export default function NavbarComponent() {
                         sx={{
                           py: 1.2,
                           px: 2,
-<<<<<<< HEAD
-                          fontWeight: 600, // Increased from 500 to 600
-                          "&:hover": { 
-                            backgroundColor: showDiwaliTheme ? '#FFE082' : '#f9fafb' 
-=======
                           fontWeight: 500,
                           "&:hover": {
                             backgroundColor: showDiwaliTheme
                               ? "#FFE082"
                               : "#f9fafb",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                           },
                         }}
                       >
@@ -610,13 +593,8 @@ export default function NavbarComponent() {
                             : "transparent",
                         }}
                       >
-<<<<<<< HEAD
-                        <Typography fontWeight={800} fontSize="1.1rem"> {/* Increased from 700 to 800 */}
-                          Notifications
-=======
                         <Typography fontWeight={700} fontSize="1rem">
                           AI Notifications
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                         </Typography>
                         <IconButton
                           size="small"
@@ -695,16 +673,9 @@ export default function NavbarComponent() {
                       >
                         <Button
                           size="small"
-<<<<<<< HEAD
-                          sx={{ 
-                            color: showDiwaliTheme ? '#B8860B' : '#6b21a8', 
-                            fontWeight: 700, // Increased from 600 to 700
-                            fontSize: '0.9rem'
-=======
                           sx={{
                             color: showDiwaliTheme ? "#B8860B" : "#6b21a8",
                             fontWeight: 600,
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                           }}
                         >
                           View All Notifications
@@ -759,22 +730,12 @@ export default function NavbarComponent() {
                   sx={{
                     px: 3,
                     py: 1.2,
-<<<<<<< HEAD
-                    color: showDiwaliTheme ? '#B8860B' : '#6b21a8',
-                    fontWeight: 700, // Increased from 600 to 700
-                    borderRadius: 2,
-                    textTransform: "none",
-                    fontSize: '0.95rem',
-                    "&:hover": { 
-                      backgroundColor: showDiwaliTheme ? '#FFF9C4' : '#faf5ff' 
-=======
                     color: showDiwaliTheme ? "#B8860B" : "#6b21a8",
                     fontWeight: 600,
                     borderRadius: 2,
                     textTransform: "none",
                     "&:hover": {
                       backgroundColor: showDiwaliTheme ? "#FFF9C4" : "#faf5ff",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                     },
                   }}
                   startIcon={<LogIn size={18} />}
@@ -789,16 +750,9 @@ export default function NavbarComponent() {
                     borderRadius: 2,
                     fontWeight: 700, // Increased from 600 to 700
                     textTransform: "none",
-<<<<<<< HEAD
-                    fontSize: '0.95rem',
-                    background: showDiwaliTheme 
-                      ? 'linear-gradient(to right, #FF6B35, #FFD166)'
-                      : 'linear-gradient(to right, #6b21a8, #312e81)',
-=======
                     background: showDiwaliTheme
                       ? "linear-gradient(to right, #FF6B35, #FFD166)"
                       : "linear-gradient(to right, #6b21a8, #312e81)",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                     "&:hover": {
                       boxShadow: showDiwaliTheme
                         ? "0 4px 14px rgba(255,107,53,0.4)"
@@ -951,20 +905,11 @@ export default function NavbarComponent() {
                 variant="outlined"
                 sx={{
                   textTransform: "none",
-<<<<<<< HEAD
-                  color: showDiwaliTheme ? '#B8860B' : '#6b21a8',
-                  borderColor: showDiwaliTheme ? '#B8860B' : '#6b21a8',
-                  fontWeight: 700, // Increased from 600 to 700
-                  fontSize: '0.95rem',
-                  "&:hover": { 
-                    backgroundColor: showDiwaliTheme ? '#FFF9C4' : '#faf5ff' 
-=======
                   color: showDiwaliTheme ? "#B8860B" : "#6b21a8",
                   borderColor: showDiwaliTheme ? "#B8860B" : "#6b21a8",
                   fontWeight: 600,
                   "&:hover": {
                     backgroundColor: showDiwaliTheme ? "#FFF9C4" : "#faf5ff",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                   },
                 }}
               >
@@ -975,18 +920,10 @@ export default function NavbarComponent() {
                 variant="contained"
                 sx={{
                   textTransform: "none",
-<<<<<<< HEAD
-                  fontWeight: 700, // Increased from 600 to 700
-                  fontSize: '0.95rem',
-                  background: showDiwaliTheme 
-                    ? 'linear-gradient(to right, #FF6B35, #FFD166)'
-                    : 'linear-gradient(to right, #6b21a8, #312e81)',
-=======
                   fontWeight: 600,
                   background: showDiwaliTheme
                     ? "linear-gradient(to right, #FF6B35, #FFD166)"
                     : "linear-gradient(to right, #6b21a8, #312e81)",
->>>>>>> 4c5d6065acdbb26de4550210f7f71e01bac31259
                   "&:hover": {
                     boxShadow: showDiwaliTheme
                       ? "0 4px 14px rgba(255,107,53,0.4)"

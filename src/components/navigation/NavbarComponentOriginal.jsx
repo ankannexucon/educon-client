@@ -628,7 +628,7 @@ export default function NavbarComponent() {
                   "&:hover": { backgroundColor: "#f3f4f6" },
                 }}
               >
-                <Login size={20} />
+                <LogIn size={20} />
               </IconButton>
             </>
           ) : (
