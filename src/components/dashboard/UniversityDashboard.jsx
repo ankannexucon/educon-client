@@ -65,25 +65,11 @@ export default function AgencyDashboard() {
 
   const quickActions = [
     {
-      name: "University Application",
-      path: "/university-application",
+      name: "Student Application",
+      path: "/university-application-view",
       icon: <School size={18} />,
       description: "Manage university partnerships and applications",
       count: "48",
-    },
-    {
-      name: "Student Application",
-      path: "/student-application",
-      icon: <UserCheck size={18} />,
-      description: "Process student applications and documents",
-      count: "2,843",
-    },
-    {
-      name: "Document Verification",
-      path: "/document-verification",
-      icon: <ShieldCheck size={18} />,
-      description: "Verify and validate student documents",
-      count: "1,927",
     },
   ];
 
@@ -173,11 +159,11 @@ export default function AgencyDashboard() {
               </nav> */}
 
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 leading-tight">
-                Agency Dashboard
+                University Dashboard
               </h1>
               <p className="text-xl lg:text-2xl text-white/90 mb-6 max-w-2xl leading-relaxed">
-                Streamline application management, verification processes, and
-                client success tracking
+                Manage applications, track performance, and view comprehensive
+                insights
               </p>
 
               {/* Quick stats row */}
@@ -220,7 +206,7 @@ export default function AgencyDashboard() {
                     Welcome back,
                   </div>
                   <div className="font-bold text-xl truncate">
-                    Global Education Partners
+                    Stanford University
                   </div>
                   <div className="text-white/80 text-sm mt-1">Agency Admin</div>
                   <div className="flex items-center gap-2 mt-2">
@@ -347,7 +333,7 @@ export default function AgencyDashboard() {
           </div>
 
           {/* Verification Queue */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-300">
+          {/* <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">
                 Verification Queue
@@ -397,11 +383,11 @@ export default function AgencyDashboard() {
               View All Verifications
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
+          </div> */}
         </div>
 
         {/* Performance Metrics */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mt-8 hover:shadow-xl transition-all duration-300">
+        {/* <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mt-8 hover:shadow-xl transition-all duration-300">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900">
               Performance Metrics
@@ -439,7 +425,7 @@ export default function AgencyDashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
