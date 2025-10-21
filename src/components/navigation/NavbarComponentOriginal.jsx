@@ -34,7 +34,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { ArrowUpRight } from "lucide-react";
 import { Crown } from "lucide-react";
-import { LogOut } from "lucide-react";
 
 const APP_NAME = "Educon";
 
