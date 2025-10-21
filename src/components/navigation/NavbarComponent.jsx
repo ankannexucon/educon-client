@@ -67,7 +67,14 @@ const DiwaliFireworks = () => {
 
   useEffect(() => {
     const createFirework = () => {
-      const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
+      const colors = [
+        "#FFD700",
+        "#FF6B6B",
+        "#4ECDC4",
+        "#45B7D1",
+        "#96CEB4",
+        "#FFEAA7",
+      ];
       const newFirework = {
         id: Date.now(),
         left: Math.random() * 100,
@@ -75,10 +82,10 @@ const DiwaliFireworks = () => {
         color: colors[Math.floor(Math.random() * colors.length)],
         size: Math.random() * 4 + 2,
       };
-      setFireworks(prev => [...prev, newFirework]);
-      
+      setFireworks((prev) => [...prev, newFirework]);
+
       setTimeout(() => {
-        setFireworks(prev => prev.filter(fw => fw.id !== newFirework.id));
+        setFireworks((prev) => prev.filter((fw) => fw.id !== newFirework.id));
       }, 2000);
     };
 
@@ -89,28 +96,28 @@ const DiwaliFireworks = () => {
   return (
     <Box
       sx={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
         zIndex: 9999,
-        overflow: 'hidden',
+        overflow: "hidden",
       }}
     >
-      {fireworks.map(firework => (
+      {fireworks.map((firework) => (
         <Box
           key={firework.id}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             left: `${firework.left}%`,
             top: `${firework.top}%`,
             width: firework.size,
             height: firework.size,
             backgroundColor: firework.color,
-            borderRadius: '50%',
-            animation: 'fireworkExplosion 2s ease-out forwards',
+            borderRadius: "50%",
+            animation: "fireworkExplosion 2s ease-out forwards",
             boxShadow: `0 0 10px ${firework.color}, 0 0 20px ${firework.color}`,
           }}
         />
@@ -125,7 +132,7 @@ const DiwaliCrackers = () => {
 
   useEffect(() => {
     const createCracker = () => {
-      const crackerTypes = ['🎇', '✨', '🎆', '💥', '🔥', '⭐'];
+      const crackerTypes = ["🎇", "✨", "🎆", "💥", "🔥", "⭐"];
       const newCracker = {
         id: Date.now(),
         emoji: crackerTypes[Math.floor(Math.random() * crackerTypes.length)],
@@ -133,10 +140,10 @@ const DiwaliCrackers = () => {
         duration: Math.random() * 3 + 2,
         size: Math.random() * 20 + 15,
       };
-      setCrackers(prev => [...prev, newCracker]);
-      
+      setCrackers((prev) => [...prev, newCracker]);
+
       setTimeout(() => {
-        setCrackers(prev => prev.filter(c => c.id !== newCracker.id));
+        setCrackers((prev) => prev.filter((c) => c.id !== newCracker.id));
       }, newCracker.duration * 1000);
     };
 
@@ -147,26 +154,26 @@ const DiwaliCrackers = () => {
   return (
     <Box
       sx={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
         zIndex: 9998,
-        overflow: 'hidden',
+        overflow: "hidden",
       }}
     >
-      {crackers.map(cracker => (
+      {crackers.map((cracker) => (
         <Box
           key={cracker.id}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             left: `${cracker.left}%`,
-            top: '-50px',
+            top: "-50px",
             fontSize: cracker.size,
             animation: `fallDown ${cracker.duration}s linear forwards`,
-            textShadow: '0 0 10px rgba(255,215,0,0.8)',
+            textShadow: "0 0 10px rgba(255,215,0,0.8)",
           }}
         >
           {cracker.emoji}
@@ -185,33 +192,36 @@ const DiwaliBanner = () => {
   return (
     <Box
       sx={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        backgroundColor: 'linear-gradient(45deg, #FF6B35, #FFD166, #06D6A0, #118AB2)',
-        background: 'linear-gradient(45deg, #FF6B35, #FFD166, #06D6A0, #118AB2)',
-        color: 'white',
-        textAlign: 'center',
-        padding: '8px',
-        fontSize: '14px',
-        fontWeight: 'bold',
+        width: "100%",
+        backgroundColor:
+          "linear-gradient(45deg, #FF6B35, #FFD166, #06D6A0, #118AB2)",
+        background:
+          "linear-gradient(45deg, #FF6B35, #FFD166, #06D6A0, #118AB2)",
+        color: "white",
+        textAlign: "center",
+        padding: "8px",
+        fontSize: "14px",
+        fontWeight: "bold",
         zIndex: 10000,
-        animation: 'colorChange 3s infinite alternate',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-        marginBottom:"14px"
+        animation: "colorChange 3s infinite alternate",
+        boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+        marginBottom: "14px",
       }}
     >
-      🪔 Happy Diwali! May this festival of lights bring joy and prosperity to your life! 🪔
+      🪔 Happy Diwali! May this festival of lights bring joy and prosperity to
+      your life! 🪔
       <IconButton
         size="small"
         onClick={() => setVisible(false)}
         sx={{
-          color: 'white',
-          position: 'absolute',
-          right: '10px',
-          top: '50%',
-          transform: 'translateY(-50%)',
+          color: "white",
+          position: "absolute",
+          right: "10px",
+          top: "50%",
+          transform: "translateY(-50%)",
         }}
       >
         <CloseIcon fontSize="small" />
@@ -295,7 +305,6 @@ export default function NavbarComponent() {
   return (
     <>
       <Box height={80} /> {/* Spacer */}
-      
       {/* Diwali Animations */}
       {showDiwaliTheme && (
         <>
@@ -304,23 +313,22 @@ export default function NavbarComponent() {
           <DiwaliCrackers />
         </>
       )}
-      
       <AppBar
         position="fixed"
         elevation={1}
         sx={{
-          backgroundColor: showDiwaliTheme 
-            ? 'rgba(255, 215, 0, 0.1)' 
-            : 'rgba(255,255,255,0.95)',
+          backgroundColor: showDiwaliTheme
+            ? "rgba(255, 215, 0, 0.1)"
+            : "rgba(255,255,255,0.95)",
           backdropFilter: "blur(12px)",
-          borderBottom: showDiwaliTheme 
+          borderBottom: showDiwaliTheme
             ? "2px solid #FFD700"
             : "1px solid #e5e7eb",
           boxShadow: showDiwaliTheme
             ? "0 4px 20px rgba(255, 215, 0, 0.3)"
             : "0 1px 2px rgba(0,0,0,0.04)",
           color: "#111827",
-          transition: 'all 0.3s ease',
+          transition: "all 0.3s ease",
         }}
       >
         <Toolbar
@@ -347,22 +355,26 @@ export default function NavbarComponent() {
                 width: 60,
                 height: 60,
                 objectFit: "cover",
-                filter: showDiwaliTheme ? 'drop-shadow(0 0 8px #FFD700)' : 'none',
-                transition: 'all 0.3s ease',
+                filter: showDiwaliTheme
+                  ? "drop-shadow(0 0 8px #FFD700)"
+                  : "none",
+                transition: "all 0.3s ease",
               }}
             />
             <Typography
               variant="h5"
               fontWeight={700}
               sx={{
-                color: showDiwaliTheme ? '#B8860B' : '#111827',
+                color: showDiwaliTheme ? "#B8860B" : "#111827",
                 textDecoration: "none",
-                textShadow: showDiwaliTheme ? '0 0 10px rgba(255,215,0,0.3)' : 'none',
+                textShadow: showDiwaliTheme
+                  ? "0 0 10px rgba(255,215,0,0.3)"
+                  : "none",
               }}
             >
               {APP_NAME}
               {showDiwaliTheme && (
-                <Box component="span" sx={{ ml: 1, fontSize: '1.2rem' }}>
+                <Box component="span" sx={{ ml: 1, fontSize: "1.2rem" }}>
                   🪔
                 </Box>
               )}
@@ -387,7 +399,7 @@ export default function NavbarComponent() {
                   position: "relative",
                   px: 2,
                   py: 1,
-                  color: showDiwaliTheme ? '#B8860B' : '#374151',
+                  color: showDiwaliTheme ? "#B8860B" : "#374151",
                   fontWeight: 500,
                   fontSize: "0.95rem",
                   textTransform: "none",
@@ -407,7 +419,7 @@ export default function NavbarComponent() {
                   },
                   "&:hover::after": { width: "100%" },
                   "&.active::after": { width: "100%" },
-                  "&.active": { 
+                  "&.active": {
                     color: showDiwaliTheme ? "#FF6B35" : "#432dd7",
                   },
                 }}
@@ -429,7 +441,7 @@ export default function NavbarComponent() {
                   py: 1,
                   backgroundColor: open.more ? "#f3f4f6" : "transparent",
                   "&:hover": { backgroundColor: "#f3f4f6" },
-                  color: showDiwaliTheme ? '#B8860B' : '#374151',
+                  color: showDiwaliTheme ? "#B8860B" : "#374151",
                   transition: "0.2s",
                 }}
               >
@@ -445,7 +457,9 @@ export default function NavbarComponent() {
                     mt: 1,
                     borderRadius: 3,
                     boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
-                    border: showDiwaliTheme ? "1px solid #FFD700" : "1px solid #e5e7eb",
+                    border: showDiwaliTheme
+                      ? "1px solid #FFD700"
+                      : "1px solid #e5e7eb",
                     overflow: "hidden",
                     zIndex: 20,
                   }}
@@ -456,7 +470,9 @@ export default function NavbarComponent() {
                       justifyContent: "space-between",
                       p: 2,
                       borderBottom: "1px solid #f3f4f6",
-                      backgroundColor: showDiwaliTheme ? '#FFF9C4' : 'transparent',
+                      backgroundColor: showDiwaliTheme
+                        ? "#FFF9C4"
+                        : "transparent",
                     }}
                   >
                     <Typography fontWeight={700} fontSize="1rem">
@@ -479,8 +495,10 @@ export default function NavbarComponent() {
                           py: 1.2,
                           px: 2,
                           fontWeight: 500,
-                          "&:hover": { 
-                            backgroundColor: showDiwaliTheme ? '#FFE082' : '#f9fafb' 
+                          "&:hover": {
+                            backgroundColor: showDiwaliTheme
+                              ? "#FFE082"
+                              : "#f9fafb",
                           },
                         }}
                       >
@@ -520,11 +538,11 @@ export default function NavbarComponent() {
               sx={{
                 p: 1,
                 borderRadius: 2,
-                backgroundColor: showDiwaliTheme ? '#FFD700' : 'transparent',
-                "&:hover": { 
-                  backgroundColor: showDiwaliTheme ? '#FFC400' : '#f3f4f6' 
+                backgroundColor: showDiwaliTheme ? "#FFD700" : "transparent",
+                "&:hover": {
+                  backgroundColor: showDiwaliTheme ? "#FFC400" : "#f3f4f6",
                 },
-                transition: 'all 0.3s ease',
+                transition: "all 0.3s ease",
               }}
             >
               🪔
@@ -556,7 +574,9 @@ export default function NavbarComponent() {
                         width: 320,
                         borderRadius: 3,
                         boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
-                        border: showDiwaliTheme ? "1px solid #FFD700" : "1px solid #e5e7eb",
+                        border: showDiwaliTheme
+                          ? "1px solid #FFD700"
+                          : "1px solid #e5e7eb",
                         overflow: "hidden",
                         zIndex: 20,
                       }}
@@ -566,11 +586,13 @@ export default function NavbarComponent() {
                           p: 2,
                           display: "flex",
                           justifyContent: "space-between",
-                          backgroundColor: showDiwaliTheme ? '#FFF9C4' : 'transparent',
+                          backgroundColor: showDiwaliTheme
+                            ? "#FFF9C4"
+                            : "transparent",
                         }}
                       >
                         <Typography fontWeight={700} fontSize="1rem">
-                          Notifications
+                          AI Notifications
                         </Typography>
                         <IconButton
                           size="small"
@@ -590,11 +612,15 @@ export default function NavbarComponent() {
                               p: 2,
                               borderBottom: "1px solid #f3f4f6",
                               backgroundColor: n.unread
-                                ? showDiwaliTheme ? '#FFE082' : '#faf5ff'
+                                ? showDiwaliTheme
+                                  ? "#FFE082"
+                                  : "#faf5ff"
                                 : "transparent",
                               transition: "0.2s",
-                              "&:hover": { 
-                                backgroundColor: showDiwaliTheme ? '#FFE082' : '#f9fafb' 
+                              "&:hover": {
+                                backgroundColor: showDiwaliTheme
+                                  ? "#FFE082"
+                                  : "#f9fafb",
                               },
                             }}
                           >
@@ -604,7 +630,9 @@ export default function NavbarComponent() {
                                   sx={{
                                     width: 8,
                                     height: 8,
-                                    backgroundColor: showDiwaliTheme ? "#FF6B35" : "#7e22ce",
+                                    backgroundColor: showDiwaliTheme
+                                      ? "#FF6B35"
+                                      : "#7e22ce",
                                     borderRadius: "50%",
                                     mt: 0.5,
                                   }}
@@ -633,17 +661,17 @@ export default function NavbarComponent() {
                       </Box>
 
                       <Box
-                        sx={{ 
-                          textAlign: "center", 
-                          p: 1.5, 
-                          bgcolor: showDiwaliTheme ? '#FFE082' : '#f9fafb' 
+                        sx={{
+                          textAlign: "center",
+                          p: 1.5,
+                          bgcolor: showDiwaliTheme ? "#FFE082" : "#f9fafb",
                         }}
                       >
                         <Button
                           size="small"
-                          sx={{ 
-                            color: showDiwaliTheme ? '#B8860B' : '#6b21a8', 
-                            fontWeight: 600 
+                          sx={{
+                            color: showDiwaliTheme ? "#B8860B" : "#6b21a8",
+                            fontWeight: 600,
                           }}
                         >
                           View All Notifications
@@ -698,12 +726,12 @@ export default function NavbarComponent() {
                   sx={{
                     px: 3,
                     py: 1.2,
-                    color: showDiwaliTheme ? '#B8860B' : '#6b21a8',
+                    color: showDiwaliTheme ? "#B8860B" : "#6b21a8",
                     fontWeight: 600,
                     borderRadius: 2,
                     textTransform: "none",
-                    "&:hover": { 
-                      backgroundColor: showDiwaliTheme ? '#FFF9C4' : '#faf5ff' 
+                    "&:hover": {
+                      backgroundColor: showDiwaliTheme ? "#FFF9C4" : "#faf5ff",
                     },
                   }}
                   startIcon={<LogIn size={18} />}
@@ -718,13 +746,13 @@ export default function NavbarComponent() {
                     borderRadius: 2,
                     fontWeight: 600,
                     textTransform: "none",
-                    background: showDiwaliTheme 
-                      ? 'linear-gradient(to right, #FF6B35, #FFD166)'
-                      : 'linear-gradient(to right, #6b21a8, #312e81)',
+                    background: showDiwaliTheme
+                      ? "linear-gradient(to right, #FF6B35, #FFD166)"
+                      : "linear-gradient(to right, #6b21a8, #312e81)",
                     "&:hover": {
                       boxShadow: showDiwaliTheme
-                        ? '0 4px 14px rgba(255,107,53,0.4)'
-                        : '0 4px 14px rgba(107,33,168,0.3)',
+                        ? "0 4px 14px rgba(255,107,53,0.4)"
+                        : "0 4px 14px rgba(107,33,168,0.3)",
                       transform: "translateY(-2px)",
                     },
                   }}
@@ -749,17 +777,16 @@ export default function NavbarComponent() {
           </IconButton>
         </Toolbar>
       </AppBar>
-
       {/* Mobile Drawer */}
       <Drawer
         anchor="right"
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         PaperProps={{
-          sx: { 
-            width: 280, 
+          sx: {
+            width: 280,
             borderLeft: "1px solid #e5e7eb",
-            backgroundColor: showDiwaliTheme ? '#FFFDE7' : 'white',
+            backgroundColor: showDiwaliTheme ? "#FFFDE7" : "white",
           },
         }}
       >
@@ -772,10 +799,10 @@ export default function NavbarComponent() {
               onClick={() => setMobileOpen(false)}
               sx={{
                 borderRadius: 2,
-                color: showDiwaliTheme ? '#B8860B' : '#374151',
-                "&:hover": { 
-                  bgcolor: showDiwaliTheme ? '#FFE082' : '#faf5ff', 
-                  color: showDiwaliTheme ? '#FF6B35' : '#6b21a8' 
+                color: showDiwaliTheme ? "#B8860B" : "#374151",
+                "&:hover": {
+                  bgcolor: showDiwaliTheme ? "#FFE082" : "#faf5ff",
+                  color: showDiwaliTheme ? "#FF6B35" : "#6b21a8",
                 },
               }}
             >
@@ -797,10 +824,10 @@ export default function NavbarComponent() {
                 onClick={() => setMobileOpen(false)}
                 sx={{
                   borderRadius: 2,
-                  color: showDiwaliTheme ? '#B8860B' : '#374151',
-                  "&:hover": { 
-                    bgcolor: showDiwaliTheme ? '#FFE082' : '#faf5ff', 
-                    color: showDiwaliTheme ? '#FF6B35' : '#6b21a8' 
+                  color: showDiwaliTheme ? "#B8860B" : "#374151",
+                  "&:hover": {
+                    bgcolor: showDiwaliTheme ? "#FFE082" : "#faf5ff",
+                    color: showDiwaliTheme ? "#FF6B35" : "#6b21a8",
                   },
                 }}
               >
@@ -854,11 +881,11 @@ export default function NavbarComponent() {
                 variant="outlined"
                 sx={{
                   textTransform: "none",
-                  color: showDiwaliTheme ? '#B8860B' : '#6b21a8',
-                  borderColor: showDiwaliTheme ? '#B8860B' : '#6b21a8',
+                  color: showDiwaliTheme ? "#B8860B" : "#6b21a8",
+                  borderColor: showDiwaliTheme ? "#B8860B" : "#6b21a8",
                   fontWeight: 600,
-                  "&:hover": { 
-                    backgroundColor: showDiwaliTheme ? '#FFF9C4' : '#faf5ff' 
+                  "&:hover": {
+                    backgroundColor: showDiwaliTheme ? "#FFF9C4" : "#faf5ff",
                   },
                 }}
               >
@@ -870,13 +897,13 @@ export default function NavbarComponent() {
                 sx={{
                   textTransform: "none",
                   fontWeight: 600,
-                  background: showDiwaliTheme 
-                    ? 'linear-gradient(to right, #FF6B35, #FFD166)'
-                    : 'linear-gradient(to right, #6b21a8, #312e81)',
+                  background: showDiwaliTheme
+                    ? "linear-gradient(to right, #FF6B35, #FFD166)"
+                    : "linear-gradient(to right, #6b21a8, #312e81)",
                   "&:hover": {
                     boxShadow: showDiwaliTheme
-                      ? '0 4px 14px rgba(255,107,53,0.4)'
-                      : '0 4px 14px rgba(107,33,168,0.3)',
+                      ? "0 4px 14px rgba(255,107,53,0.4)"
+                      : "0 4px 14px rgba(107,33,168,0.3)",
                   },
                 }}
               >
@@ -886,7 +913,6 @@ export default function NavbarComponent() {
           )}
         </Box>
       </Drawer>
-
       {/* Add CSS Animations */}
       <style>
         {`
@@ -899,7 +925,9 @@ export default function NavbarComponent() {
               opacity: 1;
             }
             100% {
-              transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0);
+              transform: translate(${Math.random() * 100 - 50}px, ${
+          Math.random() * 100 - 50
+        }px) scale(0);
               opacity: 0;
             }
           }
