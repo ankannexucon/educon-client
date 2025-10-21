@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
-import NavbarComponent from "../components/navigation/NavbarComponent";
+import NavbarComponent from "../components/navigation/NavbarComponentOriginal";
 import DocumentVerification from "../components/DocumentVerification";
 import FooterComponent from "../components/footer/FooterComponent";
 import AdmissionPage from "../pages/Admission/admissionPage";

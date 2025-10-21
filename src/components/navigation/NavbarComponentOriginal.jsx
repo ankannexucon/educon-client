@@ -27,13 +27,13 @@ import {
   LogIn,
   UserPlus,
   X,
+  LogOut,
   ChevronDown,
 } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { ArrowUpRight } from "lucide-react";
 import { Crown } from "lucide-react";
-import { LogOut } from "lucide-react";
 
 const APP_NAME = "Educon";
 
@@ -534,7 +534,11 @@ export default function NavbarComponent() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         PaperProps={{
-          sx: { width: 280, borderLeft: "1px solid #e5e7eb" },
+          sx: {
+            width: 280,
+            borderLeft: "1px solid #e5e7eb",
+            backgroundColor: "white",
+          },
         }}
       >
         <Box sx={{ p: 2 }}>
@@ -547,7 +551,10 @@ export default function NavbarComponent() {
               sx={{
                 borderRadius: 2,
                 color: "#374151",
-                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+                "&:hover": {
+                  bgcolor: "#faf5ff",
+                  color: "#6b21a8",
+                },
               }}
             >
               <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
@@ -569,7 +576,10 @@ export default function NavbarComponent() {
                 sx={{
                   borderRadius: 2,
                   color: "#374151",
-                  "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+                  "&:hover": {
+                    bgcolor: "#faf5ff",
+                    color: "#6b21a8",
+                  },
                 }}
               >
                 <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
@@ -589,6 +599,12 @@ export default function NavbarComponent() {
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
               </ListItemButton>
+              <ListItemButton component={Link} to="/" onClick={handleLogout}>
+                <ListItemIcon>
+                  <LogOut size={18} />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
               <ListItemButton component={Link} to="/subscriptions">
                 <ListItemIcon>
                   <Crown size={18} />
@@ -604,6 +620,16 @@ export default function NavbarComponent() {
                   secondary={`${unreadCount} unread`}
                 />
               </ListItemButton>
+              <IconButton
+                onClick={handleLogout}
+                sx={{
+                  p: 1,
+                  borderRadius: 2,
+                  "&:hover": { backgroundColor: "#f3f4f6" },
+                }}
+              >
+                <Login size={20} />
+              </IconButton>
             </>
           ) : (
             <Box
@@ -619,7 +645,9 @@ export default function NavbarComponent() {
                   color: "#6b21a8",
                   borderColor: "#6b21a8",
                   fontWeight: 600,
-                  "&:hover": { backgroundColor: "#faf5ff" },
+                  "&:hover": {
+                    backgroundColor: "#faf5ff",
+                  },
                 }}
               >
                 Login
@@ -630,9 +658,13 @@ export default function NavbarComponent() {
                 sx={{
                   textTransform: "none",
                   fontWeight: 600,
-                  background: "linear-gradient(to right, #6b21a8, #312e81)",
+                  background: showDiwaliTheme
+                    ? "linear-gradient(to right, #FF6B35, #FFD166)"
+                    : "linear-gradient(to right, #6b21a8, #312e81)",
                   "&:hover": {
-                    boxShadow: "0 4px 14px rgba(107,33,168,0.3)",
+                    boxShadow: showDiwaliTheme
+                      ? "0 4px 14px rgba(255,107,53,0.4)"
+                      : "0 4px 14px rgba(107,33,168,0.3)",
                   },
                 }}
               >

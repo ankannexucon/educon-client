@@ -49,7 +49,7 @@ export default function StudentDashboard() {
 
   const stats = [
     {
-      value: "50K+",
+      value: "300+",
       label: "Active Students",
       icon: <Users className="w-8 h-8" />,
     },
