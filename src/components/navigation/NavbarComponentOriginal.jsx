@@ -534,7 +534,11 @@ export default function NavbarComponent() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         PaperProps={{
-          sx: { width: 280, borderLeft: "1px solid #e5e7eb" },
+          sx: {
+            width: 280,
+            borderLeft: "1px solid #e5e7eb",
+            backgroundColor: "white",
+          },
         }}
       >
         <Box sx={{ p: 2 }}>
@@ -547,7 +551,10 @@ export default function NavbarComponent() {
               sx={{
                 borderRadius: 2,
                 color: "#374151",
-                "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+                "&:hover": {
+                  bgcolor: "#faf5ff",
+                  color: "#6b21a8",
+                },
               }}
             >
               <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
@@ -569,7 +576,10 @@ export default function NavbarComponent() {
                 sx={{
                   borderRadius: 2,
                   color: "#374151",
-                  "&:hover": { bgcolor: "#faf5ff", color: "#6b21a8" },
+                  "&:hover": {
+                    bgcolor: "#faf5ff",
+                    color: "#6b21a8",
+                  },
                 }}
               >
                 <ListItemIcon sx={{ minWidth: 30, color: "inherit" }}>
@@ -588,6 +598,12 @@ export default function NavbarComponent() {
                   <User size={18} />
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
+              </ListItemButton>
+              <ListItemButton component={Link} to="/" onClick={handleLogout}>
+                <ListItemIcon>
+                  <LogOut size={18} />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
               </ListItemButton>
               <ListItemButton component={Link} to="/subscriptions">
                 <ListItemIcon>
@@ -619,7 +635,9 @@ export default function NavbarComponent() {
                   color: "#6b21a8",
                   borderColor: "#6b21a8",
                   fontWeight: 600,
-                  "&:hover": { backgroundColor: "#faf5ff" },
+                  "&:hover": {
+                    backgroundColor: "#faf5ff",
+                  },
                 }}
               >
                 Login
@@ -630,9 +648,13 @@ export default function NavbarComponent() {
                 sx={{
                   textTransform: "none",
                   fontWeight: 600,
-                  background: "linear-gradient(to right, #6b21a8, #312e81)",
+                  background: showDiwaliTheme
+                    ? "linear-gradient(to right, #FF6B35, #FFD166)"
+                    : "linear-gradient(to right, #6b21a8, #312e81)",
                   "&:hover": {
-                    boxShadow: "0 4px 14px rgba(107,33,168,0.3)",
+                    boxShadow: showDiwaliTheme
+                      ? "0 4px 14px rgba(255,107,53,0.4)"
+                      : "0 4px 14px rgba(107,33,168,0.3)",
                   },
                 }}
               >
