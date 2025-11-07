@@ -139,11 +139,14 @@ export default function NavbarComponent() {
         position="fixed"
         elevation={1}
         sx={{
-          backgroundColor: "rgba(255,255,255,0.95)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid #e5e7eb",
-          boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
-          color: "#111827",
+          backgroundColor: "rgba(255,255,255,0.6)",
+          backdropFilter:
+            "blur(30px) saturate(180%) contrast(115%) brightness(110%)",
+          border: "1px solid rgba(255,255,255,0.2)",
+          boxShadow: `
+    0 8px 32px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.6)
+  `,
         }}
       >
         <Toolbar
