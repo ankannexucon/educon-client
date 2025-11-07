@@ -623,7 +623,7 @@ export default function NavbarComponent() {
                   secondary={`${unreadCount} unread`}
                 />
               </ListItemButton>
-              <IconButton
+              {/* <IconButton
                 onClick={handleLogout}
                 sx={{
                   p: 1,
@@ -632,7 +632,7 @@ export default function NavbarComponent() {
                 }}
               >
                 <LogIn size={20} />
-              </IconButton>
+              </IconButton> */}
             </>
           ) : (
             <Box
