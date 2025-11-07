@@ -658,18 +658,18 @@ export default function NavbarComponent() {
               <Button
                 startIcon={<UserPlus size={18} />}
                 variant="contained"
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                  background: showDiwaliTheme
-                    ? "linear-gradient(to right, #FF6B35, #FFD166)"
-                    : "linear-gradient(to right, #6b21a8, #312e81)",
-                  "&:hover": {
-                    boxShadow: showDiwaliTheme
-                      ? "0 4px 14px rgba(255,107,53,0.4)"
-                      : "0 4px 14px rgba(107,33,168,0.3)",
-                  },
-                }}
+                // sx={{
+                //   textTransform: "none",
+                //   fontWeight: 600,
+                //   background: showDiwaliTheme
+                //     ? "linear-gradient(to right, #FF6B35, #FFD166)"
+                //     : "linear-gradient(to right, #6b21a8, #312e81)",
+                //   "&:hover": {
+                //     boxShadow: showDiwaliTheme
+                //       ? "0 4px 14px rgba(255,107,53,0.4)"
+                //       : "0 4px 14px rgba(107,33,168,0.3)",
+                //   },
+                // }}
               >
                 Sign Up
               </Button>
