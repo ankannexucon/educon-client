@@ -20,8 +20,10 @@ import {
   Phone,
   Link,
   GraduationCap,
+  Upload,
 } from "lucide-react";
 import CvBuilderModal from "../../components/CvBuilderModal";
+import UploadCvModal from "../../components/UploadCvModal"; // Import the Upload CV Modal
 
 // Initial student data
 const initialStudent = {
@@ -102,7 +104,7 @@ const stats = [
   { label: "Achievements", value: "12", icon: Award, color: "text-purple-600" },
 ];
 
-// Edit Profile Modal Component
+// Edit Profile Modal Component (keep the existing EditProfileModal code)
 const EditProfileModal = ({ isOpen, onClose, student, onSave }) => {
   const [formData, setFormData] = useState(student);
   const [isSaving, setIsSaving] = useState(false);
@@ -392,11 +394,19 @@ export default function UserProfile() {
   const [student, setStudent] = useState(initialStudent);
   const [isEditing, setIsEditing] = useState(false);
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
+  const [isUploadCvModalOpen, setIsUploadCvModalOpen] = useState(false); // New state for Upload CV Modal
 
   const handleSaveProfile = (updatedData) => {
     setStudent(updatedData);
     // In a real app, you would make an API call here
     console.log("Profile updated:", updatedData);
+  };
+
+  const handleUploadCv = (file) => {
+    // Handle the uploaded CV file
+    console.log("CV uploaded:", file);
+    // In a real app, you would upload the file to your server here
+    alert(`CV "${file.name}" uploaded successfully!`);
   };
 
   return (
@@ -446,13 +456,21 @@ export default function UserProfile() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 <button
                   onClick={() => setIsEditing(true)}
                   className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg"
                 >
                   <Edit2 className="w-4 h-4" />
                   Edit Profile
+                </button>
+
+                <button
+                  onClick={() => setIsUploadCvModalOpen(true)}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all flex items-center gap-2 shadow-lg"
+                >
+                  <Upload className="w-4 h-4" />
+                  Upload CV
                 </button>
 
                 <button
@@ -661,6 +679,13 @@ export default function UserProfile() {
         onClose={() => setIsEditing(false)}
         student={student}
         onSave={handleSaveProfile}
+      />
+
+      {/* Upload CV Modal */}
+      <UploadCvModal
+        isOpen={isUploadCvModalOpen}
+        onClose={() => setIsUploadCvModalOpen(false)}
+        onUpload={handleUploadCv}
       />
 
       {/* AI CV Builder Modal */}
